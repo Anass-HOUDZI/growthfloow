@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { X, Star, Play } from 'lucide-react';
 
@@ -60,13 +59,29 @@ export const ToolModal: React.FC<ToolModalProps> = ({
       case 'serp-tracker':
         return <SERPFeatureTracker />;
       
+      // Landing Pages Tools  
+      case 'landing-converter':
+        return <LandingPageConverter />;
+      case 'heatmap-simulator':
+        return <HeatmapSimulator />;
+      case 'cro-tester':
+        return <CROElementTester />;
+      case 'speed-optimizer':
+        return <PageSpeedOptimizer />;
+      case 'mobile-ux-analyzer':
+        return <MobileUXAnalyzer />;
+      case 'form-optimizer':
+        return <FormOptimizer />;
+      case 'trust-signal-analyzer':
+        return <TrustSignalAnalyzer />;
+      case 'cta-optimizer':
+        return <CTAOptimizer />;
+      
       // Legacy tools (fallback)
       case 'growth-metrics-legacy':
         return <LegacyGrowthMetrics />;
       case 'seo-optimizer-legacy':
         return <LegacySEOOptimizer />;
-      case 'landing-converter':
-        return <LandingPageConverter />;
       
       default:
         return (
