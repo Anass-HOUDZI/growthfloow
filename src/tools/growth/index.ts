@@ -2,6 +2,11 @@
 import { ToolModule } from '../../types/core';
 import { TrendingUp, Target, Zap, BarChart3, Users, PieChart, LineChart, Activity, DollarSign, Settings, Lightbulb, Gauge } from 'lucide-react';
 import { GrowthFunnelAnalyzer } from './GrowthFunnelAnalyzer';
+import { GrowthExperimentDesigner } from './GrowthExperimentDesigner';
+import { ChannelPerformanceOptimizer } from './ChannelPerformanceOptimizer';
+import { GTMStrategyBuilder } from './GTMStrategyBuilder';
+import { ConversionRatePredictor } from './ConversionRatePredictor';
+import { GrowthMetricsCalculator } from './GrowthMetricsCalculator';
 
 export const growthTools: ToolModule[] = [
   {
@@ -38,11 +43,16 @@ export const growthTools: ToolModule[] = [
     id: 'growth-experiment-designer',
     name: 'Growth Experiment Designer',
     category: 'growth',
-    component: () => <div>Growth Experiment Designer - Coming Soon</div>,
+    component: GrowthExperimentDesigner,
     config: {
       version: '1.0.0',
       description: 'Framework A/B test avec calculateur de significativité statistique',
-      features: ['Moteur statistique', 'Calculateur d\'échantillon', 'Timeline interactive'],
+      features: [
+        'Moteur statistique complet',
+        'Calculateur d\'échantillon automatique',
+        'Timeline interactive avec milestones',
+        'Templates d\'hypothèses pré-configurés'
+      ],
       pricing: 'free',
       complexity: 'advanced',
       estimatedTime: 15
@@ -55,14 +65,85 @@ export const growthTools: ToolModule[] = [
     id: 'channel-performance-optimizer',
     name: 'Channel Performance Optimizer',
     category: 'growth',
-    component: () => <div>Channel Performance Optimizer - Coming Soon</div>,
+    component: ChannelPerformanceOptimizer,
     config: {
       version: '1.0.0',
       description: 'Matrice de priorisation ICE score automatisée',
-      features: ['Matrix ICE', 'Allocation budgétaire', 'Attribution multi-touch'],
+      features: [
+        'Matrix ICE interactive',
+        'Allocation budgétaire optimisée',
+        'Attribution multi-touch',
+        'Simulation Monte Carlo'
+      ],
       pricing: 'free',
       complexity: 'advanced',
       estimatedTime: 20
+    },
+    apis: [],
+    algorithms: [],
+    dependencies: []
+  },
+  {
+    id: 'gtm-strategy-builder',
+    name: 'GTM Strategy Builder',
+    category: 'growth',
+    component: GTMStrategyBuilder,
+    config: {
+      version: '1.0.0',
+      description: 'Templates go-to-market avec personnalisation sectorielle',
+      features: [
+        'Templates sectoriels',
+        'Personnalisation avancée',
+        'Timeline de lancement',
+        'Métriques de suivi'
+      ],
+      pricing: 'free',
+      complexity: 'intermediate',
+      estimatedTime: 12
+    },
+    apis: [],
+    algorithms: [],
+    dependencies: []
+  },
+  {
+    id: 'conversion-rate-predictor',
+    name: 'Conversion Rate Predictor',
+    category: 'growth',
+    component: ConversionRatePredictor,
+    config: {
+      version: '1.0.0',
+      description: 'Modèles prédictifs basés sur benchmarks sectoriels',
+      features: [
+        'Modèles ML prédictifs',
+        'Benchmarks sectoriels',
+        'Analyse prédictive',
+        'Recommandations automatiques'
+      ],
+      pricing: 'premium',
+      complexity: 'advanced',
+      estimatedTime: 18
+    },
+    apis: [],
+    algorithms: [],
+    dependencies: []
+  },
+  {
+    id: 'growth-metrics-calculator',
+    name: 'Growth Metrics Calculator',
+    category: 'growth',
+    component: GrowthMetricsCalculator,
+    config: {
+      version: '1.0.0',
+      description: 'Suite complète CAC/LTV/Payback/Cohort Analysis',
+      features: [
+        'Calcul CAC/LTV automatique',
+        'Analyse de cohortes',
+        'Payback period analysis',
+        'Visualisations interactives'
+      ],
+      pricing: 'free',
+      complexity: 'intermediate',
+      estimatedTime: 10
     },
     apis: [],
     algorithms: [],
