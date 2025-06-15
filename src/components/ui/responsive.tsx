@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useIsMobile } from '../hooks/use-mobile';
+import { useResponsive } from '../../hooks/useResponsive';
 
 export interface ResponsiveProps {
   children: React.ReactNode;
@@ -21,7 +21,7 @@ export const Responsive: React.FC<ResponsiveProps> = ({
   hideOnTablet = false,
   hideOnDesktop = false
 }) => {
-  const isMobile = useIsMobile();
+  const { isMobile } = useResponsive();
 
   return (
     <>

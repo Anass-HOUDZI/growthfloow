@@ -50,59 +50,62 @@ export const ToolCategories: React.FC<ToolCategoriesProps> = ({
           const Icon = category.icon;
           const isSelected = selectedCategory === category.id;
           return (
-            <TouchOptimized
+            <div
               key={category.id}
-              onTap={() => onCategoryChange(category.id)}
-              className={`
-                group relative flex flex-col items-center justify-center
-                ${getButtonSize()}
-                rounded-2xl outline-none
-                transition-all duration-200 
-                ${isSelected
-                  ? 'shadow-lg shadow-blue-500/15 bg-gradient-to-br from-blue-500/80 to-purple-500/85 text-white scale-105 ring-2 ring-blue-400'
-                  : 'bg-white/95 hover:bg-slate-50 border border-slate-200 hover:border-blue-200 text-slate-700 hover:text-blue-700 shadow-md'
-                }
-                ${!isMobile ? 'hover:scale-105 hover:-translate-y-0.5' : 'active:scale-95'}
-                cursor-pointer
-                `}
               style={{
                 boxShadow: isSelected
                   ? undefined
                   : '0 2px 10px 0 rgba(32,52,89,0.04)'
               }}
             >
-              {Icon && (
-                <div className={`
-                  mb-1 flex items-center justify-center rounded-full 
-                  ${isSelected ? 'bg-white/15' : 'bg-slate-100'}
-                  ${getIconContainerSize()}
-                  transition-colors duration-200
-                  group-hover:bg-blue-100
-                `}>
-                  <Icon className={getIconSize()} />
-                </div>
-              )}
+              <TouchOptimized
+                onTap={() => onCategoryChange(category.id)}
+                className={`
+                  group relative flex flex-col items-center justify-center
+                  ${getButtonSize()}
+                  rounded-2xl outline-none
+                  transition-all duration-200 
+                  ${isSelected
+                    ? 'shadow-lg shadow-blue-500/15 bg-gradient-to-br from-blue-500/80 to-purple-500/85 text-white scale-105 ring-2 ring-blue-400'
+                    : 'bg-white/95 hover:bg-slate-50 border border-slate-200 hover:border-blue-200 text-slate-700 hover:text-blue-700 shadow-md'
+                  }
+                  ${!isMobile ? 'hover:scale-105 hover:-translate-y-0.5' : 'active:scale-95'}
+                  cursor-pointer
+                  `}
+              >
+                {Icon && (
+                  <div className={`
+                    mb-1 flex items-center justify-center rounded-full 
+                    ${isSelected ? 'bg-white/15' : 'bg-slate-100'}
+                    ${getIconContainerSize()}
+                    transition-colors duration-200
+                    group-hover:bg-blue-100
+                  `}>
+                    <Icon className={getIconSize()} />
+                  </div>
+                )}
 
-              <span className={`font-semibold ${isMobile ? 'text-xs' : 'text-xs md:text-base'} leading-tight mb-0 text-center`}>
-                {isMobile && category.name.length > 8 
-                  ? category.name.split(' ')[0] + (category.name.split(' ')[1] ? '...' : '')
-                  : category.name
-                }
-              </span>
-              <span className={`
-                px-2 py-0.5 rounded-full ${isMobile ? 'text-xs' : 'text-xs'} font-semibold tracking-wide
-                ${isSelected 
-                  ? 'bg-white/20 text-white'
-                  : 'bg-slate-100 text-slate-600'
-                }
-                transition-colors
-              `}>
-                {category.count}
-              </span>
-              {isSelected && (
-                <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-gradient-to-r from-blue-400 via-blue-600 to-purple-500 rounded-full" />
-              )}
-            </TouchOptimized>
+                <span className={`font-semibold ${isMobile ? 'text-xs' : 'text-xs md:text-base'} leading-tight mb-0 text-center`}>
+                  {isMobile && category.name.length > 8 
+                    ? category.name.split(' ')[0] + (category.name.split(' ')[1] ? '...' : '')
+                    : category.name
+                  }
+                </span>
+                <span className={`
+                  px-2 py-0.5 rounded-full ${isMobile ? 'text-xs' : 'text-xs'} font-semibold tracking-wide
+                  ${isSelected 
+                    ? 'bg-white/20 text-white'
+                    : 'bg-slate-100 text-slate-600'
+                  }
+                  transition-colors
+                `}>
+                  {category.count}
+                </span>
+                {isSelected && (
+                  <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-gradient-to-r from-blue-400 via-blue-600 to-purple-500 rounded-full" />
+                )}
+              </TouchOptimized>
+            </div>
           );
         })}
       </div>

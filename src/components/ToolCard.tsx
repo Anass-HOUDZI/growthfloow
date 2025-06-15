@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Star, Zap, Clock } from 'lucide-react';
 import { TouchOptimized } from './ui/TouchOptimized';
@@ -55,8 +54,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
         )}
 
         <TouchOptimized
-          onTap={(e) => {
-            e?.stopPropagation?.();
+          onTap={() => {
             onToggleFavorite();
           }}
           className={`absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 hover:bg-blue-50 transition-colors 
