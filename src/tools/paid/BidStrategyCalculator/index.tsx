@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -212,333 +211,340 @@ export const BidStrategyCalculator: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-3xl font-bold text-slate-800 mb-2 flex items-center">
-          <Calculator className="w-8 h-8 mr-3 text-blue-600" />
+    <div className="flex flex-col items-center justify-center w-full px-2 md:px-0 py-8">
+      <div className="flex flex-col items-center justify-center w-full max-w-3xl mb-8">
+        <div className="mb-4">
+          <div className="flex items-center justify-center w-[68px] h-[68px] rounded-2xl bg-gradient-to-br from-green-500 to-teal-500 shadow-lg shadow-green-200/25">
+            <Calculator className="w-10 h-10 text-white" />
+          </div>
+        </div>
+        <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 text-center mb-2 flex items-center">
           Bid Strategy Calculator
         </h2>
-        <p className="text-slate-600">Optimisez vos stratégies d'enchères selon vos objectifs</p>
+        <p className="text-lg md:text-xl text-slate-500 text-center max-w-2xl mb-2">
+          Optimisez vos stratégies d'enchères selon vos objectifs
+        </p>
       </div>
-
-      {/* Configuration */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Configuration</CardTitle>
-          <CardDescription>Sélectionnez votre campagne et définissez vos paramètres</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-2">Campagne</label>
-              <select 
-                className="w-full p-2 border rounded-lg"
-                value={selectedCampaign}
-                onChange={(e) => setSelectedCampaign(e.target.value)}
-              >
-                {campaigns.map(campaign => (
-                  <option key={campaign.id} value={campaign.id}>
-                    {campaign.name}
-                  </option>
-                ))}
-              </select>
+      <div className="w-full max-w-6xl">
+        {/* Configuration */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Configuration</CardTitle>
+            <CardDescription>Sélectionnez votre campagne et définissez vos paramètres</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Campagne</label>
+                <select 
+                  className="w-full p-2 border rounded-lg"
+                  value={selectedCampaign}
+                  onChange={(e) => setSelectedCampaign(e.target.value)}
+                >
+                  {campaigns.map(campaign => (
+                    <option key={campaign.id} value={campaign.id}>
+                      {campaign.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium mb-2">Budget ($)</label>
+                <input
+                  type="number"
+                  className="w-full p-2 border rounded-lg"
+                  value={budgetAmount}
+                  onChange={(e) => setBudgetAmount(Number(e.target.value))}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium mb-2">Target CPA ($)</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  className="w-full p-2 border rounded-lg"
+                  value={targetMetric}
+                  onChange={(e) => setTargetMetric(Number(e.target.value))}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium mb-2">Stratégie Préférée</label>
+                <select 
+                  className="w-full p-2 border rounded-lg"
+                  value={selectedStrategy}
+                  onChange={(e) => setSelectedStrategy(e.target.value)}
+                >
+                  <option value="target_cpa">Target CPA</option>
+                  <option value="target_roas">Target ROAS</option>
+                  <option value="maximize_conversions">Maximize Conversions</option>
+                  <option value="maximize_clicks">Maximize Clicks</option>
+                </select>
+              </div>
             </div>
-            
-            <div>
-              <label className="block text-sm font-medium mb-2">Budget ($)</label>
-              <input
-                type="number"
-                className="w-full p-2 border rounded-lg"
-                value={budgetAmount}
-                onChange={(e) => setBudgetAmount(Number(e.target.value))}
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium mb-2">Target CPA ($)</label>
-              <input
-                type="number"
-                step="0.1"
-                className="w-full p-2 border rounded-lg"
-                value={targetMetric}
-                onChange={(e) => setTargetMetric(Number(e.target.value))}
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium mb-2">Stratégie Préférée</label>
-              <select 
-                className="w-full p-2 border rounded-lg"
-                value={selectedStrategy}
-                onChange={(e) => setSelectedStrategy(e.target.value)}
-              >
-                <option value="target_cpa">Target CPA</option>
-                <option value="target_roas">Target ROAS</option>
-                <option value="maximize_conversions">Maximize Conversions</option>
-                <option value="maximize_clicks">Maximize Clicks</option>
-              </select>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      <Tabs defaultValue="strategies">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="strategies">Stratégies</TabsTrigger>
-          <TabsTrigger value="comparison">Comparaison</TabsTrigger>
-          <TabsTrigger value="simulation">Simulation</TabsTrigger>
-          <TabsTrigger value="recommendations">Recommandations</TabsTrigger>
-        </TabsList>
+        <Tabs defaultValue="strategies">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="strategies">Stratégies</TabsTrigger>
+            <TabsTrigger value="comparison">Comparaison</TabsTrigger>
+            <TabsTrigger value="simulation">Simulation</TabsTrigger>
+            <TabsTrigger value="recommendations">Recommandations</TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="strategies" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {bidStrategies.map((strategy, index) => (
-              <Card key={strategy.id} className="relative">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{strategy.name}</CardTitle>
-                    <Badge className={getRecommendationColor(getStrategyRecommendation(strategy))}>
-                      {getStrategyRecommendation(strategy)}
-                    </Badge>
-                  </div>
-                  {strategy.target_metric && (
-                    <p className="text-sm text-slate-600">
-                      Target: {strategy.type === 'target_cpa' ? '$' : ''}{strategy.target_metric}{strategy.type === 'target_roas' ? 'x' : ''}
-                    </p>
-                  )}
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-slate-600">Conversions</p>
-                        <p className="text-xl font-bold text-blue-600">{strategy.predicted_performance.conversions}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-slate-600">ROAS</p>
-                        <p className="text-xl font-bold text-green-600">{strategy.predicted_performance.roas}x</p>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-slate-600">Clicks</span>
-                        <span className="font-medium">{strategy.predicted_performance.clicks}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-600">CTR</span>
-                        <span className="font-medium">{strategy.predicted_performance.ctr}%</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-600">CPC</span>
-                        <span className="font-medium">${strategy.predicted_performance.cpc}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-600">CPA</span>
-                        <span className="font-medium">${strategy.predicted_performance.cpa}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-600">Coût</span>
-                        <span className="font-medium">${strategy.predicted_performance.cost}</span>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="comparison">
-          <Card>
-            <CardHeader>
-              <CardTitle>Comparaison des Performances</CardTitle>
-              <CardDescription>Performance actuelle vs prédictions par stratégie</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={comparisonData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="CPA Actuel" fill="#8884d8" name="CPA Actuel" />
-                  <Bar dataKey="CPA Prédit" fill="#82ca9d" name="CPA Prédit" />
-                </BarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="simulation">
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Simulation Budget</CardTitle>
-                <CardDescription>Allocation optimale selon les performances prédites</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={budgetAllocationData}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      fill="#8884d8"
-                      dataKey="budget"
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                    >
-                      {budgetAllocationData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={performanceColors[index % performanceColors.length]} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {budgetAllocationData.map((allocation, index) => (
-                <Card key={index}>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-medium">{allocation.name}</h4>
-                      <Badge style={{ backgroundColor: performanceColors[index % performanceColors.length] }}>
-                        ${allocation.budget}
+          <TabsContent value="strategies" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {bidStrategies.map((strategy, index) => (
+                <Card key={strategy.id} className="relative">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-lg">{strategy.name}</CardTitle>
+                      <Badge className={getRecommendationColor(getStrategyRecommendation(strategy))}>
+                        {getStrategyRecommendation(strategy)}
                       </Badge>
                     </div>
-                    <div className="space-y-1 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-slate-600">Conversions prédites</span>
-                        <span className="font-medium">{allocation.conversions}</span>
+                    {strategy.target_metric && (
+                      <p className="text-sm text-slate-600">
+                        Target: {strategy.type === 'target_cpa' ? '$' : ''}{strategy.target_metric}{strategy.type === 'target_roas' ? 'x' : ''}
+                      </p>
+                    )}
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-sm text-slate-600">Conversions</p>
+                          <p className="text-xl font-bold text-blue-600">{strategy.predicted_performance.conversions}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-slate-600">ROAS</p>
+                          <p className="text-xl font-bold text-green-600">{strategy.predicted_performance.roas}x</p>
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-600">ROAS prédit</span>
-                        <span className="font-medium">{allocation.roas}x</span>
+                      
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">Clicks</span>
+                          <span className="font-medium">{strategy.predicted_performance.clicks}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">CTR</span>
+                          <span className="font-medium">{strategy.predicted_performance.ctr}%</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">CPC</span>
+                          <span className="font-medium">${strategy.predicted_performance.cpc}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">CPA</span>
+                          <span className="font-medium">${strategy.predicted_performance.cpa}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">Coût</span>
+                          <span className="font-medium">${strategy.predicted_performance.cost}</span>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
               ))}
             </div>
-          </div>
-        </TabsContent>
+          </TabsContent>
 
-        <TabsContent value="recommendations">
-          <div className="space-y-6">
+          <TabsContent value="comparison">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Zap className="w-5 h-5 mr-2" />
-                  Recommandations Personnalisées
-                </CardTitle>
+                <CardTitle>Comparaison des Performances</CardTitle>
+                <CardDescription>Performance actuelle vs prédictions par stratégie</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="p-4 border-l-4 border-l-green-500 bg-green-50">
-                  <div className="flex items-center mb-2">
-                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
-                    <span className="font-medium text-green-800">Stratégie Recommandée</span>
-                  </div>
-                  <p className="text-green-700 text-sm mb-2">
-                    Target CPA à $6.50 - Meilleur équilibre coût/performance
-                  </p>
-                  <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                    Appliquer
-                  </Button>
-                </div>
-
-                <div className="p-4 border-l-4 border-l-blue-500 bg-blue-50">
-                  <div className="flex items-center mb-2">
-                    <Target className="w-5 h-5 text-blue-600 mr-2" />
-                    <span className="font-medium text-blue-800">Optimisation Budget</span>
-                  </div>
-                  <p className="text-blue-700 text-sm mb-2">
-                    Augmenter le budget de 20% pour Maximize Conversions
-                  </p>
-                  <Button size="sm" variant="outline" className="border-blue-600 text-blue-700">
-                    Analyser
-                  </Button>
-                </div>
-
-                <div className="p-4 border-l-4 border-l-yellow-500 bg-yellow-50">
-                  <div className="flex items-center mb-2">
-                    <AlertTriangle className="w-5 h-5 text-yellow-600 mr-2" />
-                    <span className="font-medium text-yellow-800">Attention</span>
-                  </div>
-                  <p className="text-yellow-700 text-sm mb-2">
-                    Manual CPC sous-performe - Passer à Enhanced CPC
-                  </p>
-                  <Button size="sm" variant="outline" className="border-yellow-600 text-yellow-700">
-                    Optimiser
-                  </Button>
-                </div>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart data={comparisonData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="CPA Actuel" fill="#8884d8" name="CPA Actuel" />
+                    <Bar dataKey="CPA Prédit" fill="#82ca9d" name="CPA Prédit" />
+                  </BarChart>
+                </ResponsiveContainer>
               </CardContent>
             </Card>
+          </TabsContent>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <TabsContent value="simulation">
+            <div className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Actions Prioritaires</CardTitle>
+                  <CardTitle>Simulation Budget</CardTitle>
+                  <CardDescription>Allocation optimale selon les performances prédites</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center p-3 bg-green-50 rounded-lg">
-                      <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
-                      <div>
-                        <p className="font-medium text-green-800">Tester Target CPA</p>
-                        <p className="text-sm text-green-600">Impact: +24% conversions</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center p-3 bg-blue-50 rounded-lg">
-                      <TrendingUp className="w-5 h-5 text-blue-600 mr-3" />
-                      <div>
-                        <p className="font-medium text-blue-800">Optimiser Enhanced CPC</p>
-                        <p className="text-sm text-blue-600">Impact: +12% ROAS</p>
-                      </div>
-                    </div>
-                  </div>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={budgetAllocationData}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={100}
+                        fill="#8884d8"
+                        dataKey="budget"
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      >
+                        {budgetAllocationData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={performanceColors[index % performanceColors.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Métriques Cibles</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>CPA Target</span>
-                        <span>$6.50</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {budgetAllocationData.map((allocation, index) => (
+                  <Card key={index}>
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-medium">{allocation.name}</h4>
+                        <Badge style={{ backgroundColor: performanceColors[index % performanceColors.length] }}>
+                          ${allocation.budget}
+                        </Badge>
                       </div>
-                      <Progress value={75} className="h-2" />
-                    </div>
-                    
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>ROAS Target</span>
-                        <span>22x</span>
+                      <div className="space-y-1 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">Conversions prédites</span>
+                          <span className="font-medium">{allocation.conversions}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">ROAS prédit</span>
+                          <span className="font-medium">{allocation.roas}x</span>
+                        </div>
                       </div>
-                      <Progress value={85} className="h-2" />
-                    </div>
-                    
-                    <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>Budget Efficiency</span>
-                        <span>92%</span>
-                      </div>
-                      <Progress value={92} className="h-2" />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
-          </div>
-        </TabsContent>
-      </Tabs>
+          </TabsContent>
+
+          <TabsContent value="recommendations">
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Zap className="w-5 h-5 mr-2" />
+                    Recommandations Personnalisées
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="p-4 border-l-4 border-l-green-500 bg-green-50">
+                    <div className="flex items-center mb-2">
+                      <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                      <span className="font-medium text-green-800">Stratégie Recommandée</span>
+                    </div>
+                    <p className="text-green-700 text-sm mb-2">
+                      Target CPA à $6.50 - Meilleur équilibre coût/performance
+                    </p>
+                    <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                      Appliquer
+                    </Button>
+                  </div>
+
+                  <div className="p-4 border-l-4 border-l-blue-500 bg-blue-50">
+                    <div className="flex items-center mb-2">
+                      <Target className="w-5 h-5 text-blue-600 mr-2" />
+                      <span className="font-medium text-blue-800">Optimisation Budget</span>
+                    </div>
+                    <p className="text-blue-700 text-sm mb-2">
+                      Augmenter le budget de 20% pour Maximize Conversions
+                    </p>
+                    <Button size="sm" variant="outline" className="border-blue-600 text-blue-700">
+                      Analyser
+                    </Button>
+                  </div>
+
+                  <div className="p-4 border-l-4 border-l-yellow-500 bg-yellow-50">
+                    <div className="flex items-center mb-2">
+                      <AlertTriangle className="w-5 h-5 text-yellow-600 mr-2" />
+                      <span className="font-medium text-yellow-800">Attention</span>
+                    </div>
+                    <p className="text-yellow-700 text-sm mb-2">
+                      Manual CPC sous-performe - Passer à Enhanced CPC
+                    </p>
+                    <Button size="sm" variant="outline" className="border-yellow-600 text-yellow-700">
+                      Optimiser
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Actions Prioritaires</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex items-center p-3 bg-green-50 rounded-lg">
+                        <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
+                        <div>
+                          <p className="font-medium text-green-800">Tester Target CPA</p>
+                          <p className="text-sm text-green-600">Impact: +24% conversions</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center p-3 bg-blue-50 rounded-lg">
+                        <TrendingUp className="w-5 h-5 text-blue-600 mr-3" />
+                        <div>
+                          <p className="font-medium text-blue-800">Optimiser Enhanced CPC</p>
+                          <p className="text-sm text-blue-600">Impact: +12% ROAS</p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Métriques Cibles</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span>CPA Target</span>
+                          <span>$6.50</span>
+                        </div>
+                        <Progress value={75} className="h-2" />
+                      </div>
+                      
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span>ROAS Target</span>
+                          <span>22x</span>
+                        </div>
+                        <Progress value={85} className="h-2" />
+                      </div>
+                      
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span>Budget Efficiency</span>
+                          <span>92%</span>
+                        </div>
+                        <Progress value={92} className="h-2" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };
