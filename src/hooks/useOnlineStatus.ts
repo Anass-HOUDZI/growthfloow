@@ -42,9 +42,9 @@ export const useOnlineStatus = (): OnlineStatus => {
       console.log('Connection restored');
       updateOnlineStatus();
       // Déclencher la synchronisation des données en attente
-      if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+      if ('serviceWorker' in navigator && 'sync' in (window as any).ServiceWorkerRegistration.prototype) {
         navigator.serviceWorker.ready.then((registration) => {
-          return registration.sync.register('background-sync');
+          return (registration as any).sync.register('background-sync');
         });
       }
     };
