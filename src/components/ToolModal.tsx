@@ -1,0 +1,86 @@
+
+import React from 'react';
+import { X, Star, Play } from 'lucide-react';
+import { GrowthMetricsCalculator } from './tools/GrowthMetricsCalculator';
+import { SEOContentOptimizer } from './tools/SEOContentOptimizer';
+import { LandingPageConverter } from './tools/LandingPageConverter';
+
+interface ToolModalProps {
+  tool: any;
+  onClose: () => void;
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
+}
+
+export const ToolModal: React.FC<ToolModalProps> = ({
+  tool,
+  onClose,
+  isFavorite,
+  onToggleFavorite
+}) => {
+  const renderToolComponent = () => {
+    switch (tool.id) {
+      case 'growth-metrics':
+        return <GrowthMetricsCalculator />;
+      case 'seo-optimizer':
+        return <SEOContentOptimizer />;
+      case 'landing-converter':
+        return <LandingPageConverter />;
+      default:
+        return (
+          <div className="text-center py-12">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Play className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-semibold text-slate-800 mb-2">Outil en développement</h3>
+            <p className="text-slate-600">Cet outil sera disponible dans la prochaine mise à jour.</p>
+          </div>
+        );
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto">
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+          onClick={onClose}
+        />
+        
+        <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-hidden">
+          <div className="flex items-center justify-between p-6 border-b border-slate-200">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                <tool.icon className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-slate-800">{tool.name}</h2>
+                <p className="text-slate-600">{tool.description}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={onToggleFavorite}
+                className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors"
+              >
+                <Star className={`w-5 h-5 ${isFavorite ? 'text-yellow-500 fill-current' : 'text-slate-400'}`} />
+              </button>
+              
+              <button
+                onClick={onClose}
+                className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors"
+              >
+                <X className="w-5 h-5 text-slate-600" />
+              </button>
+            </div>
+          </div>
+
+          <div className="p-6 overflow-y-auto max-h-[calc(90vh-80px)]">
+            {renderToolComponent()}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
