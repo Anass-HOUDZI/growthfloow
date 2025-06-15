@@ -128,7 +128,7 @@ export const toolsData = [
 
   // Outbound & ABM (8 outils)
   {
-    id: 'intent-detector',
+    id: 'prospect-intent-detector',
     name: 'Prospect Intent Detector',
     description: 'Identification de signaux d\'achat via APIs publiques',
     category: 'outbound',
@@ -136,7 +136,7 @@ export const toolsData = [
     isPremium: true
   },
   {
-    id: 'sequence-generator',
+    id: 'outbound-sequence-generator',
     name: 'Outbound Sequence Generator',
     description: 'Templates de séquences avec personnalisation',
     category: 'outbound',
@@ -144,7 +144,7 @@ export const toolsData = [
     isPremium: false
   },
   {
-    id: 'abm-scorer',
+    id: 'abm-account-scorer',
     name: 'ABM Account Scorer',
     description: 'Scoring automatique avec critères personnalisables',
     category: 'outbound',
@@ -152,7 +152,7 @@ export const toolsData = [
     isPremium: false
   },
   {
-    id: 'email-optimizer',
+    id: 'cold-email-optimizer',
     name: 'Cold Email Optimizer',
     description: 'Optimisation avec prédiction de deliverability',
     category: 'outbound',
