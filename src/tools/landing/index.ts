@@ -158,7 +158,7 @@ export const landingTools: ToolModule[] = [
         'Optimisation de la confiance'
       ],
       pricing: 'free',
-      complexity: 'beginner',
+      complexity: 'simple',
       estimatedTime: 6
     },
     apis: [],
@@ -180,7 +180,7 @@ export const landingTools: ToolModule[] = [
         'Analyse de performance'
       ],
       pricing: 'free',
-      complexity: 'beginner',
+      complexity: 'simple',
       estimatedTime: 5
     },
     apis: [],

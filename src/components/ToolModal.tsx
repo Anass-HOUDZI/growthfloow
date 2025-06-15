@@ -15,10 +15,20 @@ import { KeywordOpportunityFinder } from '../tools/seo/KeywordOpportunityFinder'
 import { ContentGapAnalyzer } from '../tools/seo/ContentGapAnalyzer';
 import { SERPFeatureTracker } from '../tools/seo/SERPFeatureTracker';
 
+// Landing Page Tools
+import { LandingPageConverter } from '../tools/landing/LandingPageConverter';
+import { HeatmapSimulator } from '../tools/landing/HeatmapSimulator';
+import { CROElementTester } from '../tools/landing/CROElementTester';
+import { PageSpeedOptimizer } from '../tools/landing/PageSpeedOptimizer';
+import { MobileUXAnalyzer } from '../tools/landing/MobileUXAnalyzer';
+import { FormOptimizer } from '../tools/landing/FormOptimizer';
+import { TrustSignalAnalyzer } from '../tools/landing/TrustSignalAnalyzer';
+import { CTAOptimizer } from '../tools/landing/CTAOptimizer';
+
 // Legacy tools
 import { GrowthMetricsCalculator as LegacyGrowthMetrics } from './tools/GrowthMetricsCalculator';
 import { SEOContentOptimizer as LegacySEOOptimizer } from './tools/SEOContentOptimizer';
-import { LandingPageConverter } from './tools/LandingPageConverter';
+import { LandingPageConverter as LegacyLandingConverter } from './tools/LandingPageConverter';
 
 interface ToolModalProps {
   tool: any;
@@ -60,13 +70,13 @@ export const ToolModal: React.FC<ToolModalProps> = ({
         return <SERPFeatureTracker />;
       
       // Landing Pages Tools  
-      case 'landing-converter':
+      case 'landing-page-converter':
         return <LandingPageConverter />;
       case 'heatmap-simulator':
         return <HeatmapSimulator />;
-      case 'cro-tester':
+      case 'cro-element-tester':
         return <CROElementTester />;
-      case 'speed-optimizer':
+      case 'page-speed-optimizer':
         return <PageSpeedOptimizer />;
       case 'mobile-ux-analyzer':
         return <MobileUXAnalyzer />;
