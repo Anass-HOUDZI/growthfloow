@@ -34,7 +34,6 @@ export const growthTools: ToolModule[] = [
     ],
     dependencies: []
   },
-  // Placeholder pour les 11 autres outils Growth
   {
     id: 'growth-experiment-designer',
     name: 'Growth Experiment Designer',
