@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { TestTube, Calculator, Clock, Target, TrendingUp, AlertCircle } from 'lucide-react';
+import { TestTube, Calculator, Clock, Target, TrendingUp, AlertCircle, Users } from 'lucide-react';
 
 interface ExperimentData {
   hypothesis: string;
