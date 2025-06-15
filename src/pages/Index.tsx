@@ -30,13 +30,13 @@ const Index = () => {
           onSearchChange={setSearchTerm}
           favoritesCount={favorites.length}
         />
-        <main className="w-full flex flex-col items-center px-2 md:px-4 py-8">
-          <div className="mb-16 flex flex-col items-center justify-center text-center py-14 w-full">
-            <h1 className="text-5xl md:text-7xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-8 tracking-tight drop-shadow-lg">
+        <main className="w-full flex flex-col items-center px-2 md:px-4 py-6">
+          <div className="mb-8 flex flex-col items-center justify-center text-center pt-6 pb-6 w-full">
+            <h1 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-3 tracking-tight drop-shadow-lg">
               OpenToolsAI Growth Suite
             </h1>
-            <p className="text-2xl md:text-3xl text-slate-600 max-w-4xl mb-6">
-              50 outils professionnels de growth marketing gratuits et fonctionnant 100% côté client. 
+            <p className="text-lg md:text-xl text-slate-600 max-w-3xl mb-2 font-normal">
+              50 outils pro de growth marketing, gratuits, 100% côté client. <br className="hidden md:block" />
               Privacy by design, performance optimale, accessibilité universelle.
             </p>
           </div>
@@ -44,6 +44,7 @@ const Index = () => {
             <ToolCategories 
               selectedCategory={selectedCategory}
               onCategoryChange={setSelectedCategory}
+              compact // ajout d'une prop pour compacter les catégories
             />
             <ToolsGrid 
               selectedCategory={selectedCategory}
