@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { X, Star, Play } from 'lucide-react';
 
@@ -24,6 +25,12 @@ import { MobileUXAnalyzer } from '../tools/landing/MobileUXAnalyzer';
 import { FormOptimizer } from '../tools/landing/FormOptimizer';
 import { TrustSignalAnalyzer } from '../tools/landing/TrustSignalAnalyzer';
 import { CTAOptimizer } from '../tools/landing/CTAOptimizer';
+
+// Outbound Tools
+import { ProspectIntentDetector } from '../tools/outbound/ProspectIntentDetector';
+import { OutboundSequenceGenerator } from '../tools/outbound/OutboundSequenceGenerator';
+import { ABMAccountScorer } from '../tools/outbound/ABMAccountScorer';
+import { ColdEmailOptimizer } from '../tools/outbound/ColdEmailOptimizer';
 
 // Legacy tools
 import { GrowthMetricsCalculator as LegacyGrowthMetrics } from './tools/GrowthMetricsCalculator';
@@ -86,6 +93,16 @@ export const ToolModal: React.FC<ToolModalProps> = ({
         return <TrustSignalAnalyzer />;
       case 'cta-optimizer':
         return <CTAOptimizer />;
+      
+      // Outbound & ABM Tools
+      case 'intent-detector':
+        return <ProspectIntentDetector />;
+      case 'sequence-generator':
+        return <OutboundSequenceGenerator />;
+      case 'abm-scorer':
+        return <ABMAccountScorer />;
+      case 'email-optimizer':
+        return <ColdEmailOptimizer />;
       
       // Legacy tools (fallback)
       case 'growth-metrics-legacy':
