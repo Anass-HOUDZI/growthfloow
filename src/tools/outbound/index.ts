@@ -1,10 +1,14 @@
 
 import { ToolModule } from '../../types/core';
-import { Users, Mail, Target, MessageSquare, Linkedin, Calendar, Building, TrendingUp } from 'lucide-react';
+import { Users, Mail, Target, MessageSquare, Linkedin, Calendar, Building, TrendingUp, Search, Phone, Database } from 'lucide-react';
 import { ProspectIntentDetector } from './ProspectIntentDetector';
 import { OutboundSequenceGenerator } from './OutboundSequenceGenerator';
 import { ABMAccountScorer } from './ABMAccountScorer';
 import { ColdEmailOptimizer } from './ColdEmailOptimizer';
+import { SalesIntelligenceHub } from './SalesIntelligenceHub';
+import { LinkedInAutomator } from './LinkedInAutomator';
+import { SalesCallAnalyzer } from './SalesCallAnalyzer';
+import { CRMIntegrationHub } from './CRMIntegrationHub';
 
 export const outboundTools: ToolModule[] = [
   {
@@ -90,6 +94,94 @@ export const outboundTools: ToolModule[] = [
       pricing: 'free',
       complexity: 'intermediate',
       estimatedTime: 8
+    },
+    apis: [],
+    algorithms: [],
+    dependencies: []
+  },
+  {
+    id: 'sales-intelligence-hub',
+    name: 'Sales Intelligence Hub',
+    category: 'outbound',
+    component: SalesIntelligenceHub,
+    config: {
+      version: '1.0.0',
+      description: 'Collecte automatisée de données prospect',
+      features: [
+        'Research automatique multi-sources',
+        'Détection de contacts clés et décideurs',
+        'Analyse de news et signaux de croissance',
+        'Score de risque et recommandations'
+      ],
+      pricing: 'premium',
+      complexity: 'advanced',
+      estimatedTime: 20
+    },
+    apis: [],
+    algorithms: [],
+    dependencies: []
+  },
+  {
+    id: 'linkedin-automator',
+    name: 'LinkedIn Automator',
+    category: 'outbound',
+    component: LinkedInAutomator,
+    config: {
+      version: '1.0.0',
+      description: 'Automation complète LinkedIn avec règles',
+      features: [
+        'Campagnes d\'invitations automatisées',
+        'Messages de suivi personnalisés',
+        'Règles d\'engagement intelligentes',
+        'Analytics de performance détaillées'
+      ],
+      pricing: 'premium',
+      complexity: 'advanced',
+      estimatedTime: 25
+    },
+    apis: [],
+    algorithms: [],
+    dependencies: []
+  },
+  {
+    id: 'sales-call-analyzer',
+    name: 'Sales Call Analyzer',
+    category: 'outbound',
+    component: SalesCallAnalyzer,
+    config: {
+      version: '1.0.0',
+      description: 'Analyse IA des appels avec transcription',
+      features: [
+        'Transcription automatique des appels',
+        'Détection d\'objections et sentiment',
+        'Scoring de performance des calls',
+        'Recommandations d\'amélioration personnalisées'
+      ],
+      pricing: 'premium',
+      complexity: 'advanced',
+      estimatedTime: 30
+    },
+    apis: [],
+    algorithms: [],
+    dependencies: []
+  },
+  {
+    id: 'crm-integration-hub',
+    name: 'CRM Integration Hub',
+    category: 'outbound',
+    component: CRMIntegrationHub,
+    config: {
+      version: '1.0.0',
+      description: 'Synchronisation bi-directionnelle avec CRM',
+      features: [
+        'Intégrations natives (Salesforce, HubSpot, Pipedrive)',
+        'Règles de synchronisation personnalisables',
+        'Mapping automatique des champs',
+        'Logs et monitoring en temps réel'
+      ],
+      pricing: 'premium',
+      complexity: 'advanced',
+      estimatedTime: 35
     },
     apis: [],
     algorithms: [],

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { X, Star, Play } from 'lucide-react';
 
@@ -31,6 +30,10 @@ import { ProspectIntentDetector } from '../tools/outbound/ProspectIntentDetector
 import { OutboundSequenceGenerator } from '../tools/outbound/OutboundSequenceGenerator';
 import { ABMAccountScorer } from '../tools/outbound/ABMAccountScorer';
 import { ColdEmailOptimizer } from '../tools/outbound/ColdEmailOptimizer';
+import { SalesIntelligenceHub } from '../tools/outbound/SalesIntelligenceHub';
+import { LinkedInAutomator } from '../tools/outbound/LinkedInAutomator';
+import { SalesCallAnalyzer } from '../tools/outbound/SalesCallAnalyzer';
+import { CRMIntegrationHub } from '../tools/outbound/CRMIntegrationHub';
 
 // Legacy tools
 import { GrowthMetricsCalculator as LegacyGrowthMetrics } from './tools/GrowthMetricsCalculator';
@@ -95,14 +98,22 @@ export const ToolModal: React.FC<ToolModalProps> = ({
         return <CTAOptimizer />;
       
       // Outbound & ABM Tools
-      case 'intent-detector':
+      case 'prospect-intent-detector':
         return <ProspectIntentDetector />;
-      case 'sequence-generator':
+      case 'outbound-sequence-generator':
         return <OutboundSequenceGenerator />;
-      case 'abm-scorer':
+      case 'abm-account-scorer':
         return <ABMAccountScorer />;
-      case 'email-optimizer':
+      case 'cold-email-optimizer':
         return <ColdEmailOptimizer />;
+      case 'sales-intelligence-hub':
+        return <SalesIntelligenceHub />;
+      case 'linkedin-automator':
+        return <LinkedInAutomator />;
+      case 'sales-call-analyzer':
+        return <SalesCallAnalyzer />;
+      case 'crm-integration-hub':
+        return <CRMIntegrationHub />;
       
       // Legacy tools (fallback)
       case 'growth-metrics-legacy':
