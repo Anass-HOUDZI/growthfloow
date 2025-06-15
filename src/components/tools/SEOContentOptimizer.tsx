@@ -40,25 +40,28 @@ export const SEOContentOptimizer = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-[70vh] px-2 md:px-0">
-      <div className="flex flex-col items-center">
-        <div className="mb-5 mt-2">
-          <div className="mx-auto flex items-center justify-center w-[58px] h-[58px] rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg shadow-blue-200/25">
-            <Search className="w-9 h-9 text-white" />
+      <div className="w-full flex flex-col items-center justify-center mb-8">
+        <div className="mb-4 mt-4">
+          <div className="mx-auto flex items-center justify-center w-[68px] h-[68px] rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg shadow-blue-200/25">
+            <Search className="w-10 h-10 text-white" />
           </div>
         </div>
-        <h2 className="text-2xl md:text-3xl font-extrabold text-slate-800 text-center mb-1">
+        <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 text-center mb-2">
           SEO Content Optimizer
         </h2>
-        <p className="text-base md:text-lg text-slate-500 text-center mb-6 max-w-xl">
+        <p className="text-lg md:text-xl text-slate-500 text-center mb-2 max-w-2xl">
           Analysez et optimisez votre contenu pour les moteurs de recherche
         </p>
+        <div className="flex justify-center mb-2">
+          <FileText className="w-8 h-8 text-blue-400" />
+        </div>
       </div>
 
       <div className="w-full max-w-3xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2 text-center">
                 Mot-clé principal
               </label>
               <input
@@ -70,7 +73,7 @@ export const SEOContentOptimizer = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2 text-center">
                 Contenu à analyser
               </label>
               <textarea
@@ -84,7 +87,7 @@ export const SEOContentOptimizer = () => {
             <button
               onClick={analyzeContent}
               disabled={!content || !targetKeyword}
-              className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all duration-200 disabled:opacity-50"
+              className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-600 hover:to-cyan-700 transition-all duration-200 disabled:opacity-50 mt-3"
             >
               Analyser le contenu
             </button>
@@ -94,7 +97,7 @@ export const SEOContentOptimizer = () => {
             <div className="space-y-4 w-full">
               <h4 className="text-lg font-semibold text-slate-800 text-center">Analyse SEO</h4>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white p-4 rounded-lg border border-slate-200">
+                <div className="bg-white p-4 rounded-lg border border-slate-200 flex flex-col items-center">
                   <div className="flex items-center space-x-2 mb-2">
                     <FileText className="w-5 h-5 text-blue-600" />
                     <span className="text-sm font-medium text-slate-600">Mots</span>
@@ -102,7 +105,7 @@ export const SEOContentOptimizer = () => {
                   <div className="text-2xl font-bold text-slate-800">{analysis.wordCount}</div>
                 </div>
 
-                <div className="bg-white p-4 rounded-lg border border-slate-200">
+                <div className="bg-white p-4 rounded-lg border border-slate-200 flex flex-col items-center">
                   <div className="flex items-center space-x-2 mb-2">
                     <Target className="w-5 h-5 text-green-600" />
                     <span className="text-sm font-medium text-slate-600">Densité KW</span>
@@ -110,7 +113,7 @@ export const SEOContentOptimizer = () => {
                   <div className="text-2xl font-bold text-slate-800">{analysis.keywordDensity}%</div>
                 </div>
 
-                <div className="bg-white p-4 rounded-lg border border-slate-200">
+                <div className="bg-white p-4 rounded-lg border border-slate-200 flex flex-col items-center">
                   <div className="flex items-center space-x-2 mb-2">
                     <TrendingUp className="w-5 h-5 text-purple-600" />
                     <span className="text-sm font-medium text-slate-600">Lisibilité</span>
@@ -118,7 +121,7 @@ export const SEOContentOptimizer = () => {
                   <div className="text-2xl font-bold text-slate-800">{analysis.readabilityScore}/100</div>
                 </div>
 
-                <div className="bg-white p-4 rounded-lg border border-slate-200">
+                <div className="bg-white p-4 rounded-lg border border-slate-200 flex flex-col items-center">
                   <div className="flex items-center space-x-2 mb-2">
                     <Search className="w-5 h-5 text-orange-600" />
                     <span className="text-sm font-medium text-slate-600">Score SEO</span>
@@ -128,10 +131,10 @@ export const SEOContentOptimizer = () => {
               </div>
 
               <div className="bg-slate-50 p-4 rounded-lg">
-                <h5 className="font-semibold text-slate-800 mb-3">Recommandations</h5>
+                <h5 className="font-semibold text-slate-800 mb-3 text-center">Recommandations</h5>
                 <div className="space-y-2">
                   {analysis.recommendations.map((rec, index) => (
-                    <div key={index} className="flex items-start space-x-2">
+                    <div key={index} className="flex items-start space-x-2 justify-center">
                       <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
                       <span className="text-sm text-slate-600">{rec}</span>
                     </div>
@@ -145,3 +148,4 @@ export const SEOContentOptimizer = () => {
     </div>
   );
 };
+
