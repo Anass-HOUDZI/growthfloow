@@ -9,7 +9,7 @@ const categories = [
   { id: 'landing', name: 'Landing Pages', icon: Palette, count: 8 },
   { id: 'outbound', name: 'Outbound & ABM', icon: Megaphone, count: 8 },
   { id: 'paid', name: 'Paid Marketing', icon: BarChart3, count: 6 },
-  { id: 'cmo', name: 'CMO & Leadership', icon: Users, count: 6 }
+  { id: 'cmo', name: 'CMO & Leadership', icon: Users, count: 6 },
 ];
 
 interface ToolCategoriesProps {
@@ -19,38 +19,61 @@ interface ToolCategoriesProps {
 
 export const ToolCategories: React.FC<ToolCategoriesProps> = ({
   selectedCategory,
-  onCategoryChange
+  onCategoryChange,
 }) => {
   return (
-    <div className="mb-8">
-      <div className="flex flex-wrap gap-3">
+    <div className="w-full flex justify-center mb-10">
+      <div className="flex flex-wrap gap-3 justify-center">
         {categories.map((category) => {
           const Icon = category.icon;
           const isSelected = selectedCategory === category.id;
-          
           return (
             <button
               key={category.id}
               onClick={() => onCategoryChange(category.id)}
               className={`
-                flex items-center space-x-2 px-4 py-3 rounded-lg transition-all duration-200
-                ${isSelected 
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/25' 
-                  : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-slate-300'
+                group relative flex flex-col items-center justify-center min-w-[120px] px-6 py-5 rounded-2xl outline-none
+                transition-all duration-200 
+                ${isSelected
+                  ? 'shadow-lg shadow-blue-500/15 bg-gradient-to-br from-blue-500/90 to-purple-500/85 text-white scale-105 ring-2 ring-blue-400'
+                  : 'bg-white hover:bg-slate-50 border border-slate-200 hover:border-blue-200 text-slate-700 hover:text-blue-700 shadow-md'
                 }
+                hover:scale-105 hover:-translate-y-1 cursor-pointer
               `}
+              style={{
+                boxShadow: isSelected
+                  ? undefined
+                  : '0 2px 10px 0 rgba(32,52,89,0.04)'
+              }}
             >
-              {Icon && <Icon className="w-5 h-5" />}
-              <span className="font-medium">{category.name}</span>
+              {Icon && (
+                <div className={`
+                  mb-2 flex items-center justify-center rounded-full 
+                  ${isSelected ? 'bg-white/20' : 'bg-slate-100'}
+                  w-11 h-11 text-xl
+                  transition-colors duration-200
+                  group-hover:bg-blue-100
+                `}>
+                  <Icon className="w-7 h-7" />
+                </div>
+              )}
+
+              <span className={`font-semibold text-base leading-tight mb-1`}>
+                {category.name}
+              </span>
               <span className={`
-                px-2 py-1 rounded-full text-xs font-medium
+                px-3 py-1 rounded-full text-xs font-semibold tracking-wide
                 ${isSelected 
-                  ? 'bg-white/20 text-white' 
+                  ? 'bg-white/20 text-white'
                   : 'bg-slate-100 text-slate-600'
                 }
+                transition-colors
               `}>
                 {category.count}
               </span>
+              {isSelected && (
+                <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-5 h-1 bg-gradient-to-r from-blue-400 via-blue-600 to-purple-500 rounded-full" />
+              )}
             </button>
           );
         })}

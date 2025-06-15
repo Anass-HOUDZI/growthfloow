@@ -24,15 +24,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex flex-col">
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col items-center justify-start">
         <DashboardHeader 
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
           favoritesCount={favorites.length}
         />
-        
-        <main className="container mx-auto px-4 py-8">
-          <div className="mb-16 flex flex-col items-center justify-center text-center py-16">
+        <main className="w-full flex flex-col items-center px-2 md:px-4 py-8">
+          <div className="mb-16 flex flex-col items-center justify-center text-center py-14 w-full">
             <h1 className="text-5xl md:text-7xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-8 tracking-tight drop-shadow-lg">
               OpenToolsAI Growth Suite
             </h1>
@@ -41,20 +40,20 @@ const Index = () => {
               Privacy by design, performance optimale, accessibilité universelle.
             </p>
           </div>
-
-          <ToolCategories 
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
-          />
-
-          <ToolsGrid 
-            selectedCategory={selectedCategory}
-            searchTerm={searchTerm}
-            favorites={favorites}
-            onToolSelect={handleToolSelect}
-            onToggleFavorite={toggleFavorite}
-            recentTools={recentTools}
-          />
+          <div className="w-full flex flex-col items-center">
+            <ToolCategories 
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+            />
+            <ToolsGrid 
+              selectedCategory={selectedCategory}
+              searchTerm={searchTerm}
+              favorites={favorites}
+              onToolSelect={handleToolSelect}
+              onToggleFavorite={toggleFavorite}
+              recentTools={recentTools}
+            />
+          </div>
         </main>
 
         {selectedTool && (
@@ -72,4 +71,3 @@ const Index = () => {
 };
 
 export default Index;
-

@@ -30,11 +30,11 @@ export const ToolsGrid: React.FC<ToolsGridProps> = ({
   const recentToolsData = toolsData.filter(tool => recentTools.includes(tool.id));
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10 flex flex-col items-center w-full">
       {recentTools.length > 0 && searchTerm === '' && selectedCategory === 'all' && (
-        <div>
-          <h3 className="text-xl font-semibold text-slate-800 mb-4">Récemment utilisés</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="w-full max-w-6xl flex flex-col items-center">
+          <h3 className="text-xl font-semibold text-slate-800 mb-4 text-center">Récemment utilisés</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center w-full">
             {recentToolsData.map(tool => (
               <ToolCard
                 key={tool.id}
@@ -49,8 +49,8 @@ export const ToolsGrid: React.FC<ToolsGridProps> = ({
         </div>
       )}
 
-      <div>
-        <h3 className="text-xl font-semibold text-slate-800 mb-4">
+      <div className="w-full max-w-6xl flex flex-col items-center">
+        <h3 className="text-xl font-semibold text-slate-800 mb-4 text-center">
           {selectedCategory === 'all' ? 'Tous les outils' : 
            selectedCategory === 'growth' ? 'Growth Marketing & Strategy' :
            selectedCategory === 'seo' ? 'SEO & Content' :
@@ -60,8 +60,7 @@ export const ToolsGrid: React.FC<ToolsGridProps> = ({
            'CMO & Leadership'
           } ({filteredTools.length})
         </h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center w-full">
           {filteredTools.map(tool => (
             <ToolCard
               key={tool.id}
