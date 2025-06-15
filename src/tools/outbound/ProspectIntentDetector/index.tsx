@@ -128,14 +128,14 @@ export const ProspectIntentDetector = () => {
     const signalsData = analysisResult.signals.map(s =>
       [s.type, s.description, s.source, s.date, s.score, s.confidence]
     );
-    autoTable(doc, {
+    const tableResult = autoTable(doc, {
       startY: 70,
       head: [['Type', 'Description', 'Source', 'Date', 'Score', 'Confiance']],
       body: signalsData,
     });
 
-    // Recommandations
-    let y = doc.lastAutoTable ? doc.lastAutoTable.finalY + 10 : 80;
+    // Utiliser tableResult pour la position finale Y
+    let y = tableResult.finalY ? tableResult.finalY + 10 : 80;
     doc.text('Recommandations :', 14, y);
     doc.setFontSize(11);
     doc.text(`Meilleur moment: ${analysisResult.bestTimeToContact}`, 14, y + 8);
