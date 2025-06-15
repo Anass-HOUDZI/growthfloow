@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,12 @@ import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Search, TrendingUp, AlertCircle, Users, Building, Calendar, ExternalLink } from 'lucide-react';
+import { ProspectIntentForm } from "./ProspectIntentForm";
+import { IntentScoreCard } from "./IntentScoreCard";
+import { IntentSignalsList } from "./IntentSignalsList";
+import { IntentRecommendations } from "./IntentRecommendations";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 interface IntentSignal {
   type: string;
@@ -107,6 +112,53 @@ export const ProspectIntentDetector = () => {
     return colors[confidence as keyof typeof colors];
   };
 
+  const exportPdf = () => {
+    if (!analysisResult) return;
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text('Rapport d\'intention d\'achat prospect', 14, 16);
+    doc.setFontSize(12);
+    doc.text(`Nom : ${analysisResult.name}`, 14, 28);
+    doc.text(`Entreprise : ${analysisResult.company}`, 14, 36);
+    doc.text(`Titre : ${analysisResult.title}`, 14, 44);
+    doc.text(`Score d'intention : ${analysisResult.intentScore}`, 14, 52);
+    doc.text(`Recommandation : ${analysisResult.recommendation}`, 14, 60);
+
+    // Signals table
+    const signalsData = analysisResult.signals.map(s =>
+      [s.type, s.description, s.source, s.date, s.score, s.confidence]
+    );
+    autoTable(doc, {
+      startY: 70,
+      head: [['Type', 'Description', 'Source', 'Date', 'Score', 'Confiance']],
+      body: signalsData,
+    });
+
+    // Recommandations
+    let y = doc.lastAutoTable ? doc.lastAutoTable.finalY + 10 : 80;
+    doc.text('Recommandations :', 14, y);
+    doc.setFontSize(11);
+    doc.text(`Meilleur moment: ${analysisResult.bestTimeToContact}`, 14, y + 8);
+    doc.text("Canal: LinkedIn + Email", 14, y + 16);
+    doc.text("Angle: Croissance & Financement", 14, y + 24);
+
+    // Message
+    doc.setFontSize(10);
+    doc.text(
+      "Message d'approche suggéré :",
+      14,
+      y + 34
+    );
+    doc.text(
+      "Félicitations pour votre nouveau poste de VP Marketing et la récente levée de fonds ! J'ai vu que vous recherchiez des solutions pour optimiser votre stack marketing. Aurions-nous 15 minutes cette semaine pour discuter de vos priorités croissance ?",
+      14,
+      y + 42,
+      { maxWidth: 180 }
+    );
+
+    doc.save("rapport_intent_prospect.pdf");
+  };
+
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="text-center space-y-4">
@@ -121,186 +173,47 @@ export const ProspectIntentDetector = () => {
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Users className="w-5 h-5" />
-            <span>Analyser un Prospect</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="prospect-url">URL LinkedIn du prospect</Label>
-              <Input
-                id="prospect-url"
-                placeholder="https://linkedin.com/in/marie-dubois"
-                value={prospectUrl}
-                onChange={(e) => setProspectUrl(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="company-name">Nom de l'entreprise</Label>
-              <Input
-                id="company-name"
-                placeholder="TechCorp"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-              />
-            </div>
-          </div>
-          
-          <Button 
-            onClick={analyzeProspect}
-            disabled={isAnalyzing || !prospectUrl}
-            className="w-full"
-          >
-            {isAnalyzing ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-                Analyse en cours...
-              </>
-            ) : (
-              <>
-                <Search className="w-4 h-4 mr-2" />
-                Analyser le prospect
-              </>
-            )}
-          </Button>
-        </CardContent>
-      </Card>
+      <div className="bg-white shadow rounded-xl p-4">
+        <ProspectIntentForm
+          prospectUrl={prospectUrl}
+          companyName={companyName}
+          isAnalyzing={isAnalyzing}
+          onUrlChange={setProspectUrl}
+          onCompanyChange={setCompanyName}
+          onSubmit={analyzeProspect}
+        />
+      </div>
 
       {analysisResult && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Score d'intention */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-center">Score d'Intention</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center space-y-4">
-              <div className="relative w-32 h-32 mx-auto">
-                <svg className="w-32 h-32 transform -rotate-90">
-                  <circle
-                    cx="64"
-                    cy="64"
-                    r="56"
-                    stroke="currentColor"
-                    strokeWidth="8"
-                    fill="none"
-                    className="text-gray-200"
-                  />
-                  <circle
-                    cx="64"
-                    cy="64"
-                    r="56"
-                    stroke="currentColor"
-                    strokeWidth="8"
-                    fill="none"
-                    strokeDasharray={`${2 * Math.PI * 56}`}
-                    strokeDashoffset={`${2 * Math.PI * 56 * (1 - analysisResult.intentScore / 100)}`}
-                    className={`${getScoreColor(analysisResult.intentScore)} transition-all duration-1000`}
-                  />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-3xl font-bold text-slate-800">
-                    {analysisResult.intentScore}
-                  </span>
-                </div>
-              </div>
-              <div>
-                <h3 className="font-semibold text-slate-800">{analysisResult.name}</h3>
-                <p className="text-slate-600">{analysisResult.title}</p>
-                <p className="text-slate-500">{analysisResult.company}</p>
-              </div>
-              <Badge className={`${getScoreColor(analysisResult.intentScore)} text-white`}>
-                {analysisResult.recommendation}
-              </Badge>
-            </CardContent>
-          </Card>
-
-          {/* Signaux détectés */}
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <TrendingUp className="w-5 h-5" />
-                <span>Signaux d'Intention Détectés</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {analysisResult.signals.map((signal, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between p-4 bg-slate-50 rounded-lg"
-                >
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <h4 className="font-medium text-slate-800">{signal.type}</h4>
-                      <Badge className={getConfidenceBadge(signal.confidence)}>
-                        {signal.confidence}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-slate-600 mb-2">{signal.description}</p>
-                    <div className="flex items-center space-x-4 text-xs text-slate-500">
-                      <span>Source: {signal.source}</span>
-                      <span>Date: {signal.date}</span>
-                    </div>
-                  </div>
-                  <div className="text-right space-y-1">
-                    <div className="text-lg font-bold text-slate-800">{signal.score}</div>
-                    <Progress value={signal.score} className="w-16" />
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          {/* Recommandations */}
-          <Card className="lg:col-span-3">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <AlertCircle className="w-5 h-5" />
-                <span>Recommandations d'Action</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="space-y-2">
-                  <h4 className="font-medium text-slate-800">Meilleur moment de contact</h4>
-                  <div className="flex items-center space-x-2">
-                    <Calendar className="w-4 h-4 text-slate-500" />
-                    <span className="text-slate-600">{analysisResult.bestTimeToContact}</span>
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <h4 className="font-medium text-slate-800">Canal recommandé</h4>
-                  <div className="flex items-center space-x-2">
-                    <ExternalLink className="w-4 h-4 text-slate-500" />
-                    <span className="text-slate-600">LinkedIn + Email</span>
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <h4 className="font-medium text-slate-800">Angle d'approche</h4>
-                  <div className="flex items-center space-x-2">
-                    <Building className="w-4 h-4 text-slate-500" />
-                    <span className="text-slate-600">Croissance & Financement</span>
-                  </div>
-                </div>
-              </div>
-              
-              <Separator className="my-4" />
-              
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <h4 className="font-medium text-blue-800 mb-2">Message d'approche suggéré :</h4>
-                <p className="text-blue-700 text-sm">
-                  "Félicitations pour votre nouveau poste de VP Marketing et la récente levée de fonds ! 
-                  J'ai vu que vous recherchiez des solutions pour optimiser votre stack marketing. 
-                  Aurions-nous 15 minutes cette semaine pour discuter de vos priorités croissance ?"
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="p-4 rounded-lg shadow bg-white flex flex-col items-center">
+              <IntentScoreCard
+                name={analysisResult.name}
+                company={analysisResult.company}
+                title={analysisResult.title}
+                score={analysisResult.intentScore}
+                recommendation={analysisResult.recommendation}
+              />
+              <button
+                onClick={exportPdf}
+                className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition-colors"
+              >
+                Exporter en PDF
+              </button>
+            </div>
+            <div className="lg:col-span-2 p-4 rounded-lg shadow bg-white">
+              <IntentSignalsList signals={analysisResult.signals} />
+            </div>
+          </div>
+          <div className="p-4 rounded-lg shadow bg-white">
+            <IntentRecommendations
+              bestTimeToContact={analysisResult.bestTimeToContact}
+              angle="Croissance & Financement"
+              channel="LinkedIn + Email"
+              message="Félicitations pour votre nouveau poste de VP Marketing et la récente levée de fonds ! J'ai vu que vous recherchiez des solutions pour optimiser votre stack marketing. Aurions-nous 15 minutes cette semaine pour discuter de vos priorités croissance ?"
+            />
+          </div>
         </div>
       )}
     </div>
