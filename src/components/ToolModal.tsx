@@ -52,6 +52,7 @@ import { LandingPageConverter as LegacyLandingConverter } from './tools/LandingP
 import { CMODashboardBuilder } from '../tools/cmo/CMODashboardBuilder';
 import { MarketingROITracker } from '../tools/cmo/MarketingROITracker';
 import { BudgetPlanningAssistant } from '../tools/cmo/BudgetPlanningAssistant';
+import { MarketingMaturityAssessor } from '../tools/cmo/MarketingMaturityAssessor';
 
 interface ToolModalProps {
   tool: any;
@@ -149,6 +150,8 @@ export const ToolModal: React.FC<ToolModalProps> = ({
         return <MarketingROITracker />;
       case 'budget-planner':
         return <BudgetPlanningAssistant />;
+      case 'maturity-assessor':
+        return <MarketingMaturityAssessor />;
       
       // Legacy tools (fallback)
       case 'growth-metrics-legacy':
