@@ -2,9 +2,35 @@
 import React, { useState } from 'react';
 import { Smartphone, CheckCircle, AlertTriangle, Zap, TrendingUp } from 'lucide-react';
 
+interface AnalysisResult {
+  overallScore: number;
+  categories: {
+    [key: string]: {
+      score: number;
+      issues: Array<{
+        type: string;
+        text: string;
+      }>;
+    };
+  };
+  recommendations: Array<{
+    priority: string;
+    category: string;
+    issue: string;
+    solution: string;
+    impact: string;
+  }>;
+  deviceTests: {
+    [key: string]: {
+      score: number;
+      issues: number;
+    };
+  };
+}
+
 export const MobileUXAnalyzer: React.FC = () => {
   const [url, setUrl] = useState('');
-  const [analysis, setAnalysis] = useState(null);
+  const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const analyzeMobileUX = () => {
@@ -170,7 +196,7 @@ export const MobileUXAnalyzer: React.FC = () => {
 
             {/* Scores par catégorie */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {Object.entries(analysis.categories).map(([category, data]: [string, any]) => (
+              {Object.entries(analysis.categories).map(([category, data]) => (
                 <div key={category} className="bg-white border border-slate-200 rounded-lg p-4">
                   <div className="text-center mb-3">
                     <div className={`text-2xl font-bold ${getScoreColor(data.score)} mb-1`}>
@@ -183,7 +209,7 @@ export const MobileUXAnalyzer: React.FC = () => {
                     </p>
                   </div>
                   <div className="space-y-2">
-                    {data.issues.map((issue: any, index: number) => (
+                    {data.issues.map((issue, index) => (
                       <div key={index} className="flex items-start space-x-2 text-xs">
                         {getIssueIcon(issue.type)}
                         <span className="text-slate-600">{issue.text}</span>
@@ -198,7 +224,7 @@ export const MobileUXAnalyzer: React.FC = () => {
             <div className="bg-white border border-slate-200 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-slate-800 mb-4">Tests par Appareil</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {Object.entries(analysis.deviceTests).map(([device, data]: [string, any]) => (
+                {Object.entries(analysis.deviceTests).map(([device, data]) => (
                   <div key={device} className="bg-slate-50 rounded-lg p-4 text-center">
                     <h4 className="font-medium text-slate-800 mb-2">{device}</h4>
                     <div className={`text-xl font-bold ${getScoreColor(data.score)} mb-1`}>
@@ -217,7 +243,7 @@ export const MobileUXAnalyzer: React.FC = () => {
                 Recommandations d'Optimisation Mobile
               </h3>
               <div className="space-y-4">
-                {analysis.recommendations.map((rec: any, index: number) => (
+                {analysis.recommendations.map((rec, index) => (
                   <div key={index} className="border border-slate-200 rounded-lg p-4">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center space-x-3">
@@ -266,7 +292,7 @@ export const MobileUXAnalyzer: React.FC = () => {
                 <div>
                   <h4 className="font-medium text-slate-800 mb-2">⚡ Performance</h4>
                   <ul className="space-y-1">
-                    <li>• Chargement < 3 secondes</li>
+                    <li>• Chargement &lt; 3 secondes</li>
                     <li>• Images optimisées</li>
                     <li>• Cache browser</li>
                   </ul>
