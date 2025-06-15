@@ -1,4 +1,3 @@
-
 import { 
   TrendingUp, BarChart3, Target, Zap, Calculator, PieChart,
   Search, FileText, Eye, Globe, Code, Link,
@@ -163,35 +162,51 @@ export const toolsData = [
 
   // Paid Marketing (6 outils)
   {
-    id: 'ad-optimizer',
+    id: 'ad-performance-optimizer',
     name: 'Ad Performance Optimizer',
-    description: 'Analyse multi-plateformes avec recommandations',
+    description: 'Analyse multi-plateformes avec recommandations automatisées',
     category: 'paid',
     icon: Presentation,
     isPremium: false
   },
   {
-    id: 'bid-calculator',
+    id: 'bid-strategy-calculator',
     name: 'Bid Strategy Calculator',
-    description: 'Optimisation enchères selon objectifs',
+    description: 'Optimisation enchères selon objectifs et budget',
     category: 'paid',
-    icon: DollarSign,
+    icon: Calculator,
     isPremium: false
   },
   {
-    id: 'creative-analyzer',
+    id: 'ad-creative-analyzer',
     name: 'Ad Creative Analyzer',
-    description: 'Scoring créatifs basé sur best practices',
+    description: 'Scoring créatifs basé sur best practices et IA',
     category: 'paid',
     icon: CrosshairIcon,
     isPremium: true
   },
   {
-    id: 'audience-detector',
+    id: 'audience-overlap-detector',
     name: 'Audience Overlap Detector',
     description: 'Analyse de chevauchements cross-platform',
     category: 'paid',
     icon: Users,
+    isPremium: false
+  },
+  {
+    id: 'facebook-ads-optimizer',
+    name: 'Facebook Ads Optimizer',
+    description: 'Optimisation spécifique Facebook Ads avec recommandations',
+    category: 'paid',
+    icon: DollarSign,
+    isPremium: false
+  },
+  {
+    id: 'google-ads-performance-hub',
+    name: 'Google Ads Performance Hub',
+    description: 'Hub complet de performance Google Ads',
+    category: 'paid',
+    icon: BrainCircuit,
     isPremium: false
   },
 

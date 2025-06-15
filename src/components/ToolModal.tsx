@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { X, Star, Play } from 'lucide-react';
 
@@ -34,6 +35,14 @@ import { SalesIntelligenceHub } from '../tools/outbound/SalesIntelligenceHub';
 import { LinkedInAutomator } from '../tools/outbound/LinkedInAutomator';
 import { SalesCallAnalyzer } from '../tools/outbound/SalesCallAnalyzer';
 import { CRMIntegrationHub } from '../tools/outbound/CRMIntegrationHub';
+
+// Paid Marketing Tools
+import { AdPerformanceOptimizer } from '../tools/paid/AdPerformanceOptimizer';
+import { BidStrategyCalculator } from '../tools/paid/BidStrategyCalculator';
+import { AdCreativeAnalyzer } from '../tools/paid/AdCreativeAnalyzer';
+import { AudienceOverlapDetector } from '../tools/paid/AudienceOverlapDetector';
+import { FacebookAdsOptimizer } from '../tools/paid/FacebookAdsOptimizer';
+import { GoogleAdsPerformanceHub } from '../tools/paid/GoogleAdsPerformanceHub';
 
 // Legacy tools
 import { GrowthMetricsCalculator as LegacyGrowthMetrics } from './tools/GrowthMetricsCalculator';
@@ -114,6 +123,20 @@ export const ToolModal: React.FC<ToolModalProps> = ({
         return <SalesCallAnalyzer />;
       case 'crm-integration-hub':
         return <CRMIntegrationHub />;
+      
+      // Paid Marketing Tools
+      case 'ad-performance-optimizer':
+        return <AdPerformanceOptimizer />;
+      case 'bid-strategy-calculator':
+        return <BidStrategyCalculator />;
+      case 'ad-creative-analyzer':
+        return <AdCreativeAnalyzer />;
+      case 'audience-overlap-detector':
+        return <AudienceOverlapDetector />;
+      case 'facebook-ads-optimizer':
+        return <FacebookAdsOptimizer />;
+      case 'google-ads-performance-hub':
+        return <GoogleAdsPerformanceHub />;
       
       // Legacy tools (fallback)
       case 'growth-metrics-legacy':
