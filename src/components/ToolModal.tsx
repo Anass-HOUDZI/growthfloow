@@ -50,6 +50,7 @@ import { LandingPageConverter as LegacyLandingConverter } from './tools/LandingP
 
 // CMO Tools
 import { CMODashboardBuilder } from '../tools/cmo/CMODashboardBuilder';
+import { MarketingROITracker } from '../tools/cmo/MarketingROITracker';
 
 interface ToolModalProps {
   tool: any;
@@ -143,6 +144,8 @@ export const ToolModal: React.FC<ToolModalProps> = ({
       // CMO & Leadership Tools
       case 'cmo-dashboard-builder':
         return <CMODashboardBuilder />;
+      case 'marketing-roi-tracker':
+        return <MarketingROITracker />;
       
       // Legacy tools (fallback)
       case 'growth-metrics-legacy':
