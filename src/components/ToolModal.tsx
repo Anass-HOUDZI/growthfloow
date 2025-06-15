@@ -1,8 +1,24 @@
 
 import React from 'react';
 import { X, Star, Play } from 'lucide-react';
-import { GrowthMetricsCalculator } from './tools/GrowthMetricsCalculator';
-import { SEOContentOptimizer } from './tools/SEOContentOptimizer';
+
+// Growth Tools
+import { GrowthFunnelAnalyzer } from '../tools/growth/GrowthFunnelAnalyzer';
+import { GrowthExperimentDesigner } from '../tools/growth/GrowthExperimentDesigner';
+import { ChannelPerformanceOptimizer } from '../tools/growth/ChannelPerformanceOptimizer';
+import { GTMStrategyBuilder } from '../tools/growth/GTMStrategyBuilder';
+import { ConversionRatePredictor } from '../tools/growth/ConversionRatePredictor';
+import { GrowthMetricsCalculator } from '../tools/growth/GrowthMetricsCalculator';
+
+// SEO Tools
+import { SEOContentOptimizer } from '../tools/seo/SEOContentOptimizer';
+import { KeywordOpportunityFinder } from '../tools/seo/KeywordOpportunityFinder';
+import { ContentGapAnalyzer } from '../tools/seo/ContentGapAnalyzer';
+import { SERPFeatureTracker } from '../tools/seo/SERPFeatureTracker';
+
+// Legacy tools
+import { GrowthMetricsCalculator as LegacyGrowthMetrics } from './tools/GrowthMetricsCalculator';
+import { SEOContentOptimizer as LegacySEOOptimizer } from './tools/SEOContentOptimizer';
 import { LandingPageConverter } from './tools/LandingPageConverter';
 
 interface ToolModalProps {
@@ -20,12 +36,38 @@ export const ToolModal: React.FC<ToolModalProps> = ({
 }) => {
   const renderToolComponent = () => {
     switch (tool.id) {
+      // Growth Marketing Tools
+      case 'growth-funnel':
+        return <GrowthFunnelAnalyzer />;
+      case 'experiment-designer':
+        return <GrowthExperimentDesigner />;
+      case 'channel-optimizer':
+        return <ChannelPerformanceOptimizer />;
+      case 'gtm-builder':
+        return <GTMStrategyBuilder />;
+      case 'conversion-predictor':
+        return <ConversionRatePredictor />;
       case 'growth-metrics':
         return <GrowthMetricsCalculator />;
+      
+      // SEO & Content Tools
       case 'seo-optimizer':
         return <SEOContentOptimizer />;
+      case 'keyword-finder':
+        return <KeywordOpportunityFinder />;
+      case 'content-gap':
+        return <ContentGapAnalyzer />;
+      case 'serp-tracker':
+        return <SERPFeatureTracker />;
+      
+      // Legacy tools (fallback)
+      case 'growth-metrics-legacy':
+        return <LegacyGrowthMetrics />;
+      case 'seo-optimizer-legacy':
+        return <LegacySEOOptimizer />;
       case 'landing-converter':
         return <LandingPageConverter />;
+      
       default:
         return (
           <div className="text-center py-12">
@@ -34,6 +76,7 @@ export const ToolModal: React.FC<ToolModalProps> = ({
             </div>
             <h3 className="text-xl font-semibold text-slate-800 mb-2">Outil en développement</h3>
             <p className="text-slate-600">Cet outil sera disponible dans la prochaine mise à jour.</p>
+            <p className="text-sm text-slate-500 mt-2">ID: {tool.id}</p>
           </div>
         );
     }
