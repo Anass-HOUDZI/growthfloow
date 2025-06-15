@@ -212,7 +212,7 @@ export const toolsData = [
 
   // CMO & Leadership (6 outils)
   {
-    id: 'cmo-dashboard',
+    id: 'cmo-dashboard-builder',
     name: 'CMO Dashboard Builder',
     description: 'Tableaux de bord exécutifs personnalisables',
     category: 'cmo',

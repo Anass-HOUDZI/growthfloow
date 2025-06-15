@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { X, Star, Play } from 'lucide-react';
 
@@ -48,6 +47,9 @@ import { GoogleAdsPerformanceHub } from '../tools/paid/GoogleAdsPerformanceHub';
 import { GrowthMetricsCalculator as LegacyGrowthMetrics } from './tools/GrowthMetricsCalculator';
 import { SEOContentOptimizer as LegacySEOOptimizer } from './tools/SEOContentOptimizer';
 import { LandingPageConverter as LegacyLandingConverter } from './tools/LandingPageConverter';
+
+// CMO Tools
+import { CMODashboardBuilder } from '../tools/cmo/CMODashboardBuilder';
 
 interface ToolModalProps {
   tool: any;
@@ -137,6 +139,10 @@ export const ToolModal: React.FC<ToolModalProps> = ({
         return <FacebookAdsOptimizer />;
       case 'google-ads-performance-hub':
         return <GoogleAdsPerformanceHub />;
+      
+      // CMO & Leadership Tools
+      case 'cmo-dashboard-builder':
+        return <CMODashboardBuilder />;
       
       // Legacy tools (fallback)
       case 'growth-metrics-legacy':
