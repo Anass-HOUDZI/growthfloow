@@ -91,7 +91,7 @@ export const GoogleAdsPerformanceHub: React.FC = () => {
       cpc: 0.24,
       cpa: 4.82,
       roas: 31.1,
-      quality_score: 0, // N/A for Shopping
+      quality_score: 0,
       impression_share: 0.65
     },
     {
@@ -145,7 +145,7 @@ export const GoogleAdsPerformanceHub: React.FC = () => {
       cpc: 0.18,
       cpa: 3.02,
       roas: 49.6,
-      quality_score: 0, // N/A for Performance Max
+      quality_score: 0,
       impression_share: 0.85
     }
   ]);
@@ -215,7 +215,7 @@ export const GoogleAdsPerformanceHub: React.FC = () => {
   const trendData = [
     { date: '2024-01', impressions: 2800000, clicks: 18400, conversions: 890, spend: 2890 },
     { date: '2024-02', impressions: 3200000, clicks: 21200, conversions: 1045, spend: 3180 },
-    { date: '2024-03', impressions: 3600000, clicks: 24600, conversions: 1234, spend: 3620 },
+    { date: '2024-03', impressions: 3600000, clicks: 24600, conversions: 1234, spen: 3620 },
     { date: '2024-04', impressions: 3900000, clicks: 26800, conversions: 1356, spend: 3890 },
     { date: '2024-05', impressions: 4100000, clicks: 28200, conversions: 1445, spend: 4050 },
     { date: '2024-06', impressions: 4300000, clicks: 29800, conversions: 1523, spend: 4200 }
@@ -624,7 +624,7 @@ export const GoogleAdsPerformanceHub: React.FC = () => {
                     <span className="font-medium text-blue-800">Quality Score Optimization</span>
                   </div>
                   <p className="text-blue-700 text-sm mb-2">
-                    3 mots-clés avec QS < 7 - Améliorer landing pages
+                    3 mots-clés avec QS lt 7 - Améliorer landing pages
                   </p>
                   <Button size="sm" variant="outline" className="border-blue-600 text-blue-700">
                     Analyser

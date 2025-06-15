@@ -1,441 +1,544 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Slider } from '@/components/ui/slider';
+import { Progress } from '@/components/ui/progress';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  LineChart, Line, Area, AreaChart
+  LineChart, Line, PieChart, Pie, Cell
 } from 'recharts';
 import { 
-  Target, DollarSign, TrendingUp, Calculator, 
-  Zap, AlertCircle, CheckCircle, Info
+  Calculator, TrendingUp, Target, DollarSign, 
+  Zap, AlertTriangle, CheckCircle, Settings
 } from 'lucide-react';
 
 interface BidStrategy {
+  id: string;
   name: string;
-  description: string;
-  objective: string;
-  minBid: number;
-  maxBid: number;
-  targetCPA: number;
-  targetROAS: number;
-  budget: number;
+  type: 'manual_cpc' | 'enhanced_cpc' | 'target_cpa' | 'target_roas' | 'maximize_clicks' | 'maximize_conversions';
+  target_metric?: number;
+  predicted_performance: {
+    clicks: number;
+    conversions: number;
+    cost: number;
+    ctr: number;
+    cpc: number;
+    cpa: number;
+    roas: number;
+  };
 }
 
-interface BidRecommendation {
-  strategy: string;
-  bidAmount: number;
-  estimatedCPC: number;
-  estimatedClicks: number;
-  estimatedConversions: number;
-  estimatedCost: number;
-  estimatedRevenue: number;
-  confidence: number;
+interface Campaign {
+  id: string;
+  name: string;
+  current_strategy: string;
+  budget: number;
+  current_performance: {
+    clicks: number;
+    conversions: number;
+    cost: number;
+    ctr: number;
+    cpc: number;
+    cpa: number;
+    roas: number;
+  };
 }
 
 export const BidStrategyCalculator: React.FC = () => {
-  const [selectedObjective, setSelectedObjective] = useState<string>('conversions');
-  const [budget, setBudget] = useState<number>(1000);
-  const [targetCPA, setTargetCPA] = useState<number>(50);
-  const [targetROAS, setTargetROAS] = useState<number>(400);
-  const [historicalCTR, setHistoricalCTR] = useState<number>(2.5);
-  const [historicalCR, setHistoricalCR] = useState<number>(3.0);
-  const [avgOrderValue, setAvgOrderValue] = useState<number>(150);
+  const [selectedCampaign, setSelectedCampaign] = useState<string>('1');
+  const [budgetAmount, setBudgetAmount] = useState<number>(1000);
+  const [targetMetric, setTargetMetric] = useState<number>(50);
+  const [selectedStrategy, setSelectedStrategy] = useState<string>('target_cpa');
 
-  const [bidRecommendations, setBidRecommendations] = useState<BidRecommendation[]>([]);
-
-  const bidStrategies = [
+  const [campaigns] = useState<Campaign[]>([
     {
-      name: 'Maximize Clicks',
-      description: 'Maximise le nombre de clics dans votre budget',
-      objective: 'traffic',
-      minBid: 0.1,
-      maxBid: 2.0,
-      targetCPA: 0,
-      targetROAS: 0,
-      budget: budget
-    },
-    {
-      name: 'Target CPA',
-      description: 'Optimise pour un coût par acquisition cible',
-      objective: 'conversions',
-      minBid: 0.5,
-      maxBid: 5.0,
-      targetCPA: targetCPA,
-      targetROAS: 0,
-      budget: budget
-    },
-    {
-      name: 'Target ROAS',
-      description: 'Optimise pour un retour sur dépenses publicitaires cible',
-      objective: 'revenue',
-      minBid: 0.8,
-      maxBid: 8.0,
-      targetCPA: 0,
-      targetROAS: targetROAS,
-      budget: budget
-    },
-    {
-      name: 'Maximize Conversions',
-      description: 'Maximise les conversions dans votre budget',
-      objective: 'conversions',
-      minBid: 0.3,
-      maxBid: 4.0,
-      targetCPA: 0,
-      targetROAS: 0,
-      budget: budget
-    }
-  ];
-
-  const calculateBidRecommendations = () => {
-    const recommendations: BidRecommendation[] = [];
-
-    bidStrategies.forEach(strategy => {
-      let bidAmount = 1.0;
-      let estimatedCPC = 1.0;
-      let estimatedClicks = 0;
-      let estimatedConversions = 0;
-      let estimatedCost = 0;
-      let estimatedRevenue = 0;
-      let confidence = 80;
-
-      switch (strategy.name) {
-        case 'Maximize Clicks':
-          bidAmount = Math.min(budget / 1000, strategy.maxBid);
-          estimatedCPC = bidAmount * 0.8;
-          estimatedClicks = budget / estimatedCPC;
-          estimatedConversions = estimatedClicks * (historicalCR / 100);
-          estimatedCost = budget;
-          estimatedRevenue = estimatedConversions * avgOrderValue;
-          confidence = 90;
-          break;
-
-        case 'Target CPA':
-          bidAmount = targetCPA * (historicalCTR / 100) * (historicalCR / 100);
-          estimatedCPC = bidAmount * 0.85;
-          estimatedClicks = budget / estimatedCPC;
-          estimatedConversions = budget / targetCPA;
-          estimatedCost = budget;
-          estimatedRevenue = estimatedConversions * avgOrderValue;
-          confidence = 85;
-          break;
-
-        case 'Target ROAS':
-          const targetROASDecimal = targetROAS / 100;
-          bidAmount = (avgOrderValue * (historicalCR / 100) * (historicalCTR / 100)) / targetROASDecimal;
-          estimatedCPC = bidAmount * 0.9;
-          estimatedClicks = budget / estimatedCPC;
-          estimatedConversions = estimatedClicks * (historicalCR / 100);
-          estimatedCost = budget;
-          estimatedRevenue = estimatedConversions * avgOrderValue;
-          confidence = 75;
-          break;
-
-        case 'Maximize Conversions':
-          bidAmount = Math.sqrt(targetCPA * (historicalCTR / 100));
-          estimatedCPC = bidAmount * 0.95;
-          estimatedClicks = budget / estimatedCPC;
-          estimatedConversions = estimatedClicks * (historicalCR / 100);
-          estimatedCost = budget;
-          estimatedRevenue = estimatedConversions * avgOrderValue;
-          confidence = 80;
-          break;
+      id: '1',
+      name: 'Brand Keywords Campaign',
+      current_strategy: 'Enhanced CPC',
+      budget: 1000,
+      current_performance: {
+        clicks: 2500,
+        conversions: 125,
+        cost: 950,
+        ctr: 3.2,
+        cpc: 0.38,
+        cpa: 7.60,
+        roas: 18.4
       }
+    },
+    {
+      id: '2',
+      name: 'Product Categories',
+      current_strategy: 'Manual CPC',
+      budget: 1500,
+      current_performance: {
+        clicks: 3200,
+        conversions: 180,
+        cost: 1420,
+        ctr: 2.8,
+        cpc: 0.44,
+        cpa: 7.89,
+        roas: 15.2
+      }
+    }
+  ]);
 
-      recommendations.push({
-        strategy: strategy.name,
-        bidAmount: Math.min(Math.max(bidAmount, strategy.minBid), strategy.maxBid),
-        estimatedCPC: estimatedCPC,
-        estimatedClicks: Math.round(estimatedClicks),
-        estimatedConversions: Math.round(estimatedConversions * 10) / 10,
-        estimatedCost: Math.round(estimatedCost),
-        estimatedRevenue: Math.round(estimatedRevenue),
-        confidence: confidence
-      });
-    });
+  const [bidStrategies] = useState<BidStrategy[]>([
+    {
+      id: '1',
+      name: 'Manual CPC',
+      type: 'manual_cpc',
+      predicted_performance: {
+        clicks: 2400,
+        conversions: 120,
+        cost: 960,
+        ctr: 3.0,
+        cpc: 0.40,
+        cpa: 8.00,
+        roas: 17.5
+      }
+    },
+    {
+      id: '2',
+      name: 'Enhanced CPC',
+      type: 'enhanced_cpc',
+      predicted_performance: {
+        clicks: 2600,
+        conversions: 140,
+        cost: 980,
+        ctr: 3.3,
+        cpc: 0.37,
+        cpa: 7.00,
+        roas: 20.0
+      }
+    },
+    {
+      id: '3',
+      name: 'Target CPA',
+      type: 'target_cpa',
+      target_metric: 6.50,
+      predicted_performance: {
+        clicks: 2800,
+        conversions: 155,
+        cost: 1007,
+        ctr: 3.5,
+        cpc: 0.36,
+        cpa: 6.50,
+        roas: 21.5
+      }
+    },
+    {
+      id: '4',
+      name: 'Target ROAS',
+      type: 'target_roas',
+      target_metric: 25.0,
+      predicted_performance: {
+        clicks: 2300,
+        conversions: 138,
+        cost: 920,
+        ctr: 2.9,
+        cpc: 0.40,
+        cpa: 6.67,
+        roas: 25.0
+      }
+    },
+    {
+      id: '5',
+      name: 'Maximize Clicks',
+      type: 'maximize_clicks',
+      predicted_performance: {
+        clicks: 3200,
+        conversions: 144,
+        cost: 1000,
+        ctr: 4.0,
+        cpc: 0.31,
+        cpa: 6.94,
+        roas: 20.2
+      }
+    },
+    {
+      id: '6',
+      name: 'Maximize Conversions',
+      type: 'maximize_conversions',
+      predicted_performance: {
+        clicks: 2700,
+        conversions: 162,
+        cost: 1000,
+        ctr: 3.4,
+        cpc: 0.37,
+        cpa: 6.17,
+        roas: 22.7
+      }
+    }
+  ]);
 
-    setBidRecommendations(recommendations);
-  };
-
-  useEffect(() => {
-    calculateBidRecommendations();
-  }, [budget, targetCPA, targetROAS, historicalCTR, historicalCR, avgOrderValue]);
-
-  const performanceData = bidRecommendations.map(rec => ({
-    strategy: rec.strategy.replace(' ', '\n'),
-    Clics: rec.estimatedClicks,
-    Conversions: rec.estimatedConversions,
-    Revenue: rec.estimatedRevenue / 100,
-    CPC: rec.estimatedCPC,
-    Confidence: rec.confidence
+  const selectedCampaignData = campaigns.find(c => c.id === selectedCampaign);
+  
+  const comparisonData = bidStrategies.map(strategy => ({
+    name: strategy.name,
+    'CPA Actuel': selectedCampaignData?.current_performance.cpa || 0,
+    'CPA Prédit': strategy.predicted_performance.cpa,
+    'ROAS Actuel': selectedCampaignData?.current_performance.roas || 0,
+    'ROAS Prédit': strategy.predicted_performance.roas,
+    'Conversions Prédites': strategy.predicted_performance.conversions
   }));
 
-  const getBestStrategy = () => {
-    if (bidRecommendations.length === 0) return null;
-    
-    switch (selectedObjective) {
-      case 'traffic':
-        return bidRecommendations.reduce((best, current) => 
-          current.estimatedClicks > best.estimatedClicks ? current : best
-        );
-      case 'conversions':
-        return bidRecommendations.reduce((best, current) => 
-          current.estimatedConversions > best.estimatedConversions ? current : best
-        );
-      case 'revenue':
-        return bidRecommendations.reduce((best, current) => 
-          current.estimatedRevenue > best.estimatedRevenue ? current : best
-        );
-      default:
-        return bidRecommendations[0];
-    }
+  const budgetAllocationData = bidStrategies.slice(0, 4).map(strategy => ({
+    name: strategy.name,
+    budget: Math.round(budgetAmount * (strategy.predicted_performance.roas / 100)),
+    conversions: strategy.predicted_performance.conversions,
+    roas: strategy.predicted_performance.roas
+  }));
+
+  const performanceColors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#8dd1e1', '#d084d0'];
+
+  const getStrategyRecommendation = (strategy: BidStrategy) => {
+    if (strategy.predicted_performance.roas > 22) return 'Excellent';
+    if (strategy.predicted_performance.roas > 18) return 'Bon';
+    if (strategy.predicted_performance.roas > 15) return 'Moyen';
+    return 'Faible';
   };
 
-  const bestStrategy = getBestStrategy();
+  const getRecommendationColor = (recommendation: string) => {
+    switch (recommendation) {
+      case 'Excellent': return 'bg-green-100 text-green-800';
+      case 'Bon': return 'bg-blue-100 text-blue-800';
+      case 'Moyen': return 'bg-yellow-100 text-yellow-800';
+      case 'Faible': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold text-slate-800 mb-2">Bid Strategy Calculator</h2>
-        <p className="text-slate-600">Optimisez vos enchères selon vos objectifs marketing</p>
+        <h2 className="text-3xl font-bold text-slate-800 mb-2 flex items-center">
+          <Calculator className="w-8 h-8 mr-3 text-blue-600" />
+          Bid Strategy Calculator
+        </h2>
+        <p className="text-slate-600">Optimisez vos stratégies d'enchères selon vos objectifs</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Configuration */}
-        <Card className="lg:col-span-1">
-          <CardHeader>
-            <CardTitle>Configuration</CardTitle>
-            <CardDescription>Paramètres de campagne</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+      {/* Configuration */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Configuration</CardTitle>
+          <CardDescription>Sélectionnez votre campagne et définissez vos paramètres</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <Label>Objectif Principal</Label>
-              <div className="grid grid-cols-1 gap-2 mt-2">
-                {['traffic', 'conversions', 'revenue'].map(obj => (
-                  <Button
-                    key={obj}
-                    variant={selectedObjective === obj ? 'default' : 'outline'}
-                    onClick={() => setSelectedObjective(obj)}
-                    className="justify-start"
-                  >
-                    {obj === 'traffic' && <Target className="w-4 h-4 mr-2" />}
-                    {obj === 'conversions' && <Zap className="w-4 h-4 mr-2" />}
-                    {obj === 'revenue' && <DollarSign className="w-4 h-4 mr-2" />}
-                    {obj === 'traffic' ? 'Trafic' : 
-                     obj === 'conversions' ? 'Conversions' : 'Revenus'}
-                  </Button>
+              <label className="block text-sm font-medium mb-2">Campagne</label>
+              <select 
+                className="w-full p-2 border rounded-lg"
+                value={selectedCampaign}
+                onChange={(e) => setSelectedCampaign(e.target.value)}
+              >
+                {campaigns.map(campaign => (
+                  <option key={campaign.id} value={campaign.id}>
+                    {campaign.name}
+                  </option>
                 ))}
-              </div>
+              </select>
             </div>
-
+            
             <div>
-              <Label>Budget Quotidien ($)</Label>
-              <Input
+              <label className="block text-sm font-medium mb-2">Budget ($)</label>
+              <input
                 type="number"
-                value={budget}
-                onChange={(e) => setBudget(Number(e.target.value))}
-                className="mt-2"
+                className="w-full p-2 border rounded-lg"
+                value={budgetAmount}
+                onChange={(e) => setBudgetAmount(Number(e.target.value))}
               />
             </div>
-
+            
             <div>
-              <Label>CPA Cible ($)</Label>
-              <Input
+              <label className="block text-sm font-medium mb-2">Target CPA ($)</label>
+              <input
                 type="number"
-                value={targetCPA}
-                onChange={(e) => setTargetCPA(Number(e.target.value))}
-                className="mt-2"
+                step="0.1"
+                className="w-full p-2 border rounded-lg"
+                value={targetMetric}
+                onChange={(e) => setTargetMetric(Number(e.target.value))}
               />
             </div>
-
+            
             <div>
-              <Label>ROAS Cible (%)</Label>
-              <Input
-                type="number"
-                value={targetROAS}
-                onChange={(e) => setTargetROAS(Number(e.target.value))}
-                className="mt-2"
-              />
+              <label className="block text-sm font-medium mb-2">Stratégie Préférée</label>
+              <select 
+                className="w-full p-2 border rounded-lg"
+                value={selectedStrategy}
+                onChange={(e) => setSelectedStrategy(e.target.value)}
+              >
+                <option value="target_cpa">Target CPA</option>
+                <option value="target_roas">Target ROAS</option>
+                <option value="maximize_conversions">Maximize Conversions</option>
+                <option value="maximize_clicks">Maximize Clicks</option>
+              </select>
             </div>
+          </div>
+        </CardContent>
+      </Card>
 
-            <div>
-              <Label>CTR Historique (%)</Label>
-              <div className="mt-2">
-                <Slider
-                  value={[historicalCTR]}
-                  onValueChange={(value) => setHistoricalCTR(value[0])}
-                  max={10}
-                  min={0.1}
-                  step={0.1}
-                  className="w-full"
-                />
-                <div className="text-sm text-slate-600 mt-1">{historicalCTR}%</div>
-              </div>
-            </div>
+      <Tabs defaultValue="strategies">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="strategies">Stratégies</TabsTrigger>
+          <TabsTrigger value="comparison">Comparaison</TabsTrigger>
+          <TabsTrigger value="simulation">Simulation</TabsTrigger>
+          <TabsTrigger value="recommendations">Recommandations</TabsTrigger>
+        </TabsList>
 
-            <div>
-              <Label>Taux de Conversion (%)</Label>
-              <div className="mt-2">
-                <Slider
-                  value={[historicalCR]}
-                  onValueChange={(value) => setHistoricalCR(value[0])}
-                  max={15}
-                  min={0.1}
-                  step={0.1}
-                  className="w-full"
-                />
-                <div className="text-sm text-slate-600 mt-1">{historicalCR}%</div>
-              </div>
-            </div>
+        <TabsContent value="strategies" className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {bidStrategies.map((strategy, index) => (
+              <Card key={strategy.id} className="relative">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg">{strategy.name}</CardTitle>
+                    <Badge className={getRecommendationColor(getStrategyRecommendation(strategy))}>
+                      {getStrategyRecommendation(strategy)}
+                    </Badge>
+                  </div>
+                  {strategy.target_metric && (
+                    <p className="text-sm text-slate-600">
+                      Target: {strategy.type === 'target_cpa' ? '$' : ''}{strategy.target_metric}{strategy.type === 'target_roas' ? 'x' : ''}
+                    </p>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm text-slate-600">Conversions</p>
+                        <p className="text-xl font-bold text-blue-600">{strategy.predicted_performance.conversions}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-slate-600">ROAS</p>
+                        <p className="text-xl font-bold text-green-600">{strategy.predicted_performance.roas}x</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Clicks</span>
+                        <span className="font-medium">{strategy.predicted_performance.clicks}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">CTR</span>
+                        <span className="font-medium">{strategy.predicted_performance.ctr}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">CPC</span>
+                        <span className="font-medium">${strategy.predicted_performance.cpc}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">CPA</span>
+                        <span className="font-medium">${strategy.predicted_performance.cpa}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Coût</span>
+                        <span className="font-medium">${strategy.predicted_performance.cost}</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
 
-            <div>
-              <Label>Valeur Moyenne Commande ($)</Label>
-              <Input
-                type="number"
-                value={avgOrderValue}
-                onChange={(e) => setAvgOrderValue(Number(e.target.value))}
-                className="mt-2"
-              />
-            </div>
-          </CardContent>
-        </Card>
+        <TabsContent value="comparison">
+          <Card>
+            <CardHeader>
+              <CardTitle>Comparaison des Performances</CardTitle>
+              <CardDescription>Performance actuelle vs prédictions par stratégie</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={comparisonData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" angle={-45} textAnchor="end" height={100} />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="CPA Actuel" fill="#8884d8" name="CPA Actuel" />
+                  <Bar dataKey="CPA Prédit" fill="#82ca9d" name="CPA Prédit" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-        {/* Résultats */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Stratégie recommandée */}
-          {bestStrategy && (
-            <Card className="border-green-200 bg-green-50">
+        <TabsContent value="simulation">
+          <div className="space-y-6">
+            <Card>
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-green-800">Stratégie Recommandée</CardTitle>
-                  <Badge className="bg-green-600">
-                    <CheckCircle className="w-4 h-4 mr-1" />
-                    {bestStrategy.confidence}% confiance
-                  </Badge>
-                </div>
+                <CardTitle>Simulation Budget</CardTitle>
+                <CardDescription>Allocation optimale selon les performances prédites</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div>
-                    <p className="text-sm text-green-600">Stratégie</p>
-                    <p className="font-semibold text-green-800">{bestStrategy.strategy}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-green-600">Enchère suggérée</p>
-                    <p className="font-semibold text-green-800">${bestStrategy.bidAmount.toFixed(2)}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-green-600">Conversions estimées</p>
-                    <p className="font-semibold text-green-800">{bestStrategy.estimatedConversions}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-green-600">Revenus estimés</p>
-                    <p className="font-semibold text-green-800">${bestStrategy.estimate
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={budgetAllocationData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      fill="#8884d8"
+                      dataKey="budget"
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    >
+                      {budgetAllocationData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={performanceColors[index % performanceColors.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
 
-Revenue}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {budgetAllocationData.map((allocation, index) => (
+                <Card key={index}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-medium">{allocation.name}</h4>
+                      <Badge style={{ backgroundColor: performanceColors[index % performanceColors.length] }}>
+                        ${allocation.budget}
+                      </Badge>
+                    </div>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Conversions prédites</span>
+                        <span className="font-medium">{allocation.conversions}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">ROAS prédit</span>
+                        <span className="font-medium">{allocation.roas}x</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="recommendations">
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Zap className="w-5 h-5 mr-2" />
+                  Recommandations Personnalisées
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="p-4 border-l-4 border-l-green-500 bg-green-50">
+                  <div className="flex items-center mb-2">
+                    <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                    <span className="font-medium text-green-800">Stratégie Recommandée</span>
                   </div>
+                  <p className="text-green-700 text-sm mb-2">
+                    Target CPA à $6.50 - Meilleur équilibre coût/performance
+                  </p>
+                  <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                    Appliquer
+                  </Button>
+                </div>
+
+                <div className="p-4 border-l-4 border-l-blue-500 bg-blue-50">
+                  <div className="flex items-center mb-2">
+                    <Target className="w-5 h-5 text-blue-600 mr-2" />
+                    <span className="font-medium text-blue-800">Optimisation Budget</span>
+                  </div>
+                  <p className="text-blue-700 text-sm mb-2">
+                    Augmenter le budget de 20% pour Maximize Conversions
+                  </p>
+                  <Button size="sm" variant="outline" className="border-blue-600 text-blue-700">
+                    Analyser
+                  </Button>
+                </div>
+
+                <div className="p-4 border-l-4 border-l-yellow-500 bg-yellow-50">
+                  <div className="flex items-center mb-2">
+                    <AlertTriangle className="w-5 h-5 text-yellow-600 mr-2" />
+                    <span className="font-medium text-yellow-800">Attention</span>
+                  </div>
+                  <p className="text-yellow-700 text-sm mb-2">
+                    Manual CPC sous-performe - Passer à Enhanced CPC
+                  </p>
+                  <Button size="sm" variant="outline" className="border-yellow-600 text-yellow-700">
+                    Optimiser
+                  </Button>
                 </div>
               </CardContent>
             </Card>
-          )}
 
-          <Tabs defaultValue="strategies">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="strategies">Stratégies</TabsTrigger>
-              <TabsTrigger value="performance">Performance</TabsTrigger>
-              <TabsTrigger value="simulation">Simulation</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="strategies" className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {bidRecommendations.map((rec, index) => (
-                  <Card key={index} className={rec === bestStrategy ? 'ring-2 ring-green-500' : ''}>
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-lg">{rec.strategy}</CardTitle>
-                        <Badge variant={rec.confidence >= 85 ? 'default' : 'secondary'}>
-                          {rec.confidence}%
-                        </Badge>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        <div className="flex justify-between">
-                          <span className="text-sm text-slate-600">Enchère</span>
-                          <span className="font-medium">${rec.bidAmount.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm text-slate-600">CPC estimé</span>
-                          <span className="font-medium">${rec.estimatedCPC.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm text-slate-600">Clics</span>
-                          <span className="font-medium">{rec.estimatedClicks}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm text-slate-600">Conversions</span>
-                          <span className="font-medium">{rec.estimatedConversions}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm text-slate-600">ROI estimé</span>
-                          <span className="font-medium text-blue-600">
-                            {((rec.estimatedRevenue - rec.estimatedCost) / rec.estimatedCost * 100).toFixed(0)}%
-                          </span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="performance">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Comparaison des Performances</CardTitle>
+                  <CardTitle>Actions Prioritaires</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ResponsiveContainer width="100%" height={400}>
-                    <BarChart data={performanceData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="strategy" />
-                      <YAxis />
-                      <Tooltip />
-                      <Bar dataKey="Clics" fill="#8884d8" />
-                      <Bar dataKey="Conversions" fill="#82ca9d" />
-                    </BarChart>
-                  </ResponsiveContainer>
+                  <div className="space-y-3">
+                    <div className="flex items-center p-3 bg-green-50 rounded-lg">
+                      <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
+                      <div>
+                        <p className="font-medium text-green-800">Tester Target CPA</p>
+                        <p className="text-sm text-green-600">Impact: +24% conversions</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center p-3 bg-blue-50 rounded-lg">
+                      <TrendingUp className="w-5 h-5 text-blue-600 mr-3" />
+                      <div>
+                        <p className="font-medium text-blue-800">Optimiser Enhanced CPC</p>
+                        <p className="text-sm text-blue-600">Impact: +12% ROAS</p>
+                      </div>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
-            </TabsContent>
 
-            <TabsContent value="simulation">
               <Card>
                 <CardHeader>
-                  <CardTitle>Simulation de Performance</CardTitle>
+                  <CardTitle>Métriques Cibles</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ResponsiveContainer width="100%" height={400}>
-                    <AreaChart data={performanceData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="strategy" />
-                      <YAxis />
-                      <Tooltip />
-                      <Area type="monotone" dataKey="Revenue" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                      <Area type="monotone" dataKey="Confidence" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} />
-                    </AreaChart>
-                  </ResponsiveContainer>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span>CPA Target</span>
+                        <span>$6.50</span>
+                      </div>
+                      <Progress value={75} className="h-2" />
+                    </div>
+                    
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span>ROAS Target</span>
+                        <span>22x</span>
+                      </div>
+                      <Progress value={85} className="h-2" />
+                    </div>
+                    
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span>Budget Efficiency</span>
+                        <span>92%</span>
+                      </div>
+                      <Progress value={92} className="h-2" />
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </div>
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
