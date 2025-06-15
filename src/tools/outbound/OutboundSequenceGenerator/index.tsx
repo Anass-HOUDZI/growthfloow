@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Mail, Calendar, MessageSquare, Copy, Download, Zap } from 'lucide-react';
+import { Mail, Calendar, MessageSquare, Copy, Download, Zap, Phone } from 'lucide-react';
 
 interface SequenceStep {
   day: number;
@@ -333,7 +332,7 @@ Bonne journée !
                         <div className="flex-1">
                           <div className="flex items-center space-x-2 mb-1">
                             <span className="font-medium">Jour {step.day}</span>
-                            <Badge className={getChannelColor(step.channel)} size="sm">
+                            <Badge className={getChannelColor(step.channel)}>
                               {step.channel}
                             </Badge>
                           </div>
