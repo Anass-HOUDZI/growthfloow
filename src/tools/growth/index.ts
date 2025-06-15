@@ -1,4 +1,3 @@
-
 import { ToolModule } from '../../types/core';
 import { TrendingUp, Target, Zap, BarChart3, Users, PieChart, LineChart, Activity, DollarSign, Settings, Lightbulb, Gauge } from 'lucide-react';
 import { GrowthFunnelAnalyzer } from './GrowthFunnelAnalyzer';
@@ -7,6 +6,13 @@ import { ChannelPerformanceOptimizer } from './ChannelPerformanceOptimizer';
 import { GTMStrategyBuilder } from './GTMStrategyBuilder';
 import { ConversionRatePredictor } from './ConversionRatePredictor';
 import { GrowthMetricsCalculator } from './GrowthMetricsCalculator';
+
+export { GrowthFunnelAnalyzer } from './GrowthFunnelAnalyzer';
+export { GrowthExperimentDesigner } from './GrowthExperimentDesigner';
+export { ChannelPerformanceOptimizer } from './ChannelPerformanceOptimizer';
+export { GTMStrategyBuilder } from './GTMStrategyBuilder';
+export { ConversionRatePredictor } from './ConversionRatePredictor';
+export { GrowthMetricsCalculator } from './GrowthMetricsCalculator';
 
 export const growthTools: ToolModule[] = [
   {
