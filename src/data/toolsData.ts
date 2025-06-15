@@ -4,7 +4,7 @@ import {
   Search, FileText, Eye, Globe, Code, Link,
   Palette, MousePointer, Gauge, Smartphone, TestTube, Layout,
   Mail, Users, Phone, MessageSquare, UserCheck, Building,
-  DollarSign, PresentationChart, Bullseye, TrendingDown, 
+  DollarSign, Presentation, CrosshairIcon, TrendingDown, 
   Settings, User, Trophy, BrainCircuit
 } from 'lucide-react';
 
@@ -167,7 +167,7 @@ export const toolsData = [
     name: 'Ad Performance Optimizer',
     description: 'Analyse multi-plateformes avec recommandations',
     category: 'paid',
-    icon: PresentationChart,
+    icon: Presentation,
     isPremium: false
   },
   {
@@ -183,7 +183,7 @@ export const toolsData = [
     name: 'Ad Creative Analyzer',
     description: 'Scoring créatifs basé sur best practices',
     category: 'paid',
-    icon: Bullseye,
+    icon: CrosshairIcon,
     isPremium: true
   },
   {
