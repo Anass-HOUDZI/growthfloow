@@ -1,10 +1,10 @@
-
 import React, { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { AppSidebar } from './AppSidebar';
 import { AppHeader } from './AppHeader';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
 import { ErrorFallback } from '../ui/ErrorFallback';
+import { Footer } from "./Footer";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -25,6 +25,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
             </Suspense>
           </ErrorBoundary>
         </main>
+        <Footer />
       </div>
     </div>
   );
