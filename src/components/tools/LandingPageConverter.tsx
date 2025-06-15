@@ -134,7 +134,7 @@ export const LandingPageConverter = () => {
                           style={{ width: `${score}%` }}
                         ></div>
                       </div>
-                      <span className="text-sm font-medium text-slate-800 w-8">{score}</span>
+                      <span className="text-sm font-medium text-slate-800 w-8">{score as number}</span>
                     </div>
                   </div>
                 ))}
