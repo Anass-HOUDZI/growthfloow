@@ -11,7 +11,7 @@ import { Footer } from "../components/layout/Footer";
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedTool, setSelectedTool] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  // Suppression du searchTerm et de son usage
   const { favorites, toggleFavorite } = useFavorites();
   const [recentTools, setRecentTools] = useLocalStorage('recentTools', []);
 
@@ -26,8 +26,6 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex flex-col">
       <div className="flex-1 flex flex-col items-center justify-start">
         <DashboardHeader 
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
           favoritesCount={favorites.length}
         />
         <main className="w-full flex flex-col items-center px-2 md:px-4 py-6">
@@ -48,7 +46,7 @@ const Index = () => {
             />
             <ToolsGrid 
               selectedCategory={selectedCategory}
-              searchTerm={searchTerm}
+              searchTerm={""} // Passer une string vide, car la prop reste nécessaire pour ToolsGrid mais la recherche est désactivée
               favorites={favorites}
               onToolSelect={handleToolSelect}
               onToggleFavorite={toggleFavorite}

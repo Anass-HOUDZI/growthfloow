@@ -1,16 +1,12 @@
 
 import React from 'react';
-import { Search, Star, Zap, Shield, Globe } from 'lucide-react';
+import { Star, Zap, Shield, Globe } from 'lucide-react';
 
 interface DashboardHeaderProps {
-  searchTerm: string;
-  onSearchChange: (term: string) => void;
   favoritesCount: number;
 }
 
 export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
-  searchTerm,
-  onSearchChange,
   favoritesCount
 }) => {
   return (
@@ -28,17 +24,6 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           </div>
 
           <div className="flex items-center space-x-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Rechercher un outil..."
-                value={searchTerm}
-                onChange={(e) => onSearchChange(e.target.value)}
-                className="pl-10 pr-4 py-2 w-80 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/90"
-              />
-            </div>
-
             <div className="flex items-center space-x-2 text-sm text-slate-600">
               <Star className="w-4 h-4" />
               <span>{favoritesCount} favoris</span>
