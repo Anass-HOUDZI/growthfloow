@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,7 +10,7 @@ import {
 } from 'recharts';
 import { 
   Users, AlertTriangle, CheckCircle, Target, 
-  TrendingUp, Overlap, Zap, Info, Plus
+  TrendingUp, GitMerge, Zap, Info, Plus
 } from 'lucide-react';
 
 interface AudienceSegment {
@@ -214,7 +213,7 @@ export const AudienceOverlapDetector: React.FC = () => {
                   {Math.round(audiences.reduce((acc, a) => acc + a.overlap_percentage, 0) / audiences.length)}%
                 </p>
               </div>
-              <Overlap className="w-8 h-8 text-orange-500" />
+              <GitMerge className="w-8 h-8 text-orange-500" />
             </div>
           </CardContent>
         </Card>
