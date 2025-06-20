@@ -32,6 +32,10 @@ export const ToolCard: React.FC<ToolCardProps> = ({
 
   const Icon = tool.icon;
 
+  const handleFavoriteClick = () => {
+    onToggleFavorite();
+  };
+
   return (
     <div className={`group relative bg-white rounded-2xl border border-slate-200 
       hover:border-blue-400 transition-all duration-300 
@@ -52,10 +56,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
         
         <div className={isRecent ? '' : 'ml-auto'}>
           <TouchOptimized
-            onTap={(e) => {
-              e.stopPropagation();
-              onToggleFavorite();
-            }}
+            onTap={handleFavoriteClick}
             className={`p-2 rounded-full bg-white/90 hover:bg-blue-50 transition-colors 
               ${isTouch ? 'min-w-[44px] min-h-[44px]' : ''} 
               group-hover:scale-110 flex items-center justify-center shadow-md`}
