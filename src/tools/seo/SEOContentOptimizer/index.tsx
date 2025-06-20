@@ -152,6 +152,23 @@ export const SEOContentOptimizer: React.FC = () => {
     ];
   }, [targetKeyword]);
 
+  // Fonction pour extraire les mots-clés détectés
+  const getDetectedKeywords = () => {
+    if (!content) return [];
+    
+    const wordCounts: { [key: string]: number } = {};
+    content.split(/\s+/)
+      .filter(word => word.length > 3)
+      .forEach(word => {
+        const cleanWord = word.toLowerCase().replace(/[^\w]/g, '');
+        wordCounts[cleanWord] = (wordCounts[cleanWord] || 0) + 1;
+      });
+
+    return Object.entries(wordCounts)
+      .sort(([,a], [,b]) => b - a)
+      .slice(0, 10);
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -334,22 +351,11 @@ export const SEOContentOptimizer: React.FC = () => {
             <div className="bg-white p-4 rounded-lg border border-slate-200">
               <h5 className="font-semibold text-slate-700 mb-3">Mots-clés détectés</h5>
               <div className="text-sm text-slate-600">
-                {content.split(/\s+/)
-                  .filter(word => word.length > 3)
-                  .reduce((acc, word) => {
-                    const cleanWord = word.toLowerCase().replace(/[^\w]/g, '');
-                    acc[cleanWord] = (acc[cleanWord] || 0) + 1;
-                    return acc;
-                  }, {})
-                  |> Object.entries
-                  |> sort(([,a], [,b]) => b - a)
-                  |> slice(0, 10)
-                  |> map(([word, count]) => (
-                    <span key={word} className="inline-block px-2 py-1 bg-slate-100 rounded mr-2 mb-2">
-                      {word} ({count})
-                    </span>
-                  ))
-                }
+                {getDetectedKeywords().map(([word, count]) => (
+                  <span key={word} className="inline-block px-2 py-1 bg-slate-100 rounded mr-2 mb-2">
+                    {word} ({count})
+                  </span>
+                ))}
               </div>
             </div>
           )}
