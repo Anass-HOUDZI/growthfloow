@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,7 +10,7 @@ import { Progress } from '@/components/ui/progress';
 import { 
   Compass, Users, Target, Rocket, Calendar, Download, 
   CheckCircle, AlertCircle, TrendingUp, DollarSign,
-  Building, Mail, Globe, MessageSquare, PresentationChart,
+  Building, Mail, Globe, MessageSquare, Presentation,
   Lightbulb, BarChart3, FileText, Star
 } from 'lucide-react';
 
