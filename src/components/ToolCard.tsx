@@ -32,10 +32,6 @@ export const ToolCard: React.FC<ToolCardProps> = ({
 
   const Icon = tool.icon;
 
-  const handleFavoriteClick = () => {
-    onToggleFavorite();
-  };
-
   return (
     <div className={`group relative bg-white rounded-2xl border border-slate-200 
       hover:border-blue-400 transition-all duration-300 
@@ -56,10 +52,11 @@ export const ToolCard: React.FC<ToolCardProps> = ({
         
         <div className={isRecent ? '' : 'ml-auto'}>
           <TouchOptimized
-            onTap={handleFavoriteClick}
+            onTap={onToggleFavorite}
             className={`p-2 rounded-full bg-white/90 hover:bg-blue-50 transition-colors 
               ${isTouch ? 'min-w-[44px] min-h-[44px]' : ''} 
               group-hover:scale-110 flex items-center justify-center shadow-md`}
+            aria-label={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
           >
             <Star className={`w-4 h-4 ${isFavorite ? 'text-yellow-500 fill-current' : 'text-slate-400'}`} />
           </TouchOptimized>
@@ -99,10 +96,11 @@ export const ToolCard: React.FC<ToolCardProps> = ({
           )}
         </div>
 
-        {/* Bouton CTA */}
+        {/* Bouton CTA - Toujours cliquable */}
         <TouchOptimized
           onTap={onSelect}
-          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-semibold py-3 px-4 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg group-hover:scale-105 mt-auto"
+          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-semibold py-3 px-4 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg group-hover:scale-105 mt-auto active:scale-95"
+          aria-label={`Découvrir l'outil ${tool.name}`}
         >
           <Eye className="w-4 h-4" />
           <span>Découvrir</span>

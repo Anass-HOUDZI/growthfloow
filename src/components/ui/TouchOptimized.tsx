@@ -1,31 +1,29 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { useResponsive } from '../../hooks/useResponsive';
 
 interface TouchOptimizedProps {
   children: React.ReactNode;
   onTap?: () => void;
   onLongPress?: () => void;
-  onSwipeLeft?: () => void;
-  onSwipeRight?: () => void;
-  onSwipeUp?: () => void;
-  onSwipeDown?: () => void;
   disabled?: boolean;
   ripple?: boolean;
   className?: string;
+  role?: string;
+  tabIndex?: number;
+  'aria-label'?: string;
 }
 
 export const TouchOptimized: React.FC<TouchOptimizedProps> = ({
   children,
   onTap,
   onLongPress,
-  onSwipeLeft,
-  onSwipeRight,
-  onSwipeUp,
-  onSwipeDown,
   disabled = false,
   ripple = true,
-  className = ''
+  className = '',
+  role = 'button',
+  tabIndex = 0,
+  'aria-label': ariaLabel
 }) => {
   const { isTouch } = useResponsive();
   const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([]);
@@ -33,7 +31,32 @@ export const TouchOptimized: React.FC<TouchOptimizedProps> = ({
   const longPressTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const rippleCounterRef = useRef(0);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const createRipple = useCallback((x: number, y: number) => {
+    if (!ripple) return;
+    
+    const id = rippleCounterRef.current++;
+    setRipples(prev => [...prev, { id, x, y }]);
+    setTimeout(() => setRipples(prev => prev.filter(r => r.id !== id)), 600);
+  }, [ripple]);
+
+  const handleClick = useCallback((e: React.MouseEvent) => {
+    if (disabled) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Create ripple for mouse clicks
+    if (!isTouch && ripple) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      createRipple(x, y);
+    }
+    
+    onTap?.();
+  }, [disabled, isTouch, ripple, createRipple, onTap]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (disabled) return;
 
     const touch = e.touches[0];
@@ -45,14 +68,11 @@ export const TouchOptimized: React.FC<TouchOptimizedProps> = ({
       time: Date.now()
     };
 
-    // Ripple effect
-    if (ripple && isTouch) {
+    // Create ripple for touch
+    if (ripple) {
       const x = touch.clientX - rect.left;
       const y = touch.clientY - rect.top;
-      const id = rippleCounterRef.current++;
-      
-      setRipples(prev => [...prev, { id, x, y }]);
-      setTimeout(() => setRipples(prev => prev.filter(r => r.id !== id)), 600);
+      createRipple(x, y);
     }
 
     // Long press detection
@@ -61,9 +81,9 @@ export const TouchOptimized: React.FC<TouchOptimizedProps> = ({
         onLongPress();
       }, 500);
     }
-  };
+  }, [disabled, ripple, createRipple, onLongPress]);
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
     if (disabled || !touchStartRef.current) return;
 
     if (longPressTimeoutRef.current) {
@@ -77,44 +97,49 @@ export const TouchOptimized: React.FC<TouchOptimizedProps> = ({
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
     // Tap detection
-    if (distance < 10 && deltaTime < 500 && onTap) {
-      onTap();
-    }
-    // Swipe detection
-    else if (distance > 50 && deltaTime < 300) {
-      if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        // Horizontal swipe
-        if (deltaX > 0 && onSwipeRight) onSwipeRight();
-        else if (deltaX < 0 && onSwipeLeft) onSwipeLeft();
-      } else {
-        // Vertical swipe
-        if (deltaY > 0 && onSwipeDown) onSwipeDown();
-        else if (deltaY < 0 && onSwipeUp) onSwipeUp();
-      }
+    if (distance < 10 && deltaTime < 500) {
+      e.preventDefault();
+      e.stopPropagation();
+      onTap?.();
     }
 
     touchStartRef.current = null;
-  };
+  }, [disabled, onTap]);
 
-  const handleTouchCancel = () => {
+  const handleTouchCancel = useCallback(() => {
     if (longPressTimeoutRef.current) {
       clearTimeout(longPressTimeoutRef.current);
     }
     touchStartRef.current = null;
-  };
+  }, []);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (disabled) return;
+    
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onTap?.();
+    }
+  }, [disabled, onTap]);
 
   return (
     <div
-      className={`relative overflow-hidden ${className} ${
-        isTouch ? 'touch-manipulation' : ''
-      } ${disabled ? 'pointer-events-none opacity-50' : ''}`}
+      className={`relative overflow-hidden cursor-pointer select-none ${className} ${
+        disabled ? 'pointer-events-none opacity-50' : ''
+      }`}
+      onClick={handleClick}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onTouchCancel={handleTouchCancel}
+      onKeyDown={handleKeyDown}
+      role={role}
+      tabIndex={disabled ? -1 : tabIndex}
+      aria-label={ariaLabel}
       style={{
         WebkitTouchCallout: 'none',
         WebkitUserSelect: 'none',
-        userSelect: 'none'
+        userSelect: 'none',
+        touchAction: 'manipulation'
       }}
     >
       {children}

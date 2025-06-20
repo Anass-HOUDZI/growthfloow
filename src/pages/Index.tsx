@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { DashboardHeader } from '../components/DashboardHeader';
 import { MobileNav } from '../components/layout/MobileNav';
 import { ToolCategories } from '../components/ToolCategories';
@@ -19,11 +19,24 @@ const Index = () => {
   const [recentTools, setRecentTools] = useLocalStorage('recentTools', []);
   const { isMobile } = useResponsive();
 
-  const handleToolSelect = (tool) => {
+  const handleToolSelect = useCallback((tool) => {
+    console.log('Tool selected:', tool.name);
     setSelectedTool(tool);
     const updated = [tool.id, ...recentTools.filter(id => id !== tool.id)].slice(0, 5);
     setRecentTools(updated);
-  };
+  }, [recentTools, setRecentTools]);
+
+  const handleCategoryChange = useCallback((category: string) => {
+    setSelectedCategory(category);
+  }, []);
+
+  const handleToggleFavorite = useCallback((toolId: string) => {
+    toggleFavorite(toolId);
+  }, [toggleFavorite]);
+
+  const handleCloseModal = useCallback(() => {
+    setSelectedTool(null);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex flex-col">
@@ -84,7 +97,7 @@ const Index = () => {
             <div className="max-w-7xl mx-auto">
               <ToolCategories 
                 selectedCategory={selectedCategory}
-                onCategoryChange={setSelectedCategory}
+                onCategoryChange={handleCategoryChange}
                 compact={!isMobile}
               />
               
@@ -94,7 +107,7 @@ const Index = () => {
                   searchTerm=""
                   favorites={favorites}
                   onToolSelect={handleToolSelect}
-                  onToggleFavorite={toggleFavorite}
+                  onToggleFavorite={handleToggleFavorite}
                   recentTools={recentTools}
                 />
               </div>
@@ -106,7 +119,7 @@ const Index = () => {
         {selectedTool && (
           <ToolModal 
             tool={selectedTool}
-            onClose={() => setSelectedTool(null)}
+            onClose={handleCloseModal}
             isFavorite={favorites.includes(selectedTool.id)}
             onToggleFavorite={() => toggleFavorite(selectedTool.id)}
           />

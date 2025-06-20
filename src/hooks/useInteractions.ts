@@ -7,21 +7,28 @@ export interface InteractionOptions {
   onLongPress?: () => void;
   hapticFeedback?: boolean;
   delay?: number;
+  preventDefault?: boolean;
+  stopPropagation?: boolean;
 }
 
 export const useInteractions = () => {
   const { isTouch } = useResponsive();
 
+  const triggerHapticFeedback = useCallback((intensity: number = 10) => {
+    if ('vibrate' in navigator) {
+      navigator.vibrate(intensity);
+    }
+  }, []);
+
   const createTouchHandler = useCallback((options: InteractionOptions) => {
     if (!options.onTap && !options.onLongPress) return {};
 
     const handleClick = (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
+      if (options.preventDefault) e.preventDefault();
+      if (options.stopPropagation) e.stopPropagation();
       
-      // Feedback haptique si supporté
-      if (options.hapticFeedback && 'vibrate' in navigator) {
-        navigator.vibrate(10);
+      if (options.hapticFeedback) {
+        triggerHapticFeedback();
       }
       
       options.onTap?.();
@@ -30,8 +37,8 @@ export const useInteractions = () => {
     const handleTouchStart = (e: React.TouchEvent) => {
       if (options.onLongPress) {
         const timeout = setTimeout(() => {
-          if (options.hapticFeedback && 'vibrate' in navigator) {
-            navigator.vibrate(50);
+          if (options.hapticFeedback) {
+            triggerHapticFeedback(50);
           }
           options.onLongPress?.();
         }, options.delay || 500);
@@ -55,7 +62,7 @@ export const useInteractions = () => {
         touchAction: 'manipulation'
       }
     };
-  }, [isTouch]);
+  }, [isTouch, triggerHapticFeedback]);
 
   const createAccessibleHandler = useCallback((options: InteractionOptions & { label?: string }) => {
     return {
@@ -66,15 +73,19 @@ export const useInteractions = () => {
       onKeyDown: (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
+          if (options.hapticFeedback) {
+            triggerHapticFeedback();
+          }
           options.onTap?.();
         }
       }
     };
-  }, [createTouchHandler]);
+  }, [createTouchHandler, triggerHapticFeedback]);
 
   return {
     createTouchHandler,
     createAccessibleHandler,
+    triggerHapticFeedback,
     isTouch
   };
 };

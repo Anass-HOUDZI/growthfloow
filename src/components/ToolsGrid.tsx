@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ToolCard } from './ToolCard';
 import { toolsData } from '../data/toolsData';
 import { useResponsive } from '../hooks/useResponsive';
@@ -24,14 +24,18 @@ export const ToolsGrid: React.FC<ToolsGridProps> = ({
 }) => {
   const { isMobile, isTablet } = useResponsive();
   
-  const filteredTools = toolsData.filter(tool => {
-    const matchesCategory = selectedCategory === 'all' || tool.category === selectedCategory;
-    const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         tool.description.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const filteredTools = useMemo(() => {
+    return toolsData.filter(tool => {
+      const matchesCategory = selectedCategory === 'all' || tool.category === selectedCategory;
+      const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           tool.description.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [selectedCategory, searchTerm]);
 
-  const recentToolsData = toolsData.filter(tool => recentTools.includes(tool.id));
+  const recentToolsData = useMemo(() => {
+    return toolsData.filter(tool => recentTools.includes(tool.id));
+  }, [recentTools]);
 
   const getGridColumns = () => {
     if (isMobile) return 'grid-cols-1 sm:grid-cols-2';
