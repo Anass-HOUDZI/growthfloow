@@ -1,3 +1,4 @@
+
 import { 
   TrendingUp, BarChart3, Target, Zap, Calculator, PieChart,
   Search, FileText, Eye, Globe, Code, Link,
@@ -157,6 +158,14 @@ export const toolsData = [
     description: 'Optimisation avec prédiction de deliverability',
     category: 'outbound',
     icon: MessageSquare,
+    isPremium: false
+  },
+  {
+    id: 'sales-intelligence-hub',
+    name: 'Sales Intelligence Hub',
+    description: 'Collecte et analyse des signaux d\'achat, données d\'entreprise et contacts clés',
+    category: 'outbound',
+    icon: BarChart3,
     isPremium: false
   },
 

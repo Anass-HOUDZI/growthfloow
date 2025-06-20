@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { Star, Zap, Clock } from 'lucide-react';
+import { Star, Zap, Clock, ArrowRight } from 'lucide-react';
 import { TouchOptimized } from './ui/TouchOptimized';
 import { useResponsive } from '../hooks/useResponsive';
 
@@ -92,6 +93,19 @@ export const ToolCard: React.FC<ToolCardProps> = ({
               </div>
             )}
           </div>
+
+          {/* CTA Button for Desktop */}
+          {!isMobile && (
+            <div className="mt-4 pt-4 border-t border-slate-100 opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+              <TouchOptimized
+                onTap={onSelect}
+                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-semibold py-2.5 px-4 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
+              >
+                <span>Tester l'outil</span>
+                <ArrowRight className="w-4 h-4" />
+              </TouchOptimized>
+            </div>
+          )}
         </div>
         <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-blue-200 to-transparent group-hover:via-blue-300 transition-colors" />
       </div>
