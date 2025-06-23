@@ -1,76 +1,254 @@
 
-import React, { useState } from 'react';
-import { TestTube, Play, BarChart3, CheckCircle, TrendingUp } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { TestTube, Play, Pause, RotateCcw, Download } from 'lucide-react';
+import { TestConfiguration } from './TestConfiguration';
+import { ElementVariants } from './ElementVariants';
+import { TestResults } from './TestResults';
+import { StatisticalEngine } from './StatisticalEngine';
 
 export const CROElementTester: React.FC = () => {
-  const [selectedElement, setSelectedElement] = useState('cta');
+  const [activeTab, setActiveTab] = useState('config');
+  const [testStatus, setTestStatus] = useState<'idle' | 'running' | 'paused' | 'completed'>('idle');
   const [testConfig, setTestConfig] = useState({
+    element: 'cta',
     trafficSplit: 50,
     duration: 14,
-    significance: 95
+    significance: 95,
+    minimumDetectableEffect: 20,
+    currentConversionRate: 3.2,
+    dailyTraffic: 1000
   });
-  const [testResults, setTestResults] = useState(null);
-  const [isRunning, setIsRunning] = useState(false);
 
-  const elements = {
-    cta: {
-      name: 'Call-to-Action',
-      variations: [
-        { id: 'control', name: 'Contrôle', description: 'Achetez maintenant', color: 'blue' },
-        { id: 'variant1', name: 'Variante 1', description: 'Commandez aujourd\'hui', color: 'green' },
-        { id: 'variant2', name: 'Variante 2', description: 'Obtenez le vôtre', color: 'purple' }
-      ]
+  const [variants, setVariants] = useState([
+    {
+      id: 'control',
+      name: 'Contrôle',
+      description: 'Version actuelle',
+      content: { text: 'Acheter maintenant', color: 'blue' },
+      isControl: true
     },
-    headline: {
-      name: 'Titre Principal',
-      variations: [
-        { id: 'control', name: 'Contrôle', description: 'Solution innovante pour votre business' },
-        { id: 'variant1', name: 'Variante 1', description: 'Révolutionnez votre business en 30 jours' },
-        { id: 'variant2', name: 'Variante 2', description: 'La solution que vos concurrents redoutent' }
-      ]
+    {
+      id: 'variant1',
+      name: 'Variante 1',
+      description: 'Version optimisée',
+      content: { text: 'Commandez aujourd\'hui', color: 'green' },
+      isControl: false
+    }
+  ]);
+
+  const [testResults, setTestResults] = useState({
+    isComplete: false,
+    winner: null,
+    confidence: 0,
+    improvement: 0,
+    pValue: 1,
+    variants: {
+      control: {
+        visitors: 0,
+        conversions: 0,
+        conversionRate: 0,
+        confidenceInterval: [0, 0] as [number, number]
+      },
+      variant1: {
+        visitors: 0,
+        conversions: 0,
+        conversionRate: 0,
+        confidenceInterval: [0, 0] as [number, number]
+      }
     },
-    form: {
-      name: 'Formulaire',
-      variations: [
-        { id: 'control', name: 'Contrôle', description: '5 champs (nom, email, téléphone, entreprise, message)' },
-        { id: 'variant1', name: 'Variante 1', description: '3 champs (nom, email, entreprise)' },
-        { id: 'variant2', name: 'Variante 2', description: '2 champs (email, entreprise)' }
-      ]
+    statisticalSignificance: false,
+    recommendations: [],
+    riskAssessment: ''
+  });
+
+  const [testDuration, setTestDuration] = useState(0);
+
+  // Calculs statistiques
+  const sampleSizeCalculation = React.useMemo(() => {
+    const requiredSample = StatisticalEngine.calculateSampleSize(
+      (100 - testConfig.significance) / 100,
+      0.8,
+      testConfig.currentConversionRate,
+      testConfig.minimumDetectableEffect
+    );
+
+    const daysToComplete = StatisticalEngine.estimateTestDuration(
+      requiredSample,
+      testConfig.dailyTraffic,
+      testConfig.trafficSplit
+    );
+
+    const power = StatisticalEngine.calculatePower(
+      (100 - testConfig.significance) / 100,
+      requiredSample,
+      testConfig.currentConversionRate,
+      testConfig.minimumDetectableEffect
+    );
+
+    return {
+      requiredSample,
+      daysToComplete,
+      power: Math.round(power)
+    };
+  }, [testConfig]);
+
+  // Simulation du test en cours
+  useEffect(() => {
+    if (testStatus === 'running') {
+      const interval = setInterval(() => {
+        setTestDuration(prev => prev + 1);
+        
+        // Simulation des données de test
+        const controlVisitors = Math.floor(Math.random() * 100) + testDuration * 50;
+        const variantVisitors = Math.floor(Math.random() * 100) + testDuration * 52;
+        const controlConversions = Math.floor(controlVisitors * (testConfig.currentConversionRate + Math.random() * 0.5) / 100);
+        const variantConversions = Math.floor(variantVisitors * (testConfig.currentConversionRate * 1.2 + Math.random() * 0.5) / 100);
+
+        const significance = StatisticalEngine.calculateSignificance(
+          controlConversions,
+          controlVisitors,
+          variantConversions,
+          variantVisitors
+        );
+
+        const controlRate = (controlConversions / controlVisitors) * 100;
+        const variantRate = (variantConversions / variantVisitors) * 100;
+        const improvement = ((variantRate - controlRate) / controlRate) * 100;
+
+        setTestResults({
+          isComplete: significance.isSignificant && testDuration >= 7,
+          winner: variantRate > controlRate ? 'variant1' : 'control',
+          confidence: (1 - significance.pValue) * 100,
+          improvement: improvement,
+          pValue: significance.pValue,
+          variants: {
+            control: {
+              visitors: controlVisitors,
+              conversions: controlConversions,
+              conversionRate: controlRate,
+              confidenceInterval: [controlRate - 0.5, controlRate + 0.5]
+            },
+            variant1: {
+              visitors: variantVisitors,
+              conversions: variantConversions,
+              conversionRate: variantRate,
+              confidenceInterval: significance.confidenceInterval
+            }
+          },
+          statisticalSignificance: significance.isSignificant,
+          recommendations: generateRecommendations(significance, improvement, testDuration),
+          riskAssessment: generateRiskAssessment(significance, improvement)
+        });
+
+        if (significance.isSignificant && testDuration >= 7) {
+          setTestStatus('completed');
+        }
+      }, 2000);
+
+      return () => clearInterval(interval);
+    }
+  }, [testStatus, testDuration, testConfig]);
+
+  const generateRecommendations = (significance: any, improvement: number, duration: number) => {
+    const recommendations = [];
+    
+    if (significance.isSignificant) {
+      recommendations.push('✅ Les résultats sont statistiquement significatifs');
+      if (improvement > 10) {
+        recommendations.push('🚀 Implémentez immédiatement la variante gagnante');
+        recommendations.push('📊 Documentez cette amélioration pour référence future');
+      }
+    } else {
+      recommendations.push('⏳ Continuez le test pour obtenir plus de données');
+      if (duration < 7) {
+        recommendations.push('📅 Attendez au moins 7 jours pour couvrir un cycle complet');
+      }
+    }
+    
+    recommendations.push('🔄 Planifiez un test de suivi pour confirmer les résultats');
+    recommendations.push('📈 Analysez les segments d\'audience pour des insights plus profonds');
+    
+    return recommendations;
+  };
+
+  const generateRiskAssessment = (significance: any, improvement: number) => {
+    if (significance.isSignificant) {
+      if (improvement > 20) {
+        return 'Risque faible - Les résultats montrent une amélioration substantielle avec une forte significativité statistique.';
+      } else if (improvement > 10) {
+        return 'Risque modéré - Amélioration significative mais surveillez les performances post-implémentation.';
+      } else {
+        return 'Risque modéré à élevé - Amélioration marginale, considérez des tests additionnels.';
+      }
+    } else {
+      return 'Risque élevé - Résultats non concluants, ne pas implémenter sans données supplémentaires.';
     }
   };
 
-  const runTest = () => {
-    setIsRunning(true);
-    
-    // Simulate test results
-    setTimeout(() => {
-      setTestResults({
-        winner: 'variant1',
-        confidence: 96.5,
-        improvement: 23.4,
-        visitors: {
-          control: 1245,
-          variant1: 1267,
-          variant2: 1233
-        },
-        conversions: {
-          control: 87,
-          variant1: 112,
-          variant2: 94
-        },
-        conversionRates: {
-          control: 6.99,
-          variant1: 8.84,
-          variant2: 7.62
-        }
-      });
-      setIsRunning(false);
-    }, 3000);
+  const startTest = () => {
+    setTestStatus('running');
+    setTestDuration(0);
+    setActiveTab('results');
   };
 
-  const getVariationColor = (variationId: string) => {
-    if (testResults?.winner === variationId) return 'bg-green-100 border-green-500';
-    return 'bg-white border-slate-200';
+  const pauseTest = () => {
+    setTestStatus('paused');
+  };
+
+  const resetTest = () => {
+    setTestStatus('idle');
+    setTestDuration(0);
+    setTestResults({
+      isComplete: false,
+      winner: null,
+      confidence: 0,
+      improvement: 0,
+      pValue: 1,
+      variants: {
+        control: { visitors: 0, conversions: 0, conversionRate: 0, confidenceInterval: [0, 0] },
+        variant1: { visitors: 0, conversions: 0, conversionRate: 0, confidenceInterval: [0, 0] }
+      },
+      statisticalSignificance: false,
+      recommendations: [],
+      riskAssessment: ''
+    });
+  };
+
+  const exportResults = () => {
+    const data = {
+      testConfig,
+      results: testResults,
+      duration: testDuration,
+      sampleSize: sampleSizeCalculation
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `cro-test-results-${Date.now()}.json`;
+    a.click();
+  };
+
+  const addVariant = () => {
+    const newVariant = {
+      id: `variant${variants.length}`,
+      name: `Variante ${variants.length}`,
+      description: 'Nouvelle variante',
+      content: {},
+      isControl: false
+    };
+    setVariants([...variants, newVariant]);
+  };
+
+  const editVariant = (variantId: string) => {
+    console.log('Edit variant:', variantId);
+  };
+
+  const deleteVariant = (variantId: string) => {
+    setVariants(variants.filter(v => v.id !== variantId));
   };
 
   return (
@@ -80,170 +258,72 @@ export const CROElementTester: React.FC = () => {
           <TestTube className="w-8 h-8 text-white" />
         </div>
         <h2 className="text-2xl font-bold text-slate-800 mb-2">CRO Element Tester</h2>
-        <p className="text-slate-600">Framework de test A/B pour éléments de conversion</p>
+        <p className="text-slate-600">Framework complet de test A/B pour optimisation des conversions</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Configuration du test */}
-        <div className="bg-white rounded-lg border border-slate-200 p-6">
-          <h3 className="text-lg font-semibold text-slate-800 mb-4">Configuration du Test</h3>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Élément à tester
-              </label>
-              <select
-                value={selectedElement}
-                onChange={(e) => setSelectedElement(e.target.value)}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                {Object.entries(elements).map(([key, element]) => (
-                  <option key={key} value={key}>{element.name}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Répartition du trafic: {testConfig.trafficSplit}% / {100 - testConfig.trafficSplit}%
-              </label>
-              <input
-                type="range"
-                min="20"
-                max="80"
-                value={testConfig.trafficSplit}
-                onChange={(e) => setTestConfig({...testConfig, trafficSplit: parseInt(e.target.value)})}
-                className="w-full"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Durée estimée (jours)
-              </label>
-              <input
-                type="number"
-                min="7"
-                max="60"
-                value={testConfig.duration}
-                onChange={(e) => setTestConfig({...testConfig, duration: parseInt(e.target.value)})}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Niveau de confiance
-              </label>
-              <select
-                value={testConfig.significance}
-                onChange={(e) => setTestConfig({...testConfig, significance: parseInt(e.target.value)})}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="90">90%</option>
-                <option value="95">95%</option>
-                <option value="99">99%</option>
-              </select>
-            </div>
-
-            <button
-              onClick={runTest}
-              disabled={isRunning}
-              className="w-full py-3 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-lg hover:from-blue-600 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-            >
-              {isRunning ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  <span>Test en cours...</span>
-                </>
-              ) : (
-                <>
-                  <Play className="w-4 h-4" />
-                  <span>Lancer le Test</span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Variations */}
-        <div className="bg-white rounded-lg border border-slate-200 p-6">
-          <h3 className="text-lg font-semibold text-slate-800 mb-4">
-            Variations - {elements[selectedElement].name}
-          </h3>
-          
-          <div className="space-y-3">
-            {elements[selectedElement].variations.map((variation) => (
-              <div 
-                key={variation.id} 
-                className={`p-4 rounded-lg border-2 transition-colors ${getVariationColor(variation.id)}`}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium text-slate-800">{variation.name}</h4>
-                  {testResults?.winner === variation.id && (
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                  )}
-                </div>
-                <p className="text-sm text-slate-600">{variation.description}</p>
-                {testResults && (
-                  <div className="mt-3 flex justify-between text-sm">
-                    <span>Visiteurs: {testResults.visitors[variation.id]}</span>
-                    <span>Conversions: {testResults.conversions[variation.id]}</span>
-                    <span className="font-medium">
-                      Taux: {testResults.conversionRates[variation.id]}%
-                    </span>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* Contrôles du test */}
+      <div className="flex justify-center space-x-4 mb-6">
+        <Button
+          onClick={startTest}
+          disabled={testStatus === 'running'}
+          className="flex items-center space-x-2"
+        >
+          <Play className="w-4 h-4" />
+          <span>{testStatus === 'idle' ? 'Démarrer le test' : 'Reprendre'}</span>
+        </Button>
+        
+        {testStatus === 'running' && (
+          <Button onClick={pauseTest} variant="outline" className="flex items-center space-x-2">
+            <Pause className="w-4 h-4" />
+            <span>Pause</span>
+          </Button>
+        )}
+        
+        <Button onClick={resetTest} variant="outline" className="flex items-center space-x-2">
+          <RotateCcw className="w-4 h-4" />
+          <span>Reset</span>
+        </Button>
+        
+        {testResults.isComplete && (
+          <Button onClick={exportResults} variant="outline" className="flex items-center space-x-2">
+            <Download className="w-4 h-4" />
+            <span>Exporter</span>
+          </Button>
+        )}
       </div>
 
-      {/* Résultats */}
-      {testResults && (
-        <div className="bg-white rounded-lg border border-slate-200 p-6">
-          <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center">
-            <BarChart3 className="w-5 h-5 mr-2" />
-            Résultats du Test
-          </h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="bg-green-50 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-green-600 mb-1">
-                +{testResults.improvement}%
-              </div>
-              <p className="text-sm text-slate-600">Amélioration</p>
-            </div>
-            <div className="bg-blue-50 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600 mb-1">
-                {testResults.confidence}%
-              </div>
-              <p className="text-sm text-slate-600">Confiance</p>
-            </div>
-            <div className="bg-purple-50 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600 mb-1">
-                Variante 1
-              </div>
-              <p className="text-sm text-slate-600">Gagnante</p>
-            </div>
-          </div>
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="grid grid-cols-3 w-full">
+          <TabsTrigger value="config">Configuration</TabsTrigger>
+          <TabsTrigger value="variants">Variants</TabsTrigger>
+          <TabsTrigger value="results">Résultats</TabsTrigger>
+        </TabsList>
 
-          <div className="bg-slate-50 rounded-lg p-4">
-            <h4 className="font-medium text-slate-800 mb-2 flex items-center">
-              <TrendingUp className="w-4 h-4 mr-2" />
-              Recommandations
-            </h4>
-            <ul className="text-sm text-slate-600 space-y-1">
-              <li>• Implémenter la Variante 1 pour une amélioration de +23.4%</li>
-              <li>• Le niveau de confiance de 96.5% valide statistiquement les résultats</li>
-              <li>• Prévoir un test de suivi pour confirmer les résultats sur le long terme</li>
-              <li>• Considérer l'application de ce principe à d'autres éléments similaires</li>
-            </ul>
-          </div>
-        </div>
-      )}
+        <TabsContent value="config" className="mt-6">
+          <TestConfiguration
+            config={testConfig}
+            onConfigChange={setTestConfig}
+            sampleSizeCalculation={sampleSizeCalculation}
+          />
+        </TabsContent>
+
+        <TabsContent value="variants" className="mt-6">
+          <ElementVariants
+            elementType={testConfig.element}
+            variants={variants}
+            onVariantAdd={addVariant}
+            onVariantEdit={editVariant}
+            onVariantDelete={deleteVariant}
+          />
+        </TabsContent>
+
+        <TabsContent value="results" className="mt-6">
+          <TestResults
+            results={testResults}
+            testDuration={testDuration}
+          />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
