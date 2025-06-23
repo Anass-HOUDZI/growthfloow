@@ -1,153 +1,257 @@
 
 import React, { useState } from 'react';
-import { Palette, CheckCircle, AlertTriangle, TrendingUp, Star, Zap } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Palette, Zap, Download, BarChart3, Eye, Settings } from 'lucide-react';
+import { AuditResults } from './AuditResults';
+import { MockupGenerator } from './MockupGenerator';
 
 export const LandingPageConverter: React.FC = () => {
   const [url, setUrl] = useState('');
   const [analysis, setAnalysis] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [activeTab, setActiveTab] = useState('audit');
 
-  const analyzePage = () => {
+  const analyzePage = async () => {
     if (!url) return;
     
     setIsAnalyzing(true);
     
-    // Simulate analysis
+    // Simulation d'analyse complète
     setTimeout(() => {
-      setAnalysis({
-        score: 72,
+      const mockAnalysis = {
+        overallScore: Math.floor(Math.random() * 30) + 60,
         elements: {
-          headline: { score: 85, issues: ['Manque d\'urgence', 'Trop générique'] },
-          cta: { score: 60, issues: ['Couleur peu contrastée', 'Position non optimale'] },
-          form: { score: 45, issues: ['Trop de champs', 'Pas de validation visuelle'] },
-          trust: { score: 90, issues: ['Excellent use de témoignages'] },
-          speed: { score: 55, issues: ['Images non optimisées', 'Trop de scripts'] }
+          headline: {
+            score: Math.floor(Math.random() * 20) + 70,
+            issues: ['Manque d\'urgence dans le message', 'Bénéfice principal peu clair'],
+            recommendations: ['Ajouter un élément d\'urgence', 'Mettre en avant la valeur unique']
+          },
+          cta_buttons: {
+            score: Math.floor(Math.random() * 25) + 55,
+            issues: ['Couleur insuffisamment contrastée', 'Texte générique "En savoir plus"'],
+            recommendations: ['Utiliser des couleurs plus vives', 'Texte orienté action "Commencer maintenant"']
+          },
+          form_optimization: {
+            score: Math.floor(Math.random() * 30) + 45,
+            issues: ['Trop de champs obligatoires (7)', 'Pas de validation en temps réel'],
+            recommendations: ['Réduire à 3 champs essentiels', 'Ajouter validation instantanée']
+          },
+          trust_signals: {
+            score: Math.floor(Math.random() * 15) + 80,
+            issues: ['Témoignages sans photos', 'Logos partenaires peu visibles'],
+            recommendations: ['Ajouter photos aux témoignages', 'Mettre en avant les logos de confiance']
+          },
+          page_speed: {
+            score: Math.floor(Math.random() * 25) + 55,
+            issues: ['Images non optimisées', 'Trop de scripts externes'],
+            recommendations: ['Compresser les images', 'Différer le chargement des scripts non critiques']
+          },
+          mobile_ux: {
+            score: Math.floor(Math.random() * 20) + 65,
+            issues: ['Boutons trop petits', 'Texte difficile à lire'],
+            recommendations: ['Augmenter la taille des boutons', 'Améliorer la lisibilité du texte']
+          }
         },
         recommendations: [
-          { priority: 'High', element: 'CTA Button', issue: 'Améliorer le contraste et la position', impact: '+15% conversion' },
-          { priority: 'High', element: 'Form Fields', issue: 'Réduire à 3 champs essentiels', impact: '+25% completion' },
-          { priority: 'Medium', element: 'Headlines', issue: 'Ajouter de l\'urgence et bénéfices', impact: '+8% engagement' },
-          { priority: 'Low', element: 'Page Speed', issue: 'Optimiser les images', impact: '+5% conversion' }
-        ]
-      });
+          {
+            priority: 'High' as const,
+            element: 'CTA Buttons',
+            issue: 'Améliorer le contraste et le texte d\'action',
+            impact: '+25% taux de clic',
+            effort: '2 heures'
+          },
+          {
+            priority: 'High' as const,
+            element: 'Form Fields',
+            issue: 'Réduire la friction du formulaire',
+            impact: '+40% completion',
+            effort: '4 heures'
+          },
+          {
+            priority: 'Medium' as const,
+            element: 'Headlines',
+            issue: 'Clarifier la proposition de valeur',
+            impact: '+15% engagement',
+            effort: '3 heures'
+          },
+          {
+            priority: 'Medium' as const,
+            element: 'Page Speed',
+            issue: 'Optimiser les performances',
+            impact: '+10% conversion',
+            effort: '6 heures'
+          },
+          {
+            priority: 'Low' as const,
+            element: 'Trust Signals',
+            issue: 'Renforcer les éléments de confiance',
+            impact: '+8% crédibilité',
+            effort: '2 heures'
+          }
+        ],
+        technicalMetrics: {
+          loadTime: +(Math.random() * 2 + 1).toFixed(1),
+          mobileScore: Math.floor(Math.random() * 20) + 70,
+          accessibilityScore: Math.floor(Math.random() * 25) + 65,
+          seoScore: Math.floor(Math.random() * 30) + 60
+        }
+      };
+      
+      setAnalysis(mockAnalysis);
       setIsAnalyzing(false);
-    }, 2000);
+    }, 3000);
   };
 
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-600';
-    if (score >= 60) return 'text-yellow-600';
-    return 'text-red-600';
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'High': return 'bg-red-100 text-red-800';
-      case 'Medium': return 'bg-yellow-100 text-yellow-800';
-      default: return 'bg-green-100 text-green-800';
-    }
+  const exportReport = (format: 'pdf' | 'csv') => {
+    if (!analysis) return;
+    
+    console.log(`Export en format ${format}:`, analysis);
+    
+    // Simulation d'export
+    const filename = `landing-audit-${new Date().toISOString().split('T')[0]}.${format}`;
+    console.log(`Rapport exporté: ${filename}`);
   };
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="text-center">
         <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-violet-600 rounded-xl flex items-center justify-center mx-auto mb-4">
           <Palette className="w-8 h-8 text-white" />
         </div>
         <h2 className="text-2xl font-bold text-slate-800 mb-2">Landing Page Converter</h2>
-        <p className="text-slate-600">Audit UX/UI complet avec recommandations de conversion</p>
+        <p className="text-slate-600 max-w-2xl mx-auto">
+          Audit UX/UI complet avec recommandations de conversion, scoring détaillé et mockups d'optimisation
+        </p>
       </div>
 
-      <div className="bg-white rounded-lg border border-slate-200 p-6">
-        <div className="flex space-x-4 mb-6">
-          <input
-            type="url"
-            placeholder="https://votre-landing-page.com"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          />
-          <button
-            onClick={analyzePage}
-            disabled={!url || isAnalyzing}
-            className="px-6 py-2 bg-gradient-to-r from-purple-500 to-violet-600 text-white rounded-lg hover:from-purple-600 hover:to-violet-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
-          >
-            {isAnalyzing ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                <span>Analyse...</span>
-              </>
-            ) : (
-              <>
-                <Zap className="w-4 h-4" />
-                <span>Analyser</span>
-              </>
-            )}
-          </button>
-        </div>
-
-        {analysis && (
-          <div className="space-y-6">
-            {/* Score global */}
-            <div className="bg-slate-50 rounded-lg p-6 text-center">
-              <div className={`text-4xl font-bold ${getScoreColor(analysis.score)} mb-2`}>
-                {analysis.score}/100
+      {/* Formulaire d'analyse */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Settings className="w-5 h-5" />
+            <span>Configuration de l'Audit</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="url">URL de votre landing page *</Label>
+              <div className="flex space-x-3 mt-2">
+                <Input
+                  id="url"
+                  type="url"
+                  placeholder="https://votre-landing-page.com"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  className="flex-1"
+                />
+                <Button
+                  onClick={analyzePage}
+                  disabled={!url || isAnalyzing}
+                  className="bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700"
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Analyse...
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="w-4 h-4 mr-2" />
+                      Analyser
+                    </>
+                  )}
+                </Button>
               </div>
-              <p className="text-slate-600">Score de Conversion Global</p>
             </div>
 
-            {/* Détail par élément */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {Object.entries(analysis.elements).map(([key, element]: [string, any]) => (
-                <div key={key} className="bg-white border border-slate-200 rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-semibold text-slate-800 capitalize">{key}</h4>
-                    <div className={`text-lg font-bold ${getScoreColor(element.score)}`}>
-                      {element.score}
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    {element.issues.map((issue: string, index: number) => (
-                      <div key={index} className="flex items-start space-x-2 text-sm">
-                        {element.score >= 80 ? (
-                          <CheckCircle className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                        ) : (
-                          <AlertTriangle className="w-4 h-4 text-yellow-500 mt-0.5 flex-shrink-0" />
-                        )}
-                        <span className="text-slate-600">{issue}</span>
-                      </div>
-                    ))}
+            {isAnalyzing && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="flex items-center space-x-3">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                  <div>
+                    <p className="font-medium text-blue-800">Analyse en cours...</p>
+                    <p className="text-sm text-blue-600">
+                      Audit UX/UI, analyse technique et génération des recommandations
+                    </p>
                   </div>
                 </div>
-              ))}
-            </div>
-
-            {/* Recommandations */}
-            <div className="bg-white border border-slate-200 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center">
-                <TrendingUp className="w-5 h-5 mr-2" />
-                Recommandations Prioritaires
-              </h3>
-              <div className="space-y-4">
-                {analysis.recommendations.map((rec: any, index: number) => (
-                  <div key={index} className="flex items-start space-x-4 p-4 bg-slate-50 rounded-lg">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(rec.priority)}`}>
-                      {rec.priority}
-                    </span>
-                    <div className="flex-1">
-                      <h4 className="font-medium text-slate-800">{rec.element}</h4>
-                      <p className="text-slate-600 text-sm mt-1">{rec.issue}</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-green-600 font-medium text-sm">{rec.impact}</div>
-                    </div>
-                  </div>
-                ))}
               </div>
-            </div>
+            )}
           </div>
-        )}
-      </div>
+        </CardContent>
+      </Card>
+
+      {/* Résultats */}
+      {analysis && !isAnalyzing && (
+        <div className="space-y-6">
+          {/* Actions rapides */}
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center space-x-2">
+                  <Badge variant="outline" className="flex items-center space-x-1">
+                    <Eye className="w-3 h-3" />
+                    <span>Analysé: {url}</span>
+                  </Badge>
+                  <Badge className="bg-green-100 text-green-800">
+                    Audit terminé
+                  </Badge>
+                </div>
+                
+                <div className="flex space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => exportReport('pdf')}
+                    className="flex items-center space-x-1"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Export PDF</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => exportReport('csv')}
+                    className="flex items-center space-x-1"
+                  >
+                    <BarChart3 className="w-4 h-4" />
+                    <span>Export CSV</span>
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Tabs pour les résultats */}
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="grid grid-cols-2 w-full max-w-md mx-auto">
+              <TabsTrigger value="audit" className="flex items-center space-x-2">
+                <BarChart3 className="w-4 h-4" />
+                <span>Audit & Scoring</span>
+              </TabsTrigger>
+              <TabsTrigger value="mockups" className="flex items-center space-x-2">
+                <Eye className="w-4 h-4" />
+                <span>Mockups</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="audit" className="mt-6">
+              <AuditResults analysis={analysis} />
+            </TabsContent>
+
+            <TabsContent value="mockups" className="mt-6">
+              <MockupGenerator url={url} recommendations={analysis.recommendations} />
+            </TabsContent>
+          </Tabs>
+        </div>
+      )}
     </div>
   );
 };
