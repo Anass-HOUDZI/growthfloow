@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -7,11 +6,12 @@ import { TestConfiguration } from './TestConfiguration';
 import { ElementVariants } from './ElementVariants';
 import { TestResults } from './TestResults';
 import { StatisticalEngine } from './StatisticalEngine';
+import { TestVariant, TestConfig, VariantContent } from './types';
 
 export const CROElementTester: React.FC = () => {
   const [activeTab, setActiveTab] = useState('config');
   const [testStatus, setTestStatus] = useState<'idle' | 'running' | 'paused' | 'completed'>('idle');
-  const [testConfig, setTestConfig] = useState({
+  const [testConfig, setTestConfig] = useState<TestConfig>({
     element: 'cta',
     trafficSplit: 50,
     duration: 14,
@@ -21,7 +21,7 @@ export const CROElementTester: React.FC = () => {
     dailyTraffic: 1000
   });
 
-  const [variants, setVariants] = useState([
+  const [variants, setVariants] = useState<TestVariant[]>([
     {
       id: 'control',
       name: 'Contrôle',
@@ -100,7 +100,6 @@ export const CROElementTester: React.FC = () => {
       const interval = setInterval(() => {
         setTestDuration(prev => prev + 1);
         
-        // Simulation des données de test
         const controlVisitors = Math.floor(Math.random() * 100) + testDuration * 50;
         const variantVisitors = Math.floor(Math.random() * 100) + testDuration * 52;
         const controlConversions = Math.floor(controlVisitors * (testConfig.currentConversionRate + Math.random() * 0.5) / 100);
@@ -232,12 +231,27 @@ export const CROElementTester: React.FC = () => {
     a.click();
   };
 
+  const getDefaultContentForElement = (elementType: string): VariantContent => {
+    switch (elementType) {
+      case 'cta':
+        return { text: 'Nouveau CTA', color: 'blue' };
+      case 'headline':
+        return { text: 'Nouveau titre', size: 'medium' };
+      case 'form':
+        return { fields: ['Email'], layout: 'vertical' };
+      case 'pricing':
+        return { price: '29€', features: ['Feature 1'] };
+      default:
+        return { text: 'Nouveau contenu' };
+    }
+  };
+
   const addVariant = () => {
-    const newVariant = {
+    const newVariant: TestVariant = {
       id: `variant${variants.length}`,
       name: `Variante ${variants.length}`,
       description: 'Nouvelle variante',
-      content: {},
+      content: getDefaultContentForElement(testConfig.element),
       isControl: false
     };
     setVariants([...variants, newVariant]);

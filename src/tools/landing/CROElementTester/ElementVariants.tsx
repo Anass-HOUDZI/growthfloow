@@ -1,19 +1,13 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Eye, Edit, Plus, Trash2 } from 'lucide-react';
+import { TestVariant } from './types';
 
 interface ElementVariantsProps {
   elementType: string;
-  variants: Array<{
-    id: string;
-    name: string;
-    description: string;
-    content: any;
-    isControl: boolean;
-  }>;
+  variants: TestVariant[];
   onVariantAdd: () => void;
   onVariantEdit: (variantId: string) => void;
   onVariantDelete: (variantId: string) => void;
@@ -74,7 +68,7 @@ export const ElementVariants: React.FC<ElementVariantsProps> = ({
 
   const config = getElementTypeConfig(elementType);
 
-  const renderVariantPreview = (variant: any) => {
+  const renderVariantPreview = (variant: TestVariant) => {
     switch (elementType) {
       case 'cta':
         return (
