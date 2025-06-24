@@ -25,6 +25,10 @@ export interface VariantContent {
   structure?: string;
   'font-size'?: string;
   alignment?: string;
+  style?: string;
+  weight?: string;
+  submitText?: string;
+  period?: string;
 }
 
 export interface TestVariant {
@@ -43,4 +47,25 @@ export interface TestConfig {
   minimumDetectableEffect: number;
   currentConversionRate: number;
   dailyTraffic: number;
+}
+
+export interface VariantResult {
+  visitors: number;
+  conversions: number;
+  conversionRate: number;
+  confidenceInterval: [number, number];
+}
+
+export interface TestResults {
+  isComplete: boolean;
+  winner: string | null;
+  confidence: number;
+  improvement: number;
+  pValue: number;
+  variants: {
+    [key: string]: VariantResult;
+  };
+  statisticalSignificance: boolean;
+  recommendations: string[];
+  riskAssessment: string;
 }

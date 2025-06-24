@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Play, Pause, Square, BarChart3, Users, TrendingUp, AlertTriangle, CheckCircle } from 'lucide-react';
-import { TestVariant, TestResults } from './types';
+import { TestVariant, TestResults, VariantResult } from './types';
 
 interface LiveTestRunnerProps {
   variants: TestVariant[];
@@ -41,7 +40,10 @@ export const LiveTestRunner: React.FC<LiveTestRunnerProps> = ({
           confidence: significance.confidence,
           improvement: newData.improvement,
           pValue: significance.pValue,
-          variants: newData.variants,
+          variants: {
+            control: newData.control,
+            variant1: newData.variant
+          },
           statisticalSignificance: significance.isSignificant,
           recommendations: generateRecommendations(significance, newData.improvement, testDuration),
           riskAssessment: generateRiskAssessment(significance, newData.improvement)
@@ -62,18 +64,20 @@ export const LiveTestRunner: React.FC<LiveTestRunnerProps> = ({
     const baseTraffic = testConfig.dailyTraffic / 24; // Trafic par heure
     const hoursElapsed = duration;
     
-    const controlData = {
+    const controlData: VariantResult = {
       visitors: Math.floor(baseTraffic * hoursElapsed * 0.5 + Math.random() * 50),
       conversions: 0,
-      conversionRate: 0
+      conversionRate: 0,
+      confidenceInterval: [0, 0] as [number, number]
     };
     controlData.conversions = Math.floor(controlData.visitors * (testConfig.currentConversionRate / 100) * (0.9 + Math.random() * 0.2));
     controlData.conversionRate = (controlData.conversions / controlData.visitors) * 100;
 
-    const variantData = {
+    const variantData: VariantResult = {
       visitors: Math.floor(baseTraffic * hoursElapsed * 0.5 + Math.random() * 50),
       conversions: 0,
-      conversionRate: 0
+      conversionRate: 0,
+      confidenceInterval: [0, 0] as [number, number]
     };
     
     // Simulation d'amélioration pour la variante

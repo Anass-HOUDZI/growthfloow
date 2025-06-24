@@ -94,7 +94,7 @@ export const ToolModal: React.FC<ToolModalProps> = ({
         {/* Tool Content */}
         <div className="flex-1 overflow-y-auto">
           <div className="container mx-auto px-6 py-8 pb-16">
-            <ToolRenderer tool={tool} />
+            <ToolRenderer toolId={tool.id} />
           </div>
         </div>
       </div>
