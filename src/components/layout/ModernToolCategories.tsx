@@ -26,6 +26,7 @@ const categories = [
     icon: Sparkles, 
     color: 'from-gray-500 to-gray-600',
     bgColor: 'from-gray-50 to-gray-100',
+    borderColor: 'border-gray-400',
     count: 50 
   },
   { 
@@ -34,6 +35,7 @@ const categories = [
     icon: TrendingUp, 
     color: 'from-blue-500 to-blue-600',
     bgColor: 'from-blue-50 to-blue-100',
+    borderColor: 'border-blue-500',
     count: 6 
   },
   { 
@@ -42,6 +44,7 @@ const categories = [
     icon: Search, 
     color: 'from-green-500 to-green-600',
     bgColor: 'from-green-50 to-green-100',
+    borderColor: 'border-green-500',
     count: 4 
   },
   { 
@@ -50,6 +53,7 @@ const categories = [
     icon: MousePointer, 
     color: 'from-purple-500 to-purple-600',
     bgColor: 'from-purple-50 to-purple-100',
+    borderColor: 'border-purple-500',
     count: 8 
   },
   { 
@@ -58,6 +62,7 @@ const categories = [
     icon: Target, 
     color: 'from-red-500 to-red-600',
     bgColor: 'from-red-50 to-red-100',
+    borderColor: 'border-red-500',
     count: 6 
   },
   { 
@@ -66,6 +71,7 @@ const categories = [
     icon: Users, 
     color: 'from-orange-500 to-orange-600',
     bgColor: 'from-orange-50 to-orange-100',
+    borderColor: 'border-orange-500',
     count: 8 
   },
   { 
@@ -74,6 +80,7 @@ const categories = [
     icon: BarChart3, 
     color: 'from-indigo-500 to-indigo-600',
     bgColor: 'from-indigo-50 to-indigo-100',
+    borderColor: 'border-indigo-500',
     count: 18 
   }
 ];
@@ -121,17 +128,9 @@ export const ModernToolCategories: React.FC<ModernToolCategoriesProps> = ({
                   onTap={() => onCategoryChange(category.id)}
                   className={`flex-shrink-0 p-4 rounded-2xl border-2 transition-all duration-300 min-w-[140px] ${
                     isSelected
-                      ? `bg-gradient-to-br ${category.bgColor} border-current shadow-lg transform scale-105`
+                      ? `bg-gradient-to-br ${category.bgColor} ${category.borderColor} shadow-lg transform scale-105`
                       : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-md'
                   }`}
-                  style={isSelected ? { 
-                    borderColor: `rgb(${category.color.includes('blue') ? '59 130 246' : 
-                                      category.color.includes('green') ? '34 197 94' :
-                                      category.color.includes('purple') ? '147 51 234' :
-                                      category.color.includes('red') ? '239 68 68' :
-                                      category.color.includes('orange') ? '249 115 22' :
-                                      category.color.includes('indigo') ? '99 102 241' : '107 114 128'})` 
-                  } : {}}
                 >
                   <div className="text-center">
                     <div className={`w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center ${
@@ -168,17 +167,9 @@ export const ModernToolCategories: React.FC<ModernToolCategoriesProps> = ({
                 onClick={() => onCategoryChange(category.id)}
                 className={`group p-6 rounded-2xl border-2 transition-all duration-300 hover:transform hover:scale-105 ${
                   isSelected
-                    ? `bg-gradient-to-br ${category.bgColor} border-current shadow-lg`
+                    ? `bg-gradient-to-br ${category.bgColor} ${category.borderColor} shadow-lg`
                     : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm hover:shadow-lg'
                 }`}
-                style={isSelected ? { 
-                  borderColor: `rgb(${category.color.includes('blue') ? '59 130 246' : 
-                                    category.color.includes('green') ? '34 197 94' :
-                                    category.color.includes('purple') ? '147 51 234' :
-                                    category.color.includes('red') ? '239 68 68' :
-                                    category.color.includes('orange') ? '249 115 22' :
-                                    category.color.includes('indigo') ? '99 102 241' : '107 114 128'})` 
-                } : {}}
               >
                 <div className="text-center">
                   <div className={`w-14 h-14 mx-auto mb-4 rounded-xl flex items-center justify-center transition-all duration-300 ${
