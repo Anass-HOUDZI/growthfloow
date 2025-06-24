@@ -1,12 +1,15 @@
+
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { TestTube, Play, Pause, RotateCcw, Download } from 'lucide-react';
+import { TestTube, Play, Pause, RotateCcw, Download, BarChart3 } from 'lucide-react';
 import { TestConfiguration } from './TestConfiguration';
 import { ElementVariants } from './ElementVariants';
 import { TestResults } from './TestResults';
+import { TestVariantBuilder } from './TestVariantBuilder';
+import { LiveTestRunner } from './LiveTestRunner';
 import { StatisticalEngine } from './StatisticalEngine';
-import { TestVariant, TestConfig, VariantContent } from './types';
+import { TestVariant, TestConfig, TestResults as TestResultsType } from './types';
 
 export const CROElementTester: React.FC = () => {
   const [activeTab, setActiveTab] = useState('config');
@@ -26,19 +29,19 @@ export const CROElementTester: React.FC = () => {
       id: 'control',
       name: 'Contrôle',
       description: 'Version actuelle',
-      content: { text: 'Acheter maintenant', color: 'blue' },
+      content: { text: 'Acheter maintenant', color: 'blue', size: 'medium' },
       isControl: true
     },
     {
       id: 'variant1',
       name: 'Variante 1',
       description: 'Version optimisée',
-      content: { text: 'Commandez aujourd\'hui', color: 'green' },
+      content: { text: 'Commencer aujourd\'hui', color: 'green', size: 'medium' },
       isControl: false
     }
   ]);
 
-  const [testResults, setTestResults] = useState({
+  const [testResults, setTestResults] = useState<TestResultsType>({
     isComplete: false,
     winner: null,
     confidence: 0,
@@ -63,9 +66,7 @@ export const CROElementTester: React.FC = () => {
     riskAssessment: ''
   });
 
-  const [testDuration, setTestDuration] = useState(0);
-
-  // Calculs statistiques
+  // Calculs statistiques en temps réel
   const sampleSizeCalculation = React.useMemo(() => {
     const requiredSample = StatisticalEngine.calculateSampleSize(
       (100 - testConfig.significance) / 100,
@@ -94,111 +95,12 @@ export const CROElementTester: React.FC = () => {
     };
   }, [testConfig]);
 
-  // Simulation du test en cours
-  useEffect(() => {
-    if (testStatus === 'running') {
-      const interval = setInterval(() => {
-        setTestDuration(prev => prev + 1);
-        
-        const controlVisitors = Math.floor(Math.random() * 100) + testDuration * 50;
-        const variantVisitors = Math.floor(Math.random() * 100) + testDuration * 52;
-        const controlConversions = Math.floor(controlVisitors * (testConfig.currentConversionRate + Math.random() * 0.5) / 100);
-        const variantConversions = Math.floor(variantVisitors * (testConfig.currentConversionRate * 1.2 + Math.random() * 0.5) / 100);
-
-        const significance = StatisticalEngine.calculateSignificance(
-          controlConversions,
-          controlVisitors,
-          variantConversions,
-          variantVisitors
-        );
-
-        const controlRate = (controlConversions / controlVisitors) * 100;
-        const variantRate = (variantConversions / variantVisitors) * 100;
-        const improvement = ((variantRate - controlRate) / controlRate) * 100;
-
-        setTestResults({
-          isComplete: significance.isSignificant && testDuration >= 7,
-          winner: variantRate > controlRate ? 'variant1' : 'control',
-          confidence: (1 - significance.pValue) * 100,
-          improvement: improvement,
-          pValue: significance.pValue,
-          variants: {
-            control: {
-              visitors: controlVisitors,
-              conversions: controlConversions,
-              conversionRate: controlRate,
-              confidenceInterval: [controlRate - 0.5, controlRate + 0.5]
-            },
-            variant1: {
-              visitors: variantVisitors,
-              conversions: variantConversions,
-              conversionRate: variantRate,
-              confidenceInterval: significance.confidenceInterval
-            }
-          },
-          statisticalSignificance: significance.isSignificant,
-          recommendations: generateRecommendations(significance, improvement, testDuration),
-          riskAssessment: generateRiskAssessment(significance, improvement)
-        });
-
-        if (significance.isSignificant && testDuration >= 7) {
-          setTestStatus('completed');
-        }
-      }, 2000);
-
-      return () => clearInterval(interval);
-    }
-  }, [testStatus, testDuration, testConfig]);
-
-  const generateRecommendations = (significance: any, improvement: number, duration: number) => {
-    const recommendations = [];
-    
-    if (significance.isSignificant) {
-      recommendations.push('✅ Les résultats sont statistiquement significatifs');
-      if (improvement > 10) {
-        recommendations.push('🚀 Implémentez immédiatement la variante gagnante');
-        recommendations.push('📊 Documentez cette amélioration pour référence future');
-      }
-    } else {
-      recommendations.push('⏳ Continuez le test pour obtenir plus de données');
-      if (duration < 7) {
-        recommendations.push('📅 Attendez au moins 7 jours pour couvrir un cycle complet');
-      }
-    }
-    
-    recommendations.push('🔄 Planifiez un test de suivi pour confirmer les résultats');
-    recommendations.push('📈 Analysez les segments d\'audience pour des insights plus profonds');
-    
-    return recommendations;
-  };
-
-  const generateRiskAssessment = (significance: any, improvement: number) => {
-    if (significance.isSignificant) {
-      if (improvement > 20) {
-        return 'Risque faible - Les résultats montrent une amélioration substantielle avec une forte significativité statistique.';
-      } else if (improvement > 10) {
-        return 'Risque modéré - Amélioration significative mais surveillez les performances post-implémentation.';
-      } else {
-        return 'Risque modéré à élevé - Amélioration marginale, considérez des tests additionnels.';
-      }
-    } else {
-      return 'Risque élevé - Résultats non concluants, ne pas implémenter sans données supplémentaires.';
-    }
-  };
-
-  const startTest = () => {
-    setTestStatus('running');
-    setTestDuration(0);
-    setActiveTab('results');
-  };
-
-  const pauseTest = () => {
-    setTestStatus('paused');
+  const handleResultsUpdate = (results: TestResultsType) => {
+    setTestResults(results);
   };
 
   const resetTest = () => {
     setTestStatus('idle');
-    setTestDuration(0);
     setTestResults({
       isComplete: false,
       winner: null,
@@ -213,14 +115,16 @@ export const CROElementTester: React.FC = () => {
       recommendations: [],
       riskAssessment: ''
     });
+    setActiveTab('config');
   };
 
   const exportResults = () => {
     const data = {
       testConfig,
+      variants,
       results: testResults,
-      duration: testDuration,
-      sampleSize: sampleSizeCalculation
+      sampleSize: sampleSizeCalculation,
+      exportDate: new Date().toISOString()
     };
     
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -229,69 +133,33 @@ export const CROElementTester: React.FC = () => {
     a.href = url;
     a.download = `cro-test-results-${Date.now()}.json`;
     a.click();
+    URL.revokeObjectURL(url);
   };
 
-  const getDefaultContentForElement = (elementType: string): VariantContent => {
-    switch (elementType) {
-      case 'cta':
-        return { text: 'Nouveau CTA', color: 'blue' };
-      case 'headline':
-        return { text: 'Nouveau titre', size: 'medium' };
-      case 'form':
-        return { fields: ['Email'], layout: 'vertical' };
-      case 'pricing':
-        return { price: '29€', features: ['Feature 1'] };
-      default:
-        return { text: 'Nouveau contenu' };
-    }
-  };
-
-  const addVariant = () => {
-    const newVariant: TestVariant = {
-      id: `variant${variants.length}`,
-      name: `Variante ${variants.length}`,
-      description: 'Nouvelle variante',
-      content: getDefaultContentForElement(testConfig.element),
-      isControl: false
-    };
-    setVariants([...variants, newVariant]);
-  };
-
-  const editVariant = (variantId: string) => {
-    console.log('Edit variant:', variantId);
-  };
-
-  const deleteVariant = (variantId: string) => {
-    setVariants(variants.filter(v => v.id !== variantId));
-  };
+  const canStartTest = variants.length >= 2 && testConfig.element && testConfig.dailyTraffic > 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-16">
       <div className="text-center">
         <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center mx-auto mb-4">
           <TestTube className="w-8 h-8 text-white" />
         </div>
         <h2 className="text-2xl font-bold text-slate-800 mb-2">CRO Element Tester</h2>
-        <p className="text-slate-600">Framework complet de test A/B pour optimisation des conversions</p>
+        <p className="text-slate-600 max-w-2xl mx-auto">
+          Framework complet de test A/B pour optimisation des conversions avec analyse statistique en temps réel
+        </p>
       </div>
 
       {/* Contrôles du test */}
-      <div className="flex justify-center space-x-4 mb-6">
+      <div className="flex flex-wrap justify-center gap-3 mb-6">
         <Button
-          onClick={startTest}
-          disabled={testStatus === 'running'}
-          className="flex items-center space-x-2"
+          onClick={() => setActiveTab('live')}
+          disabled={!canStartTest}
+          className="flex items-center space-x-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
         >
           <Play className="w-4 h-4" />
-          <span>{testStatus === 'idle' ? 'Démarrer le test' : 'Reprendre'}</span>
+          <span>Lancer le test</span>
         </Button>
-        
-        {testStatus === 'running' && (
-          <Button onClick={pauseTest} variant="outline" className="flex items-center space-x-2">
-            <Pause className="w-4 h-4" />
-            <span>Pause</span>
-          </Button>
-        )}
         
         <Button onClick={resetTest} variant="outline" className="flex items-center space-x-2">
           <RotateCcw className="w-4 h-4" />
@@ -304,12 +172,24 @@ export const CROElementTester: React.FC = () => {
             <span>Exporter</span>
           </Button>
         )}
+
+        <Button 
+          onClick={() => setActiveTab('results')} 
+          variant="outline" 
+          className="flex items-center space-x-2"
+          disabled={testStatus === 'idle'}
+        >
+          <BarChart3 className="w-4 h-4" />
+          <span>Voir résultats</span>
+        </Button>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-3 w-full">
+        <TabsList className="grid grid-cols-5 w-full max-w-2xl mx-auto">
           <TabsTrigger value="config">Configuration</TabsTrigger>
-          <TabsTrigger value="variants">Variants</TabsTrigger>
+          <TabsTrigger value="variants">Variantes</TabsTrigger>
+          <TabsTrigger value="elements">Éléments</TabsTrigger>
+          <TabsTrigger value="live" disabled={!canStartTest}>Test Live</TabsTrigger>
           <TabsTrigger value="results">Résultats</TabsTrigger>
         </TabsList>
 
@@ -322,19 +202,41 @@ export const CROElementTester: React.FC = () => {
         </TabsContent>
 
         <TabsContent value="variants" className="mt-6">
+          <TestVariantBuilder
+            elementType={testConfig.element}
+            variants={variants}
+            onVariantsChange={setVariants}
+          />
+        </TabsContent>
+
+        <TabsContent value="elements" className="mt-6">
           <ElementVariants
             elementType={testConfig.element}
             variants={variants}
-            onVariantAdd={addVariant}
-            onVariantEdit={editVariant}
-            onVariantDelete={deleteVariant}
+            onVariantAdd={() => {}}
+            onVariantEdit={() => {}}
+            onVariantDelete={() => {}}
           />
+        </TabsContent>
+
+        <TabsContent value="live" className="mt-6">
+          {canStartTest ? (
+            <LiveTestRunner
+              variants={variants}
+              testConfig={testConfig}
+              onResultsUpdate={handleResultsUpdate}
+            />
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-slate-500">Configurez votre test avant de le lancer</p>
+            </div>
+          )}
         </TabsContent>
 
         <TabsContent value="results" className="mt-6">
           <TestResults
             results={testResults}
-            testDuration={testDuration}
+            testDuration={0}
           />
         </TabsContent>
       </Tabs>

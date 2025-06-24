@@ -9,21 +9,40 @@ interface BreadcrumbItem {
   icon?: React.ReactNode;
 }
 
-export const ModernHeader: React.FC = () => {
+interface ModernHeaderProps {
+  currentTool?: {
+    name: string;
+    category: string;
+  };
+}
+
+export const ModernHeader: React.FC<ModernHeaderProps> = ({ currentTool }) => {
   const location = useLocation();
   
   const getBreadcrumbs = (): BreadcrumbItem[] => {
-    const path = location.pathname;
     const breadcrumbs: BreadcrumbItem[] = [
       { label: 'Accueil', path: '/', icon: <Home className="w-4 h-4" /> }
     ];
 
-    if (path !== '/') {
-      // Add tool-specific breadcrumbs when in modal
+    if (currentTool) {
       breadcrumbs.push({ label: 'Outils', path: '/' });
+      breadcrumbs.push({ label: getCategoryLabel(currentTool.category), path: '/' });
+      breadcrumbs.push({ label: currentTool.name, path: location.pathname });
     }
 
     return breadcrumbs;
+  };
+
+  const getCategoryLabel = (category: string): string => {
+    const categories = {
+      'growth': 'Growth Marketing',
+      'seo': 'SEO & Contenu',
+      'landing': 'Landing Pages',
+      'paid': 'Publicité Payante',
+      'outbound': 'Outbound Sales',
+      'cmo': 'CMO Tools'
+    };
+    return categories[category] || category;
   };
 
   const breadcrumbs = getBreadcrumbs();
@@ -50,26 +69,28 @@ export const ModernHeader: React.FC = () => {
             </div>
           </div>
 
-          {/* Fil d'Ariane */}
-          <nav className="hidden md:flex items-center space-x-2 text-sm">
-            {breadcrumbs.map((item, index) => (
-              <React.Fragment key={item.path}>
-                <div className="flex items-center space-x-2">
-                  {item.icon}
-                  <span className={`${
-                    index === breadcrumbs.length - 1 
-                      ? 'text-slate-900 font-medium' 
-                      : 'text-slate-500 hover:text-slate-700 cursor-pointer transition-colors'
-                  }`}>
-                    {item.label}
-                  </span>
-                </div>
-                {index < breadcrumbs.length - 1 && (
-                  <ChevronRight className="w-4 h-4 text-slate-400" />
-                )}
-              </React.Fragment>
-            ))}
-          </nav>
+          {/* Fil d'Ariane - Affiché seulement dans les pages d'outils */}
+          {currentTool && (
+            <nav className="hidden md:flex items-center space-x-2 text-sm">
+              {breadcrumbs.map((item, index) => (
+                <React.Fragment key={item.path}>
+                  <div className="flex items-center space-x-2">
+                    {item.icon}
+                    <span className={`${
+                      index === breadcrumbs.length - 1 
+                        ? 'text-slate-900 font-medium' 
+                        : 'text-slate-500 hover:text-slate-700 cursor-pointer transition-colors'
+                    }`}>
+                      {item.label}
+                    </span>
+                  </div>
+                  {index < breadcrumbs.length - 1 && (
+                    <ChevronRight className="w-4 h-4 text-slate-400" />
+                  )}
+                </React.Fragment>
+              ))}
+            </nav>
+          )}
 
           {/* Badges d'info */}
           <div className="flex items-center space-x-3">

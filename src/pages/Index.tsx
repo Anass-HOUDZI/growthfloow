@@ -1,7 +1,6 @@
 
 import React, { useState, useCallback } from 'react';
 import { ModernHeader } from '../components/layout/ModernHeader';
-import { ModernMobileNav } from '../components/layout/ModernMobileNav';
 import { ModernToolCategories } from '../components/layout/ModernToolCategories';
 import { ToolsGrid } from '../components/ToolsGrid';
 import { ToolModal } from '../components/ToolModal';
@@ -43,14 +42,7 @@ const Index = () => {
       <ConnectionStatus />
       
       {/* Navigation */}
-      {isMobile ? (
-        <ModernMobileNav 
-          favoritesCount={favorites.length}
-          recentCount={recentTools.length}
-        />
-      ) : (
-        <ModernHeader />
-      )}
+      <ModernHeader />
 
       {/* Contenu principal */}
       <div className="flex-1 flex flex-col">
@@ -143,7 +135,7 @@ const Index = () => {
                 compact={!isMobile}
               />
               
-              <div className="mt-16">
+              <div className="mt-16 mb-16">
                 <ToolsGrid 
                   selectedCategory={selectedCategory}
                   searchTerm=""
