@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { ChevronRight, Home, Zap, Sparkles } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface BreadcrumbItem {
   label: string;
@@ -18,6 +18,7 @@ interface ModernHeaderProps {
 
 export const ModernHeader: React.FC<ModernHeaderProps> = ({ currentTool }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   
   const getBreadcrumbs = (): BreadcrumbItem[] => {
     const breadcrumbs: BreadcrumbItem[] = [
@@ -45,15 +46,23 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ currentTool }) => {
     return categories[category] || category;
   };
 
+  const handleBreadcrumbClick = (path: string) => {
+    navigate(path);
+  };
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   const breadcrumbs = getBreadcrumbs();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur-xl supports-[backdrop-filter]:bg-white/75">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo et Branding */}
+          {/* Logo et Branding - Cliquable */}
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
+            <button onClick={handleLogoClick} className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
               <div className="relative">
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
                   <Zap className="w-6 h-6 text-white" />
@@ -66,7 +75,7 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ currentTool }) => {
                 </h1>
                 <p className="text-xs text-slate-500 font-medium">Growth Suite</p>
               </div>
-            </div>
+            </button>
           </div>
 
           {/* Fil d'Ariane - Affiché seulement dans les pages d'outils */}
@@ -76,13 +85,17 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ currentTool }) => {
                 <React.Fragment key={item.path}>
                   <div className="flex items-center space-x-2">
                     {item.icon}
-                    <span className={`${
-                      index === breadcrumbs.length - 1 
-                        ? 'text-slate-900 font-medium' 
-                        : 'text-slate-500 hover:text-slate-700 cursor-pointer transition-colors'
-                    }`}>
+                    <button
+                      onClick={() => handleBreadcrumbClick(item.path)}
+                      className={`${
+                        index === breadcrumbs.length - 1 
+                          ? 'text-slate-900 font-medium cursor-default' 
+                          : 'text-slate-500 hover:text-slate-700 cursor-pointer transition-colors'
+                      }`}
+                      disabled={index === breadcrumbs.length - 1}
+                    >
                       {item.label}
-                    </span>
+                    </button>
                   </div>
                   {index < breadcrumbs.length - 1 && (
                     <ChevronRight className="w-4 h-4 text-slate-400" />

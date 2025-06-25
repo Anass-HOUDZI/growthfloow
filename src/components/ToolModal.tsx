@@ -37,6 +37,44 @@ export const ToolModal: React.FC<ToolModalProps> = ({
     }
   };
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: tool.name,
+          text: tool.description,
+          url: window.location.href
+        });
+      } catch (error) {
+        console.log('Partage annulé');
+      }
+    } else {
+      // Fallback pour les navigateurs qui ne supportent pas l'API Web Share
+      navigator.clipboard.writeText(window.location.href);
+      // Vous pourriez ajouter une notification toast ici
+      alert('Lien copié dans le presse-papiers !');
+    }
+  };
+
+  const handleExport = () => {
+    // Simuler l'export des données de l'outil
+    const exportData = {
+      tool: tool.name,
+      category: tool.category,
+      description: tool.description,
+      exportDate: new Date().toISOString(),
+      data: 'Données de l\'outil exportées'
+    };
+    
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${tool.name.toLowerCase().replace(/\s+/g, '-')}-export-${Date.now()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex">
       {/* Backdrop */}
@@ -78,12 +116,18 @@ export const ToolModal: React.FC<ToolModalProps> = ({
                 </span>
               </button>
               
-              <button className="flex items-center space-x-1 px-3 py-2 bg-white text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+              <button 
+                onClick={handleShare}
+                className="flex items-center space-x-1 px-3 py-2 bg-white text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+              >
                 <Share2 className="w-4 h-4" />
                 <span className="hidden sm:inline text-sm">Partager</span>
               </button>
               
-              <button className="flex items-center space-x-1 px-3 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg transition-colors">
+              <button 
+                onClick={handleExport}
+                className="flex items-center space-x-1 px-3 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg transition-colors"
+              >
                 <Download className="w-4 h-4" />
                 <span className="hidden sm:inline text-sm">Exporter</span>
               </button>

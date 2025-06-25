@@ -186,7 +186,7 @@ export const VisualElementEditor: React.FC<VisualElementEditorProps> = ({
               <Label>Taille</Label>
               <div className="mt-2">
                 <Slider
-                  value={[variant.content['font-size'] || 32]}
+                  value={[Number(variant.content['font-size'] || 32)]}
                   onValueChange={([value]) => updateContent({ 'font-size': value.toString() })}
                   min={16}
                   max={72}
