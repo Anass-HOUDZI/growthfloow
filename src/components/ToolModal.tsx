@@ -49,15 +49,12 @@ export const ToolModal: React.FC<ToolModalProps> = ({
         console.log('Partage annulé');
       }
     } else {
-      // Fallback pour les navigateurs qui ne supportent pas l'API Web Share
       navigator.clipboard.writeText(window.location.href);
-      // Vous pourriez ajouter une notification toast ici
       alert('Lien copié dans le presse-papiers !');
     }
   };
 
   const handleExport = () => {
-    // Simuler l'export des données de l'outil
     const exportData = {
       tool: tool.name,
       category: tool.category,
