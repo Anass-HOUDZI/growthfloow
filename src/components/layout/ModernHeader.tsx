@@ -60,17 +60,21 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ currentTool }) => {
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur-xl supports-[backdrop-filter]:bg-white/75">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo et Branding - Cliquable */}
+          {/* Logo et Branding - Entièrement Cliquable */}
           <div className="flex items-center space-x-4">
-            <button onClick={handleLogoClick} className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+            <button 
+              onClick={handleLogoClick} 
+              className="flex items-center space-x-2 hover:opacity-80 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-xl p-1"
+              aria-label="Retour à l'accueil"
+            >
               <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg">
                   <Zap className="w-6 h-6 text-white" />
                 </div>
                 <Sparkles className="absolute -top-1 -right-1 w-4 h-4 text-yellow-400 animate-pulse" />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                <h1 className="text-xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">
                   OpenToolsAI
                 </h1>
                 <p className="text-xs text-slate-500 font-medium">Growth Suite</p>
@@ -78,21 +82,22 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ currentTool }) => {
             </button>
           </div>
 
-          {/* Fil d'Ariane - Affiché seulement dans les pages d'outils */}
+          {/* Fil d'Ariane - Entièrement Cliquable */}
           {currentTool && (
-            <nav className="hidden md:flex items-center space-x-2 text-sm">
+            <nav className="hidden md:flex items-center space-x-2 text-sm" aria-label="Fil d'Ariane">
               {breadcrumbs.map((item, index) => (
                 <React.Fragment key={item.path}>
                   <div className="flex items-center space-x-2">
                     {item.icon}
                     <button
                       onClick={() => handleBreadcrumbClick(item.path)}
-                      className={`${
+                      className={`transition-all duration-200 px-2 py-1 rounded-md ${
                         index === breadcrumbs.length - 1 
-                          ? 'text-slate-900 font-medium cursor-default' 
-                          : 'text-slate-500 hover:text-slate-700 cursor-pointer transition-colors'
+                          ? 'text-slate-900 font-medium cursor-default bg-slate-100' 
+                          : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1'
                       }`}
                       disabled={index === breadcrumbs.length - 1}
+                      aria-current={index === breadcrumbs.length - 1 ? 'page' : undefined}
                     >
                       {item.label}
                     </button>
