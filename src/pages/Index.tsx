@@ -56,7 +56,7 @@ const Index = () => {
       <div className="flex-1 flex flex-col">
         <main className="flex-1 w-full">
           {/* Hero Section avec marges réduites */}
-          <section className={`relative overflow-hidden ${isMobile ? 'py-12 px-4' : 'py-16 px-8'}`}>
+          <section className={`relative overflow-hidden ${isMobile ? 'py-8 px-4' : 'py-12 px-8'}`}>
             {/* Background animé plus doux */}
             <div className="absolute inset-0">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/3 via-purple-500/3 to-indigo-500/3" />
@@ -114,11 +114,11 @@ const Index = () => {
                 )}
               </div>
 
-              {/* CTA Section avec Animation */}
-              <div className="flex flex-col items-center justify-center space-y-3">
+              {/* CTA Section avec Animation - Centré et Fonctionnel */}
+              <div className="flex flex-col items-center justify-center space-y-4">
                 <button 
                   onClick={scrollToTools}
-                  className="group bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="group bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   <Zap className="w-5 h-5 group-hover:animate-pulse" />
                   <span>Découvrir les outils</span>
@@ -126,7 +126,7 @@ const Index = () => {
                 </button>
                 
                 {/* Indicateur de scroll subtil */}
-                <div className="animate-bounce mt-4">
+                <div className="animate-bounce mt-6">
                   <div className="w-6 h-10 border-2 border-slate-300 rounded-full flex justify-center">
                     <div className="w-1 h-3 bg-slate-400 rounded-full mt-2 animate-pulse"></div>
                   </div>
@@ -144,7 +144,7 @@ const Index = () => {
                 compact={!isMobile}
               />
               
-              <div className="mt-8 sm:mt-12 mb-8 sm:mb-12">
+              <div className="mt-12 mb-16">
                 <ToolsGrid 
                   selectedCategory={selectedCategory}
                   searchTerm=""
