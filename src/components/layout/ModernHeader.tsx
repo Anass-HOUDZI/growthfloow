@@ -1,13 +1,8 @@
 
 import React from 'react';
-import { ChevronRight, Home, Zap, Sparkles } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
-
-interface BreadcrumbItem {
-  label: string;
-  path: string;
-  icon?: React.ReactNode;
-}
+import { HeaderLogo } from './Header/HeaderLogo';
+import { Breadcrumb } from './Header/Breadcrumb';
+import { HeaderBadges } from './Header/HeaderBadges';
 
 interface ModernHeaderProps {
   currentTool?: {
@@ -17,112 +12,17 @@ interface ModernHeaderProps {
 }
 
 export const ModernHeader: React.FC<ModernHeaderProps> = ({ currentTool }) => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  
-  const getBreadcrumbs = (): BreadcrumbItem[] => {
-    const breadcrumbs: BreadcrumbItem[] = [
-      { label: 'Accueil', path: '/', icon: <Home className="w-4 h-4" /> }
-    ];
-
-    if (currentTool) {
-      breadcrumbs.push({ label: 'Outils', path: '/' });
-      breadcrumbs.push({ label: getCategoryLabel(currentTool.category), path: '/' });
-      breadcrumbs.push({ label: currentTool.name, path: location.pathname });
-    }
-
-    return breadcrumbs;
-  };
-
-  const getCategoryLabel = (category: string): string => {
-    const categories = {
-      'growth': 'Growth Marketing',
-      'seo': 'SEO & Contenu',
-      'landing': 'Landing Pages',
-      'paid': 'Publicité Payante',
-      'outbound': 'Outbound Sales',
-      'cmo': 'CMO Tools'
-    };
-    return categories[category] || category;
-  };
-
-  const handleBreadcrumbClick = (path: string) => {
-    navigate(path);
-  };
-
-  const handleLogoClick = () => {
-    navigate('/');
-  };
-
-  const breadcrumbs = getBreadcrumbs();
-
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur-xl supports-[backdrop-filter]:bg-white/75">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo Entièrement Cliquable */}
           <div className="flex items-center space-x-4">
-            <button 
-              onClick={handleLogoClick} 
-              className="flex items-center space-x-3 hover:opacity-80 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-xl p-2 group"
-              aria-label="Retour à l'accueil"
-            >
-              <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
-                  <Zap className="w-6 h-6 text-white" />
-                </div>
-                <Sparkles className="absolute -top-1 -right-1 w-4 h-4 text-yellow-400 animate-pulse" />
-              </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent group-hover:scale-105 transition-transform">
-                  OpenToolsAI
-                </h1>
-                <p className="text-xs text-slate-500 font-medium">Growth Suite</p>
-              </div>
-            </button>
+            <HeaderLogo />
           </div>
 
-          {/* Fil d'Ariane Cliquable */}
-          {currentTool && (
-            <nav className="hidden md:flex items-center space-x-2 text-sm" aria-label="Fil d'Ariane">
-              {breadcrumbs.map((item, index) => (
-                <React.Fragment key={item.path}>
-                  <div className="flex items-center space-x-2">
-                    {item.icon}
-                    <button
-                      onClick={() => handleBreadcrumbClick(item.path)}
-                      className={`transition-all duration-200 px-3 py-2 rounded-lg font-medium ${
-                        index === breadcrumbs.length - 1 
-                          ? 'text-slate-900 cursor-default bg-blue-50 border border-blue-200' 
-                          : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transform hover:scale-105'
-                      }`}
-                      disabled={index === breadcrumbs.length - 1}
-                      aria-current={index === breadcrumbs.length - 1 ? 'page' : undefined}
-                    >
-                      {item.label}
-                    </button>
-                  </div>
-                  {index < breadcrumbs.length - 1 && (
-                    <ChevronRight className="w-4 h-4 text-slate-400" />
-                  )}
-                </React.Fragment>
-              ))}
-            </nav>
-          )}
+          <Breadcrumb currentTool={currentTool} />
 
-          {/* Badges d'info */}
-          <div className="flex items-center space-x-3">
-            <div className="hidden lg:flex items-center space-x-3 text-xs">
-              <div className="flex items-center space-x-1 px-3 py-1.5 bg-green-50 text-green-700 rounded-full border border-green-200 shadow-sm">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                <span className="font-medium">100% Gratuit</span>
-              </div>
-              <div className="flex items-center space-x-1 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full border border-blue-200 shadow-sm">
-                <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                <span className="font-medium">50 Outils</span>
-              </div>
-            </div>
-          </div>
+          <HeaderBadges />
         </div>
       </div>
     </header>
