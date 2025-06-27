@@ -29,16 +29,39 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
   selectedText,
   selectedRing
 }) => {
+  const handleClick = () => {
+    try {
+      onSelect(id);
+      console.log('Catégorie sélectionnée:', name);
+    } catch (error) {
+      console.error('Erreur lors de la sélection de catégorie:', error);
+    }
+  };
+
+  const getToolCount = (categoryId: string): number => {
+    const counts: Record<string, number> = {
+      'all': 50,
+      'growth': 6,
+      'seo': 4,
+      'landing': 8,
+      'paid': 6,
+      'outbound': 8,
+      'cmo': 4
+    };
+    return counts[categoryId] || 0;
+  };
+
   return (
     <button
-      onClick={() => onSelect(id)}
+      onClick={handleClick}
       className={`group relative overflow-hidden rounded-2xl p-6 text-left transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 min-h-[180px] ${
         isSelected 
           ? `${selectedBg} ring-2 ${selectedRing} shadow-lg scale-105 border-2 border-current` 
-          : `bg-white border border-slate-200 hover:border-slate-300 hover:shadow-lg shadow-slate-200/50 hover:shadow-lg`
+          : `bg-white border border-slate-200 hover:border-slate-300 hover:shadow-lg shadow-slate-200/50`
       }`}
       aria-pressed={isSelected}
       role="tab"
+      aria-label={`Sélectionner la catégorie ${name}`}
     >
       {/* Background Pattern Subtle */}
       <div className="absolute top-0 right-0 w-20 h-20 opacity-5">
@@ -70,7 +93,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
             ? `${textColor} bg-white/80 shadow-sm` 
             : 'text-slate-600 bg-slate-100 group-hover:bg-white/80 group-hover:shadow-sm'
         }`}>
-          {id === 'all' ? '50 outils' : '8 outils'}
+          {getToolCount(id)} outil{getToolCount(id) > 1 ? 's' : ''}
         </div>
       </div>
       

@@ -10,8 +10,17 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToTools }) => {
   const { isMobile } = useResponsive();
 
+  const handleScrollClick = () => {
+    try {
+      onScrollToTools();
+      console.log('Scroll vers les outils déclenché');
+    } catch (error) {
+      console.error('Erreur lors du scroll:', error);
+    }
+  };
+
   return (
-    <section className={`relative overflow-hidden ${isMobile ? 'py-6 px-4' : 'py-8 px-8'}`}>
+    <section className={`relative overflow-hidden ${isMobile ? 'py-8 px-4' : 'py-12 px-8'}`}>
       {/* Background animé plus doux */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/3 via-purple-500/3 to-indigo-500/3" />
@@ -72,8 +81,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToTools }) => 
         {/* CTA Section avec Animation - Centré et Fonctionnel */}
         <div className="flex flex-col items-center justify-center space-y-4">
           <button 
-            onClick={onScrollToTools}
+            onClick={handleScrollClick}
             className="group bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            aria-label="Découvrir les outils disponibles"
           >
             <Zap className="w-5 h-5 group-hover:animate-pulse" />
             <span>Découvrir les outils</span>

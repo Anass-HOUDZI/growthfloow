@@ -1,9 +1,16 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { X, Heart, Share2, Download } from 'lucide-react';
 
+interface Tool {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+}
+
 interface ToolActionsProps {
-  tool: any;
+  tool: Tool;
   isFavorite: boolean;
   onToggleFavorite: () => void;
   onClose: () => void;
@@ -15,7 +22,11 @@ export const ToolActions: React.FC<ToolActionsProps> = ({
   onToggleFavorite,
   onClose
 }) => {
+  const [isSharing, setIsSharing] = useState(false);
+  const [shareMessage, setShareMessage] = useState('');
+
   const handleShare = async () => {
+    setIsSharing(true);
     const shareData = {
       title: `${tool.name} - OpenToolsAI`,
       text: tool.description,
@@ -23,51 +34,68 @@ export const ToolActions: React.FC<ToolActionsProps> = ({
     };
 
     try {
-      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      if (navigator.share && navigator.canShare?.(shareData)) {
         await navigator.share(shareData);
-        console.log('Contenu partagé avec succès');
+        setShareMessage('Contenu partagé avec succès !');
       } else {
         await navigator.clipboard.writeText(window.location.href);
-        console.log('Lien copié dans le presse-papiers !');
+        setShareMessage('Lien copié dans le presse-papiers !');
       }
     } catch (error) {
-      console.log('Erreur lors du partage:', error);
+      console.error('Erreur lors du partage:', error);
       try {
         await navigator.clipboard.writeText(window.location.href);
-        console.log('Lien copié dans le presse-papiers !');
+        setShareMessage('Lien copié dans le presse-papiers !');
       } catch (clipboardError) {
-        console.log('Erreur lors de la copie:', clipboardError);
+        console.error('Erreur lors de la copie:', clipboardError);
+        setShareMessage('Erreur lors du partage');
       }
+    } finally {
+      setIsSharing(false);
+      setTimeout(() => setShareMessage(''), 3000);
     }
   };
 
   const handleExport = () => {
-    const exportData = {
-      tool: tool.name,
-      category: tool.category,
-      description: tool.description,
-      exportDate: new Date().toISOString(),
-      url: window.location.href,
-      timestamp: Date.now(),
-      metadata: {
-        version: '1.0',
-        format: 'OpenToolsAI Export'
-      }
-    };
-    
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
-      type: 'application/json' 
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${tool.name.toLowerCase().replace(/\s+/g, '-')}-export-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    console.log('Export réussi:', tool.name);
+    try {
+      const exportData = {
+        tool: tool.name,
+        category: tool.category,
+        description: tool.description,
+        exportDate: new Date().toISOString(),
+        url: window.location.href,
+        timestamp: Date.now(),
+        metadata: {
+          version: '1.0',
+          format: 'OpenToolsAI Export'
+        }
+      };
+      
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
+        type: 'application/json' 
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${tool.name.toLowerCase().replace(/\s+/g, '-')}-export-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      console.log('Export réussi:', tool.name);
+    } catch (error) {
+      console.error('Erreur lors de l\'export:', error);
+    }
+  };
+
+  const handleFavoriteToggle = () => {
+    try {
+      onToggleFavorite();
+      console.log(`${isFavorite ? 'Retiré des' : 'Ajouté aux'} favoris:`, tool.name);
+    } catch (error) {
+      console.error('Erreur lors de la gestion des favoris:', error);
+    }
   };
 
   return (
@@ -85,7 +113,7 @@ export const ToolActions: React.FC<ToolActionsProps> = ({
         
         <div className="flex items-center space-x-2">
           <button
-            onClick={onToggleFavorite}
+            onClick={handleFavoriteToggle}
             className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
               isFavorite
                 ? 'bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 focus:ring-red-500'
@@ -100,10 +128,13 @@ export const ToolActions: React.FC<ToolActionsProps> = ({
           
           <button 
             onClick={handleShare}
-            className="flex items-center space-x-2 px-4 py-2 bg-white text-slate-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200 transform hover:scale-105 border border-slate-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            disabled={isSharing}
+            className="flex items-center space-x-2 px-4 py-2 bg-white text-slate-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-all duration-200 transform hover:scale-105 border border-slate-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 disabled:opacity-50"
           >
             <Share2 className="w-4 h-4" />
-            <span className="hidden sm:inline text-sm font-medium">Partager</span>
+            <span className="hidden sm:inline text-sm font-medium">
+              {isSharing ? 'Partage...' : 'Partager'}
+            </span>
           </button>
           
           <button 
@@ -115,6 +146,12 @@ export const ToolActions: React.FC<ToolActionsProps> = ({
           </button>
         </div>
       </div>
+      
+      {shareMessage && (
+        <div className="mt-2 text-sm text-green-600 font-medium">
+          {shareMessage}
+        </div>
+      )}
     </div>
   );
 };

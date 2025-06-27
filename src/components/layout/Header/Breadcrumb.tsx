@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { ChevronRight, Home } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 
 interface BreadcrumbItem {
   label: string;
@@ -14,13 +13,12 @@ interface BreadcrumbProps {
     name: string;
     category: string;
   };
+  onNavigate?: (path: string) => void;
 }
 
-export const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentTool }) => {
-  const navigate = useNavigate();
-  
+export const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentTool, onNavigate }) => {
   const getCategoryLabel = (category: string): string => {
-    const categories = {
+    const categories: Record<string, string> = {
       'growth': 'Growth Marketing',
       'seo': 'SEO & Contenu',
       'landing': 'Landing Pages',
@@ -28,7 +26,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentTool }) => {
       'outbound': 'Outbound Sales',
       'cmo': 'CMO Tools'
     };
-    return categories[category as keyof typeof categories] || category;
+    return categories[category] || category;
   };
 
   const getBreadcrumbs = (): BreadcrumbItem[] => {
@@ -46,7 +44,11 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentTool }) => {
   };
 
   const handleBreadcrumbClick = (path: string) => {
-    navigate(path);
+    if (onNavigate) {
+      onNavigate(path);
+    } else {
+      window.location.href = path;
+    }
   };
 
   if (!currentTool) return null;
@@ -56,7 +58,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentTool }) => {
   return (
     <nav className="hidden md:flex items-center space-x-2 text-sm" aria-label="Fil d'Ariane">
       {breadcrumbs.map((item, index) => (
-        <React.Fragment key={item.path}>
+        <React.Fragment key={`${item.path}-${index}`}>
           <div className="flex items-center space-x-2">
             {item.icon}
             <button

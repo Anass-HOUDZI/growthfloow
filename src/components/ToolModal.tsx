@@ -25,7 +25,10 @@ export const ToolModal: React.FC<ToolModalProps> = ({
   onToggleFavorite
 }) => {
   useEffect(() => {
+    // Empêcher le scroll du body
     document.body.style.overflow = 'hidden';
+    
+    // Fonction de nettoyage
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -37,18 +40,42 @@ export const ToolModal: React.FC<ToolModalProps> = ({
     }
   };
 
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <div className="fixed inset-0 z-50 flex">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/20 backdrop-blur-sm"
         onClick={handleBackdropClick}
+        role="button"
+        tabIndex={0}
+        aria-label="Fermer la modal"
       />
       
       {/* Modal Content */}
       <div className="relative w-full bg-white shadow-2xl flex flex-col">
         {/* Header avec fil d'Ariane */}
-        <ModernHeader currentTool={{ name: tool.name, category: tool.category }} />
+        <ModernHeader 
+          currentTool={{ name: tool.name, category: tool.category }}
+          onLogoClick={onClose}
+          onBreadcrumbNavigate={(path) => {
+            if (path === '/') {
+              onClose();
+            }
+          }}
+        />
         
         {/* Actions Bar */}
         <ToolActions 
