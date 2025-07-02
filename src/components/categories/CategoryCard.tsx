@@ -8,6 +8,7 @@ interface CategoryCardProps {
   icon: LucideIcon;
   isSelected: boolean;
   onSelect: (id: string) => void;
+  onCategoryClick?: (id: string) => void;
   gradient: string;
   bgGradient: string;
   textColor: string;
@@ -22,6 +23,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
   icon: Icon,
   isSelected,
   onSelect,
+  onCategoryClick,
   gradient,
   bgGradient,
   textColor,
@@ -29,9 +31,18 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
   selectedText,
   selectedRing
 }) => {
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
     try {
-      onSelect(id);
+      e.preventDefault();
+      
+      // Si on est sur la page d'accueil et qu'on a onCategoryClick, naviguer vers la page de catégorie
+      if (onCategoryClick && id !== 'all') {
+        onCategoryClick(id);
+      } else {
+        // Sinon, utiliser le comportement de filtre normal
+        onSelect(id);
+      }
+      
       console.log('Catégorie sélectionnée:', name);
     } catch (error) {
       console.error('Erreur lors de la sélection de catégorie:', error);
@@ -54,14 +65,14 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
   return (
     <button
       onClick={handleClick}
-      className={`group relative overflow-hidden rounded-2xl p-6 text-left transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 min-h-[180px] ${
+      className={`group relative overflow-hidden rounded-2xl p-6 text-left transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 min-h-[180px] active:scale-95 ${
         isSelected 
           ? `${selectedBg} ring-2 ${selectedRing} shadow-lg scale-105 border-2 border-current` 
-          : `bg-white border border-slate-200 hover:border-slate-300 hover:shadow-lg shadow-slate-200/50`
+          : `bg-white border border-slate-200 hover:border-slate-300 hover:shadow-xl shadow-slate-200/50 hover:-translate-y-1`
       }`}
       aria-pressed={isSelected}
-      role="tab"
-      aria-label={`Sélectionner la catégorie ${name}`}
+      role="button"
+      aria-label={`${onCategoryClick && id !== 'all' ? 'Voir les outils de' : 'Sélectionner la catégorie'} ${name}`}
     >
       {/* Background Pattern Subtle */}
       <div className="absolute top-0 right-0 w-20 h-20 opacity-5">

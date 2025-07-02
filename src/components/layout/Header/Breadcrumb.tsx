@@ -13,10 +13,14 @@ interface BreadcrumbProps {
     name: string;
     category: string;
   };
+  currentCategory?: {
+    name: string;
+    id: string;
+  };
   onNavigate?: (path: string) => void;
 }
 
-export const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentTool, onNavigate }) => {
+export const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentTool, currentCategory, onNavigate }) => {
   const getCategoryLabel = (category: string): string => {
     const categories: Record<string, string> = {
       'growth': 'Growth Marketing',
@@ -34,9 +38,12 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentTool, onNavigate 
       { label: 'Accueil', path: '/', icon: <Home className="w-4 h-4" /> }
     ];
 
-    if (currentTool) {
-      breadcrumbs.push({ label: 'Outils', path: '/' });
-      breadcrumbs.push({ label: getCategoryLabel(currentTool.category), path: '/' });
+    if (currentCategory && !currentTool) {
+      // Page de catégorie
+      breadcrumbs.push({ label: currentCategory.name, path: `/category/${currentCategory.id}` });
+    } else if (currentTool) {
+      // Page d'outil
+      breadcrumbs.push({ label: getCategoryLabel(currentTool.category), path: `/category/${currentTool.category}` });
       breadcrumbs.push({ label: currentTool.name, path: window.location.pathname });
     }
 
@@ -51,7 +58,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentTool, onNavigate 
     }
   };
 
-  if (!currentTool) return null;
+  if (!currentTool && !currentCategory) return null;
 
   const breadcrumbs = getBreadcrumbs();
 

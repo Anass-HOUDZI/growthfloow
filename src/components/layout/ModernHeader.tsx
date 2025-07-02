@@ -9,12 +9,17 @@ interface ModernHeaderProps {
     name: string;
     category: string;
   };
+  currentCategory?: {
+    name: string;
+    id: string;
+  };
   onLogoClick?: () => void;
   onBreadcrumbNavigate?: (path: string) => void;
 }
 
 export const ModernHeader: React.FC<ModernHeaderProps> = ({ 
-  currentTool, 
+  currentTool,
+  currentCategory,
   onLogoClick,
   onBreadcrumbNavigate 
 }) => {
@@ -27,7 +32,8 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({
           </div>
 
           <Breadcrumb 
-            currentTool={currentTool} 
+            currentTool={currentTool}
+            currentCategory={currentCategory}
             onNavigate={onBreadcrumbNavigate}
           />
 

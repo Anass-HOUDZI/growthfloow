@@ -1,16 +1,14 @@
-
-import React, { useState, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ModernHeader } from '../components/layout/ModernHeader';
-import { ModernToolCategories } from '../components/layout/ModernToolCategories';
 import { ToolsGrid } from '../components/ToolsGrid';
 import { ToolModal } from '../components/ToolModal';
 import { ConnectionStatus } from '../components/ConnectionStatus';
-import { HeroSection } from '../components/hero/HeroSection';
 import { Footer } from "../components/layout/Footer";
 import { useFavorites } from '../hooks/useFavorites';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useResponsive } from '../hooks/useResponsive';
+import { categories } from '../utils/constants';
 
 interface Tool {
   id: string;
@@ -20,14 +18,15 @@ interface Tool {
   icon: React.ComponentType;
 }
 
-const Index = () => {
+const CategoryPage = () => {
+  const { categoryId } = useParams<{ categoryId: string }>();
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
   const { favorites, toggleFavorite } = useFavorites();
   const [recentTools, setRecentTools] = useLocalStorage<string[]>('recentTools', []);
   const { isMobile } = useResponsive();
-  const toolsRef = useRef<HTMLElement>(null);
+
+  const category = categories.find(cat => cat.id === categoryId);
 
   const handleToolSelect = useCallback((tool: Tool) => {
     try {
@@ -41,15 +40,6 @@ const Index = () => {
       console.error('Erreur lors de la sélection d\'outil:', error);
     }
   }, [recentTools, setRecentTools]);
-
-  const handleCategoryChange = useCallback((category: string) => {
-    try {
-      console.log('Catégorie changée:', category);
-      setSelectedCategory(category);
-    } catch (error) {
-      console.error('Erreur lors du changement de catégorie:', error);
-    }
-  }, []);
 
   const handleToggleFavorite = useCallback((toolId: string) => {
     try {
@@ -69,43 +59,19 @@ const Index = () => {
     }
   }, []);
 
-  const scrollToTools = useCallback(() => {
-    try {
-      if (toolsRef.current) {
-        toolsRef.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-        console.log('Scroll vers les outils effectué');
-      }
-    } catch (error) {
-      console.error('Erreur lors du scroll:', error);
-    }
-  }, []);
-
   const handleLogoClick = useCallback(() => {
     try {
-      // Fermer la modal si ouverte
-      if (selectedTool) {
-        setSelectedTool(null);
-      }
-      
-      // Réinitialiser les filtres
-      setSelectedCategory('all');
-      
-      // Scroll vers le haut
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      
+      navigate('/');
       console.log('Navigation vers l\'accueil');
     } catch (error) {
       console.error('Erreur lors de la navigation vers l\'accueil:', error);
     }
-  }, [selectedTool]);
+  }, [navigate]);
 
   const handleBreadcrumbNavigation = useCallback((path: string) => {
     try {
       if (path === '/') {
-        handleLogoClick();
+        navigate('/');
       } else if (path.startsWith('/category/')) {
         navigate(path);
       }
@@ -113,16 +79,11 @@ const Index = () => {
     } catch (error) {
       console.error('Erreur lors de la navigation breadcrumb:', error);
     }
-  }, [handleLogoClick, navigate]);
-
-  const handleCategoryClick = useCallback((categoryId: string) => {
-    try {
-      navigate(`/category/${categoryId}`);
-      console.log('Navigation vers catégorie:', categoryId);
-    } catch (error) {
-      console.error('Erreur lors de la navigation vers catégorie:', error);
-    }
   }, [navigate]);
+
+  if (!category) {
+    return <div>Catégorie non trouvée</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/20 to-indigo-50/30 flex flex-col">
@@ -131,6 +92,7 @@ const Index = () => {
       {/* Navigation */}
       <ModernHeader 
         currentTool={selectedTool ? { name: selectedTool.name, category: selectedTool.category } : undefined}
+        currentCategory={{ name: category.name, id: category.id }}
         onLogoClick={handleLogoClick}
         onBreadcrumbNavigate={handleBreadcrumbNavigation}
       />
@@ -138,25 +100,28 @@ const Index = () => {
       {/* Contenu principal */}
       <div className="flex-1 flex flex-col">
         <main className="flex-1 w-full">
-          {/* Hero Section - uniquement sur l'accueil */}
+          {/* Section Catégorie */}
           {!selectedTool && (
-            <HeroSection onScrollToTools={scrollToTools} />
-          )}
-          
-          {/* Section Catégories et Outils - uniquement sur l'accueil */}
-          {!selectedTool && (
-            <section ref={toolsRef} className={`${isMobile ? 'px-4 pb-8' : 'px-8 pb-16'}`}>
-              <div className="max-w-7xl mx-auto">
-                <ModernToolCategories 
-                  selectedCategory={selectedCategory}
-                  onCategoryChange={handleCategoryChange}
-                  onCategoryClick={handleCategoryClick}
-                  compact={!isMobile}
-                />
+            <section className={`${isMobile ? 'px-4 py-8' : 'px-8 py-16'}`}>
+              <div className="max-w-full mx-auto">
+                {/* En-tête de catégorie */}
+                <div className="text-center mb-12">
+                  <div className="inline-flex items-center space-x-3 mb-6 px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200/50 rounded-full shadow-sm">
+                    <category.icon className="w-6 h-6 text-blue-600" />
+                    <span className="text-blue-700 font-semibold text-lg">{category.name}</span>
+                  </div>
+                  <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
+                    Outils {category.name}
+                  </h1>
+                  <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+                    Découvrez notre collection d'outils spécialisés pour {category.name.toLowerCase()}
+                  </p>
+                </div>
                 
-                <div className="mt-12 mb-16">
+                {/* Grille des outils */}
+                <div className="mt-12">
                   <ToolsGrid 
-                    selectedCategory={selectedCategory}
+                    selectedCategory={categoryId || 'all'}
                     searchTerm=""
                     favorites={favorites}
                     onToolSelect={handleToolSelect}
@@ -185,4 +150,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default CategoryPage;
