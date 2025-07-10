@@ -11,7 +11,9 @@ const modernCardVariants = cva(
         default: "bg-white border border-slate-200 shadow-lg",
         glassmorphism: "bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl",
         gradient: "bg-gradient-to-br shadow-xl border-0",
-        premium: "bg-white/5 backdrop-blur-2xl border border-white/10 shadow-2xl"
+        premium: "bg-white/5 backdrop-blur-2xl border border-white/10 shadow-2xl",
+        success: "bg-green-50 border border-green-200 shadow-lg",
+        error: "bg-red-50 border border-red-200 shadow-lg"
       },
       size: {
         default: "p-6",
