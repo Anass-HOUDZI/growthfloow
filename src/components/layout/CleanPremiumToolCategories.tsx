@@ -70,34 +70,37 @@ export const CleanPremiumToolCategories: React.FC<CleanPremiumToolCategoriesProp
   onCategoryClick
 }) => {
   return (
-    <section className="py-16 px-6 bg-gradient-to-br from-slate-50 to-blue-50/20">
+    <section className="py-20 px-6 bg-gradient-to-br from-hsl(var(--neutral-50)) to-hsl(var(--blue-bg))/30">
       <div className="max-w-7xl mx-auto">
-        {/* En-tête épuré avec plus de marges */}
-        <div className="text-center mb-16 space-y-8">
-          <CardClean className="inline-flex items-center space-x-3 px-8 py-4 bg-white border-2 border-blue-200">
-            <Zap className="w-5 h-5 text-blue-600" />
-            <span className="text-blue-700 font-bold text-lg">
+        {/* En-tête avec espacement amélioré */}
+        <div className="text-center mb-20 space-y-10">
+          <CardClean 
+            variant="primary"
+            className="inline-flex items-center space-x-4 px-10 py-5 border-3 border-hsl(var(--blue-primary))"
+          >
+            <Zap className="w-6 h-6 text-hsl(var(--blue-primary))" />
+            <span className="text-hsl(var(--blue-primary)) font-black text-xl">
               OpenToolsAI Growth Suite Premium
             </span>
           </CardClean>
           
-          <div className="space-y-6">
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-tight">
+          <div className="space-y-8">
+            <h2 className="text-5xl md:text-6xl font-black text-hsl(var(--neutral-900)) leading-tight">
               Choisissez votre domaine
               <br />
-              <span className="text-blue-600">
+              <span className="text-hsl(var(--blue-primary))">
                 d'expertise
               </span>
             </h2>
             
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-hsl(var(--neutral-600)) max-w-4xl mx-auto leading-relaxed font-medium">
               Explorez nos outils spécialisés conçus pour chaque aspect du marketing digital moderne
             </p>
           </div>
         </div>
         
-        {/* Grille épurée avec espacement uniforme */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
+        {/* Grille avec espacement uniforme et centrage */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
           {categories.map((category) => (
             <CleanCategoryCard
               key={category.id}
