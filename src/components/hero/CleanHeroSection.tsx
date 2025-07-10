@@ -125,24 +125,23 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
           )}
         </div>
 
-        {/* CTA épuré avec bordure */}
-        <div className="space-y-8">
-          <ButtonClean 
-            variant="primary"
-            size="lg"
+        {/* CTA épuré avec bordure et fond dégradé */}
+        <div className="space-y-12 pt-8">
+          <button
             onClick={handleScrollClick}
-            className="text-lg px-12 py-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+            className="inline-flex items-center space-x-3 px-12 py-6 text-lg font-bold text-white bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 border-3 border-blue-700 rounded-lg shadow-lg hover:shadow-xl hover:from-blue-700 hover:via-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200"
           >
             <Zap className="w-6 h-6" />
             <span>Découvrir les outils</span>
             <ArrowDown className="w-5 h-5" />
-          </ButtonClean>
+          </button>
           
-          {/* Indicateur de scroll épuré */}
-          <div className="flex justify-center">
-            <CardClean className="w-8 h-12 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center">
-              <div className="w-1 h-4 bg-blue-500 rounded-full" />
-            </CardClean>
+          {/* Indicateur de scroll plus visible avec plus de marges */}
+          <div className="flex justify-center pt-8">
+            <div className="w-12 h-16 rounded-full bg-white border-3 border-blue-300 shadow-lg flex items-center justify-center cursor-pointer hover:border-blue-400 hover:shadow-xl transition-all duration-200"
+                 onClick={handleScrollClick}>
+              <div className="w-2 h-6 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full animate-pulse" />
+            </div>
           </div>
         </div>
       </div>
