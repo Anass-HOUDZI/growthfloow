@@ -32,23 +32,20 @@
 
     --radius: 0.75rem;
 
-    /* Palette couleurs simplifiée - Orange, Vert, Bleu */
+    /* Nouvelle palette couleurs épurée */
     --orange-primary: 25 95% 53%;
-    --orange-light: 25 100% 65%;
+    --orange-light: 25 95% 63%;
     --orange-dark: 25 95% 43%;
-    --orange-bg: 25 100% 97%;
     
     --green-primary: 142 71% 45%;
-    --green-light: 142 76% 55%;
+    --green-light: 142 71% 55%;
     --green-dark: 142 71% 35%;
-    --green-bg: 142 76% 96%;
     
     --blue-primary: 217 91% 60%;
     --blue-light: 217 91% 70%;
     --blue-dark: 217 91% 50%;
-    --blue-bg: 217 91% 97%;
     
-    /* Couleurs neutres optimisées */
+    /* Couleurs neutres épurées */
     --neutral-50: 210 20% 98%;
     --neutral-100: 210 20% 95%;
     --neutral-200: 210 16% 88%;
@@ -60,7 +57,7 @@
     --neutral-800: 210 24% 16%;
     --neutral-900: 210 40% 8%;
     
-    /* Variables d'animation simplifiées */
+    /* Animation Speed */
     --animation-speed: 0.2s;
     --animation-bounce: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }

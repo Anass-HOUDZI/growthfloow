@@ -1,10 +1,10 @@
 
-/* Animations épurées et optimisées pour performance */
+/* Animations épurées et optimisées */
 @layer utilities {
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(12px);
+      transform: translateY(10px);
     }
     to {
       opacity: 1;
@@ -14,7 +14,7 @@
 
   @keyframes slideUp {
     from {
-      transform: translateY(24px);
+      transform: translateY(20px);
       opacity: 0;
     }
     to {
@@ -25,7 +25,7 @@
 
   @keyframes scaleIn {
     from {
-      transform: scale(0.96);
+      transform: scale(0.95);
       opacity: 0;
     }
     to {
@@ -34,53 +34,30 @@
     }
   }
 
-  @keyframes gentlePulse {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.7;
-    }
-  }
-
   /* Classes d'animation simplifiées */
   .animate-fade-in {
-    animation: fadeIn 0.4s ease-out;
+    animation: fadeIn 0.3s ease-out;
   }
 
   .animate-slide-up {
-    animation: slideUp 0.5s ease-out;
+    animation: slideUp 0.4s ease-out;
   }
 
   .animate-scale-in {
-    animation: scaleIn 0.3s ease-out;
-  }
-
-  .animate-gentle-pulse {
-    animation: gentlePulse 2s ease-in-out infinite;
+    animation: scaleIn 0.2s ease-out;
   }
 
   /* Support pour reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .animate-fade-in,
     .animate-slide-up,
-    .animate-scale-in,
-    .animate-gentle-pulse {
+    .animate-scale-in {
       animation: none;
     }
   }
 
-  /* Animation Delays optimisés */
+  /* Animation Delays simplifiés */
   .animation-delay-100 { animation-delay: 0.1s; }
-  .animation-delay-200 { animation-delay: 0.2s; }  
+  .animation-delay-200 { animation-delay: 0.2s; }
   .animation-delay-300 { animation-delay: 0.3s; }
-  
-  /* Transitions performance-optimisées */
-  .transition-smooth {
-    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  
-  .transition-lift {
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-  }
 }

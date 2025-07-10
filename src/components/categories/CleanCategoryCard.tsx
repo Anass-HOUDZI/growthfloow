@@ -16,48 +16,13 @@ interface CleanCategoryCardProps {
 }
 
 const categoryColors = {
-  'all': { 
-    bg: 'bg-hsl(var(--neutral-100))', 
-    text: 'text-hsl(var(--neutral-700))', 
-    variant: 'default' as const,
-    selectedBg: 'bg-hsl(var(--neutral-bg))'
-  },
-  'growth': { 
-    bg: 'bg-hsl(var(--green-bg))', 
-    text: 'text-hsl(var(--green-primary))', 
-    variant: 'success' as const,
-    selectedBg: 'bg-hsl(var(--green-bg))'
-  },
-  'seo': { 
-    bg: 'bg-hsl(var(--blue-bg))', 
-    text: 'text-hsl(var(--blue-primary))', 
-    variant: 'primary' as const,
-    selectedBg: 'bg-hsl(var(--blue-bg))'
-  },
-  'landing': { 
-    bg: 'bg-hsl(var(--orange-bg))', 
-    text: 'text-hsl(var(--orange-primary))', 
-    variant: 'warning' as const,
-    selectedBg: 'bg-hsl(var(--orange-bg))'
-  },
-  'outbound': { 
-    bg: 'bg-hsl(var(--green-bg))', 
-    text: 'text-hsl(var(--green-primary))', 
-    variant: 'success' as const,
-    selectedBg: 'bg-hsl(var(--green-bg))'
-  },
-  'paid': { 
-    bg: 'bg-hsl(var(--orange-bg))', 
-    text: 'text-hsl(var(--orange-primary))', 
-    variant: 'warning' as const,
-    selectedBg: 'bg-hsl(var(--orange-bg))'
-  },
-  'cmo': { 
-    bg: 'bg-hsl(var(--blue-bg))', 
-    text: 'text-hsl(var(--blue-primary))', 
-    variant: 'primary' as const,
-    selectedBg: 'bg-hsl(var(--blue-bg))'
-  }
+  'all': { bg: 'bg-slate-100', text: 'text-slate-700', accent: 'hsl(var(--neutral-600))' },
+  'growth': { bg: 'bg-green-100', text: 'text-green-700', accent: 'hsl(var(--green-primary))' },
+  'seo': { bg: 'bg-blue-100', text: 'text-blue-700', accent: 'hsl(var(--blue-primary))' },
+  'landing': { bg: 'bg-orange-100', text: 'text-orange-700', accent: 'hsl(var(--orange-primary))' },
+  'outbound': { bg: 'bg-red-100', text: 'text-red-700', accent: 'hsl(221 83% 53%)' },
+  'paid': { bg: 'bg-pink-100', text: 'text-pink-700', accent: 'hsl(330 81% 60%)' },
+  'cmo': { bg: 'bg-indigo-100', text: 'text-indigo-700', accent: 'hsl(239 84% 67%)' }
 };
 
 export const CleanCategoryCard: React.FC<CleanCategoryCardProps> = ({
@@ -85,61 +50,53 @@ export const CleanCategoryCard: React.FC<CleanCategoryCardProps> = ({
 
   return (
     <CardClean
-      variant={isSelected ? "selected" : colors.variant}
+      variant={isSelected ? "selected" : "default"}
       size="category"
       hover="lift"
-      className="cursor-pointer group w-full max-w-[280px]"
+      className="cursor-pointer group"
       onClick={handleClick}
       role="button"
       aria-pressed={isSelected}
     >
-      {/* Badge populaire avec bordure */}
+      {/* Badge populaire */}
       {isPopular && (
-        <div className="absolute top-6 right-6">
-          <span className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-hsl(var(--orange-primary)) to-hsl(var(--orange-light)) text-white border-2 border-hsl(var(--orange-dark)) shadow-md">
+        <div className="absolute top-4 right-4">
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200">
             ⭐ Populaire
           </span>
         </div>
       )}
 
-      {/* Icône avec bordure améliorée */}
-      <div className={`inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-6 border-3 transition-all duration-200 ${colors.bg} ${colors.text} ${
-        isSelected 
-          ? 'border-current shadow-lg' 
-          : 'border-transparent group-hover:border-current group-hover:shadow-md'
-      }`}>
-        <Icon className="w-10 h-10" />
+      {/* Icône */}
+      <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl mb-4 ${colors.bg} border-2 border-transparent group-hover:border-current transition-colors`}>
+        <Icon className={`w-8 h-8 ${colors.text}`} />
       </div>
       
-      {/* Contenu avec espacement amélioré */}
-      <div className="space-y-4">
-        <h3 className={`font-black text-xl leading-tight ${
-          isSelected 
-            ? 'text-hsl(var(--blue-primary))' 
-            : 'text-hsl(var(--neutral-800)) group-hover:text-hsl(var(--neutral-900))'
-        }`}>
+      {/* Contenu */}
+      <div className="space-y-3">
+        <h3 className={`font-bold text-lg leading-tight ${isSelected ? 'text-blue-700' : 'text-slate-800'}`}>
           {name}
         </h3>
         
         {description && (
-          <p className="text-sm text-hsl(var(--neutral-600)) leading-relaxed line-clamp-2 font-medium">
+          <p className="text-sm text-slate-600 leading-relaxed line-clamp-2">
             {description}
           </p>
         )}
         
-        {/* Badge nombre d'outils avec bordure */}
-        <div className="flex items-center justify-between pt-2">
-          <span className={`inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold border-2 shadow-sm ${
+        {/* Badge nombre d'outils */}
+        <div className="flex items-center justify-between">
+          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border-2 ${
             isSelected 
-              ? 'bg-white text-hsl(var(--blue-primary)) border-hsl(var(--blue-primary))' 
-              : 'bg-hsl(var(--neutral-50)) text-hsl(var(--neutral-700)) border-hsl(var(--neutral-300))'
+              ? 'bg-blue-50 text-blue-700 border-blue-200' 
+              : 'bg-slate-50 text-slate-600 border-slate-200'
           }`}>
             {toolCount} outil{toolCount > 1 ? 's' : ''}
           </span>
           
-          {/* Indicateur de sélection amélioré */}
+          {/* Indicateur de sélection */}
           {isSelected && (
-            <div className="w-4 h-4 bg-hsl(var(--blue-primary)) rounded-full border-3 border-white shadow-lg" />
+            <div className="w-3 h-3 bg-blue-500 rounded-full border-2 border-white shadow-sm" />
           )}
         </div>
       </div>
