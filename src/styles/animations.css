@@ -48,6 +48,37 @@
     }
   }
 
+  @keyframes slide-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
   /* Animation Classes */
   .animate-gradient {
     background-size: 400% 400%;
@@ -70,9 +101,46 @@
     animation: slide-in-up 0.6s ease-out;
   }
 
+  .animate-slide-in-right {
+    animation: slide-in-right 0.6s ease-out;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.3s ease-out;
+  }
+
+  /* Performance optimizations */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-gradient,
+    .animate-float,
+    .animate-shine,
+    .animate-pulse-subtle,
+    .animate-slide-in-up,
+    .animate-slide-in-right,
+    .animate-fade-in,
+    .animate-scale-in {
+      animation: none;
+    }
+  }
+
   /* Animation Delays */
+  .animation-delay-100 { animation-delay: 0.1s; }
+  .animation-delay-200 { animation-delay: 0.2s; }
+  .animation-delay-300 { animation-delay: 0.3s; }
+  .animation-delay-500 { animation-delay: 0.5s; }
   .animation-delay-1000 { animation-delay: 1s; }
   .animation-delay-2000 { animation-delay: 2s; }
-  .animation-delay-3000 { animation-delay: 3s; }
-  .animation-delay-4000 { animation-delay: 4s; }
 }

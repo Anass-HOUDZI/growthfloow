@@ -2,7 +2,7 @@
 import React from 'react';
 import { PremiumCategoryCard } from '../categories/PremiumCategoryCard';
 import { ModernCard } from '../ui/modern-card';
-import { Zap, Sparkles } from 'lucide-react';
+import { Zap, Sparkles, TrendingUp, Search, MousePointer, Target, Users, BarChart3 } from 'lucide-react';
 
 interface PremiumToolCategoriesProps {
   selectedCategory: string;
@@ -23,7 +23,7 @@ const premiumCategories = [
   { 
     id: 'growth', 
     name: 'Growth & Strategy', 
-    icon: require('lucide-react').TrendingUp,
+    icon: TrendingUp,
     gradient: 'from-emerald-500 to-teal-600',
     description: 'Optimisez votre croissance avec des stratégies data-driven',
     toolCount: 12
@@ -31,7 +31,7 @@ const premiumCategories = [
   { 
     id: 'seo', 
     name: 'SEO & Content', 
-    icon: require('lucide-react').Search,
+    icon: Search,
     gradient: 'from-blue-500 to-cyan-600',
     description: 'Boostez votre visibilité organique et créez du contenu optimisé',
     toolCount: 10
@@ -39,7 +39,7 @@ const premiumCategories = [
   { 
     id: 'landing', 
     name: 'Landing Pages', 
-    icon: require('lucide-react').MousePointer,
+    icon: MousePointer,
     gradient: 'from-purple-500 to-violet-600',
     description: 'Créez des pages de conversion haute performance',
     toolCount: 8,
@@ -48,7 +48,7 @@ const premiumCategories = [
   { 
     id: 'outbound', 
     name: 'Outbound & ABM', 
-    icon: require('lucide-react').Target,
+    icon: Target,
     gradient: 'from-orange-500 to-red-600',
     description: 'Développez vos ventes avec des stratégies outbound ciblées',
     toolCount: 8
@@ -56,7 +56,7 @@ const premiumCategories = [
   { 
     id: 'paid', 
     name: 'Paid Marketing', 
-    icon: require('lucide-react').BarChart3,
+    icon: BarChart3,
     gradient: 'from-pink-500 to-rose-600',
     description: 'Optimisez vos campagnes publicitaires pour un ROI maximal',
     toolCount: 6
@@ -64,7 +64,7 @@ const premiumCategories = [
   { 
     id: 'cmo', 
     name: 'CMO & Leadership', 
-    icon: require('lucide-react').Users,
+    icon: Users,
     gradient: 'from-indigo-500 to-blue-600',
     description: 'Outils stratégiques pour dirigeants marketing',
     toolCount: 6

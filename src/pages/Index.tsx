@@ -1,15 +1,40 @@
-import React, { useState, useCallback, useRef } from 'react';
+
+import React, { useState, useCallback, useRef, Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
 import { ModernHeader } from '../components/layout/ModernHeader';
-import { PremiumToolCategories } from '../components/layout/PremiumToolCategories';
-import { ToolsGrid } from '../components/ToolsGrid';
-import { ToolModal } from '../components/ToolModal';
 import { ConnectionStatus } from '../components/ConnectionStatus';
-import { RevolutionaryHeroSection } from '../components/hero/RevolutionaryHeroSection';
 import { Footer } from "../components/layout/Footer";
+import { LoadingState } from '../components/ui/loading-state';
+import { ErrorFallback } from '../components/ui/ErrorFallback';
 import { useFavorites } from '../hooks/useFavorites';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useResponsive } from '../hooks/useResponsive';
+
+// Lazy loading des composants lourds
+const PremiumToolCategories = lazy(() => 
+  import('../components/layout/PremiumToolCategories').then(module => ({
+    default: module.PremiumToolCategories
+  }))
+);
+
+const ToolsGrid = lazy(() => 
+  import('../components/ToolsGrid').then(module => ({
+    default: module.ToolsGrid
+  }))
+);
+
+const RevolutionaryHeroSection = lazy(() => 
+  import('../components/hero/RevolutionaryHeroSection').then(module => ({
+    default: module.RevolutionaryHeroSection
+  }))
+);
+
+const ToolModal = lazy(() => 
+  import('../components/ToolModal').then(module => ({
+    default: module.ToolModal
+  }))
+);
 
 interface Tool {
   id: string;
@@ -29,152 +54,116 @@ const Index = () => {
   const toolsRef = useRef<HTMLElement>(null);
 
   const handleToolSelect = useCallback((tool: Tool) => {
-    try {
-      console.log('Outil sélectionné:', tool.name);
-      setSelectedTool(tool);
-      
-      // Mise à jour des outils récents
-      const updatedRecent = [tool.id, ...recentTools.filter((id: string) => id !== tool.id)].slice(0, 5);
-      setRecentTools(updatedRecent);
-    } catch (error) {
-      console.error('Erreur lors de la sélection d\'outil:', error);
-    }
+    console.log('Outil sélectionné:', tool.name);
+    setSelectedTool(tool);
+    
+    const updatedRecent = [tool.id, ...recentTools.filter((id: string) => id !== tool.id)].slice(0, 5);
+    setRecentTools(updatedRecent);
   }, [recentTools, setRecentTools]);
 
   const handleCategoryChange = useCallback((category: string) => {
-    try {
-      console.log('Catégorie changée:', category);
-      setSelectedCategory(category);
-    } catch (error) {
-      console.error('Erreur lors du changement de catégorie:', error);
-    }
+    console.log('Catégorie changée:', category);
+    setSelectedCategory(category);
   }, []);
 
   const handleToggleFavorite = useCallback((toolId: string) => {
-    try {
-      toggleFavorite(toolId);
-      console.log('Favori basculé pour l\'outil:', toolId);
-    } catch (error) {
-      console.error('Erreur lors de la gestion des favoris:', error);
-    }
+    toggleFavorite(toolId);
+    console.log('Favori basculé pour l\'outil:', toolId);
   }, [toggleFavorite]);
 
   const handleCloseModal = useCallback(() => {
-    try {
-      setSelectedTool(null);
-      console.log('Modal fermée');
-    } catch (error) {
-      console.error('Erreur lors de la fermeture de la modal:', error);
-    }
+    setSelectedTool(null);
+    console.log('Modal fermée');
   }, []);
 
   const scrollToTools = useCallback(() => {
-    try {
-      if (toolsRef.current) {
-        toolsRef.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-        console.log('Scroll vers les outils effectué');
-      }
-    } catch (error) {
-      console.error('Erreur lors du scroll:', error);
+    if (toolsRef.current) {
+      toolsRef.current.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
     }
   }, []);
 
   const handleLogoClick = useCallback(() => {
-    try {
-      // Fermer la modal si ouverte
-      if (selectedTool) {
-        setSelectedTool(null);
-      }
-      
-      // Réinitialiser les filtres
-      setSelectedCategory('all');
-      
-      // Scroll vers le haut
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      
-      console.log('Navigation vers l\'accueil');
-    } catch (error) {
-      console.error('Erreur lors de la navigation vers l\'accueil:', error);
+    if (selectedTool) {
+      setSelectedTool(null);
     }
+    setSelectedCategory('all');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [selectedTool]);
 
-  const handleBreadcrumbNavigation = useCallback((path: string) => {
-    try {
-      if (path === '/') {
-        handleLogoClick();
-      } else if (path.startsWith('/category/')) {
-        navigate(path);
-      }
-      console.log('Navigation breadcrumb vers:', path);
-    } catch (error) {
-      console.error('Erreur lors de la navigation breadcrumb:', error);
-    }
-  }, [handleLogoClick, navigate]);
-
   const handleCategoryClick = useCallback((categoryId: string) => {
-    try {
-      navigate(`/category/${categoryId}`);
-      console.log('Navigation vers catégorie:', categoryId);
-    } catch (error) {
-      console.error('Erreur lors de la navigation vers catégorie:', error);
-    }
+    navigate(`/category/${categoryId}`);
   }, [navigate]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/20 to-indigo-50/30 flex flex-col">
       <ConnectionStatus />
       
-      {/* Navigation */}
       <ModernHeader 
         currentTool={selectedTool ? { name: selectedTool.name, category: selectedTool.category } : undefined}
         onLogoClick={handleLogoClick}
-        onBreadcrumbNavigate={handleBreadcrumbNavigation}
+        onBreadcrumbNavigate={(path) => {
+          if (path === '/') {
+            handleLogoClick();
+          }
+        }}
       />
 
-      {/* Contenu principal */}
       <div className="flex-1 flex flex-col">
         <main className="flex-1 w-full">
-          {/* Hero Section Révolutionnaire */}
           {!selectedTool && (
-            <RevolutionaryHeroSection onScrollToTools={scrollToTools} />
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <Suspense fallback={<LoadingState text="Chargement de la page d'accueil..." />}>
+                <RevolutionaryHeroSection onScrollToTools={scrollToTools} />
+              </Suspense>
+            </ErrorBoundary>
           )}
           
-          {/* Section Catégories Premium */}
           {!selectedTool && (
             <section ref={toolsRef}>
-              <PremiumToolCategories 
-                selectedCategory={selectedCategory}
-                onCategoryChange={handleCategoryChange}
-                onCategoryClick={handleCategoryClick}
-              />
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <Suspense fallback={<LoadingState text="Chargement des catégories..." />}>
+                  <PremiumToolCategories 
+                    selectedCategory={selectedCategory}
+                    onCategoryChange={handleCategoryChange}
+                    onCategoryClick={handleCategoryClick}
+                  />
+                </Suspense>
+              </ErrorBoundary>
               
               <div className="px-4 pb-20">
                 <div className="max-w-7xl mx-auto">
-                  <ToolsGrid 
-                    selectedCategory={selectedCategory}
-                    searchTerm=""
-                    favorites={favorites}
-                    onToolSelect={handleToolSelect}
-                    onToggleFavorite={handleToggleFavorite}
-                    recentTools={recentTools}
-                  />
+                  <ErrorBoundary FallbackComponent={ErrorFallback}>
+                    <Suspense fallback={<LoadingState text="Chargement des outils..." />}>
+                      <ToolsGrid 
+                        selectedCategory={selectedCategory}
+                        searchTerm=""
+                        favorites={favorites}
+                        onToolSelect={handleToolSelect}
+                        onToggleFavorite={handleToggleFavorite}
+                        recentTools={recentTools}
+                      />
+                    </Suspense>
+                  </ErrorBoundary>
                 </div>
               </div>
             </section>
           )}
         </main>
 
-        {/* Modal d'outil */}
         {selectedTool && (
-          <ToolModal 
-            tool={selectedTool}
-            onClose={handleCloseModal}
-            isFavorite={favorites.includes(selectedTool.id)}
-            onToggleFavorite={() => handleToggleFavorite(selectedTool.id)}
-          />
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <Suspense fallback={<LoadingState fullScreen text="Chargement de l'outil..." />}>
+              <ToolModal 
+                tool={selectedTool}
+                onClose={handleCloseModal}
+                isFavorite={favorites.includes(selectedTool.id)}
+                onToggleFavorite={() => handleToggleFavorite(selectedTool.id)}
+              />
+            </Suspense>
+          </ErrorBoundary>
         )}
       </div>
       
