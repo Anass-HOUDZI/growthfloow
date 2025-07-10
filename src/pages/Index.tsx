@@ -1,12 +1,11 @@
-
 import React, { useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ModernHeader } from '../components/layout/ModernHeader';
-import { ModernToolCategories } from '../components/layout/ModernToolCategories';
+import { PremiumToolCategories } from '../components/layout/PremiumToolCategories';
 import { ToolsGrid } from '../components/ToolsGrid';
 import { ToolModal } from '../components/ToolModal';
 import { ConnectionStatus } from '../components/ConnectionStatus';
-import { HeroSection } from '../components/hero/HeroSection';
+import { RevolutionaryHeroSection } from '../components/hero/RevolutionaryHeroSection';
 import { Footer } from "../components/layout/Footer";
 import { useFavorites } from '../hooks/useFavorites';
 import { useLocalStorage } from '../hooks/useLocalStorage';
@@ -138,23 +137,22 @@ const Index = () => {
       {/* Contenu principal */}
       <div className="flex-1 flex flex-col">
         <main className="flex-1 w-full">
-          {/* Hero Section - uniquement sur l'accueil */}
+          {/* Hero Section Révolutionnaire */}
           {!selectedTool && (
-            <HeroSection onScrollToTools={scrollToTools} />
+            <RevolutionaryHeroSection onScrollToTools={scrollToTools} />
           )}
           
-          {/* Section Catégories et Outils - uniquement sur l'accueil */}
+          {/* Section Catégories Premium */}
           {!selectedTool && (
-            <section ref={toolsRef} className={`${isMobile ? 'px-4 pb-8' : 'px-8 pb-16'}`}>
-              <div className="max-w-7xl mx-auto">
-                <ModernToolCategories 
-                  selectedCategory={selectedCategory}
-                  onCategoryChange={handleCategoryChange}
-                  onCategoryClick={handleCategoryClick}
-                  compact={!isMobile}
-                />
-                
-                <div className="mt-12 mb-16">
+            <section ref={toolsRef}>
+              <PremiumToolCategories 
+                selectedCategory={selectedCategory}
+                onCategoryChange={handleCategoryChange}
+                onCategoryClick={handleCategoryClick}
+              />
+              
+              <div className="px-4 pb-20">
+                <div className="max-w-7xl mx-auto">
                   <ToolsGrid 
                     selectedCategory={selectedCategory}
                     searchTerm=""
