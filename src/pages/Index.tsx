@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useRef, Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -11,10 +10,10 @@ import { useFavorites } from '../hooks/useFavorites';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useResponsive } from '../hooks/useResponsive';
 
-// Lazy loading des composants lourds
-const PremiumToolCategories = lazy(() => 
-  import('../components/layout/PremiumToolCategories').then(module => ({
-    default: module.PremiumToolCategories
+// Lazy loading des nouveaux composants épurés
+const CleanPremiumToolCategories = lazy(() => 
+  import('../components/layout/CleanPremiumToolCategories').then(module => ({
+    default: module.CleanPremiumToolCategories
   }))
 );
 
@@ -24,9 +23,9 @@ const ToolsGrid = lazy(() =>
   }))
 );
 
-const RevolutionaryHeroSection = lazy(() => 
-  import('../components/hero/RevolutionaryHeroSection').then(module => ({
-    default: module.RevolutionaryHeroSection
+const CleanHeroSection = lazy(() => 
+  import('../components/hero/CleanHeroSection').then(module => ({
+    default: module.CleanHeroSection
   }))
 );
 
@@ -98,7 +97,7 @@ const Index = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/20 to-indigo-50/30 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       <ConnectionStatus />
       
       <ModernHeader 
@@ -116,7 +115,7 @@ const Index = () => {
           {!selectedTool && (
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <Suspense fallback={<LoadingState text="Chargement de la page d'accueil..." />}>
-                <RevolutionaryHeroSection onScrollToTools={scrollToTools} />
+                <CleanHeroSection onScrollToTools={scrollToTools} />
               </Suspense>
             </ErrorBoundary>
           )}
@@ -125,7 +124,7 @@ const Index = () => {
             <section ref={toolsRef}>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
                 <Suspense fallback={<LoadingState text="Chargement des catégories..." />}>
-                  <PremiumToolCategories 
+                  <CleanPremiumToolCategories 
                     selectedCategory={selectedCategory}
                     onCategoryChange={handleCategoryChange}
                     onCategoryClick={handleCategoryClick}
@@ -133,7 +132,7 @@ const Index = () => {
                 </Suspense>
               </ErrorBoundary>
               
-              <div className="px-4 pb-20">
+              <div className="px-6 pb-20 bg-slate-50">
                 <div className="max-w-7xl mx-auto">
                   <ErrorBoundary FallbackComponent={ErrorFallback}>
                     <Suspense fallback={<LoadingState text="Chargement des outils..." />}>

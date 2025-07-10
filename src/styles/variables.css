@@ -32,20 +32,34 @@
 
     --radius: 0.75rem;
 
-    /* Premium Color Palette */
-    --blue-electric: 217 91% 60%;
-    --violet-cosmic: 258 90% 66%;
-    --rose-sunset: 351 83% 61%;
-    --orange-vibrant: 25 95% 53%;
+    /* Nouvelle palette couleurs épurée */
+    --orange-primary: 25 95% 53%;
+    --orange-light: 25 95% 63%;
+    --orange-dark: 25 95% 43%;
     
-    /* Glassmorphism */
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-blur: 16px;
+    --green-primary: 142 71% 45%;
+    --green-light: 142 71% 55%;
+    --green-dark: 142 71% 35%;
+    
+    --blue-primary: 217 91% 60%;
+    --blue-light: 217 91% 70%;
+    --blue-dark: 217 91% 50%;
+    
+    /* Couleurs neutres épurées */
+    --neutral-50: 210 20% 98%;
+    --neutral-100: 210 20% 95%;
+    --neutral-200: 210 16% 88%;
+    --neutral-300: 210 14% 78%;
+    --neutral-400: 210 14% 65%;
+    --neutral-500: 210 11% 52%;
+    --neutral-600: 210 12% 42%;
+    --neutral-700: 210 15% 32%;
+    --neutral-800: 210 24% 16%;
+    --neutral-900: 210 40% 8%;
     
     /* Animation Speed */
-    --animation-speed: 0.3s;
-    --animation-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --animation-speed: 0.2s;
+    --animation-bounce: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .dark {
