@@ -1,0 +1,75 @@
+
+/* Utility Classes */
+@layer utilities {
+  /* Performance Optimizations */
+  .transform-gpu {
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+  }
+
+  .bg-size-400 {
+    background-size: 400% 400%;
+  }
+
+  /* Glassmorphism */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Premium Shadows */
+  .shadow-premium {
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+
+  .shadow-glow-blue {
+    box-shadow: 0 0 50px rgba(59, 130, 246, 0.15);
+  }
+
+  .shadow-glow-purple {
+    box-shadow: 0 0 50px rgba(139, 92, 246, 0.15);
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* 3D Transform Support */
+  .transform-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+
+  /* Smooth Transitions */
+  .transition-premium {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Container Widths */
+  .container-full { @apply w-full max-w-none; }
+  .container-wide { @apply max-w-[1600px] mx-auto; }
+  .container-narrow { @apply max-w-4xl mx-auto; }
+
+  /* Mobile Optimizations */
+  @media (max-width: 768px) {
+    .mobile-padding { @apply px-4 py-2; }
+    .mobile-text-size { @apply text-sm; }
+    .touch-target { @apply min-h-[44px] min-w-[44px]; }
+  }
+}
