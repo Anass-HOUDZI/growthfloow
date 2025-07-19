@@ -1,14 +1,15 @@
 import React, { useState, useCallback, useRef, Suspense, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ModernHeader } from '../components/layout/ModernHeader';
+import { GlobalHeader } from '../components/layout/GlobalHeader';
+import { GlobalFooter } from '../components/layout/GlobalFooter';
 import { ConnectionStatus } from '../components/ConnectionStatus';
-import { Footer } from "../components/layout/Footer";
 import { LoadingState } from '../components/ui/loading-state';
 import { ErrorFallback } from '../components/ui/ErrorFallback';
 import { useFavorites } from '../hooks/useFavorites';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useResponsive } from '../hooks/useResponsive';
+import { useSearch } from '../hooks/useSearch';
 
 // Lazy loading des nouveaux composants épurés
 const CleanPremiumToolCategories = lazy(() => 
@@ -17,9 +18,9 @@ const CleanPremiumToolCategories = lazy(() =>
   }))
 );
 
-const ToolsGrid = lazy(() => 
-  import('../components/ToolsGrid').then(module => ({
-    default: module.ToolsGrid
+const ToolsGridSimplified = lazy(() => 
+  import('../components/ToolsGridSimplified').then(module => ({
+    default: module.ToolsGridSimplified
   }))
 );
 
@@ -48,17 +49,14 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
   const { favorites, toggleFavorite } = useFavorites();
-  const [recentTools, setRecentTools] = useLocalStorage<string[]>('recentTools', []);
   const { isMobile } = useResponsive();
+  const { searchTerm, updateSuggestions, setSearchTerm } = useSearch();
   const toolsRef = useRef<HTMLElement>(null);
 
   const handleToolSelect = useCallback((tool: Tool) => {
     console.log('Outil sélectionné:', tool.name);
     setSelectedTool(tool);
-    
-    const updatedRecent = [tool.id, ...recentTools.filter((id: string) => id !== tool.id)].slice(0, 5);
-    setRecentTools(updatedRecent);
-  }, [recentTools, setRecentTools]);
+  }, []);
 
   const handleCategoryChange = useCallback((category: string) => {
     console.log('Catégorie changée:', category);
@@ -100,7 +98,7 @@ const Index = () => {
     <div className="min-h-screen bg-white flex flex-col">
       <ConnectionStatus />
       
-      <ModernHeader 
+      <GlobalHeader 
         currentTool={selectedTool ? { name: selectedTool.name, category: selectedTool.category } : undefined}
         onLogoClick={handleLogoClick}
         onBreadcrumbNavigate={(path) => {
@@ -108,6 +106,8 @@ const Index = () => {
             handleLogoClick();
           }
         }}
+        searchValue={searchTerm}
+        onSearchChange={setSearchTerm}
       />
 
       <div className="flex-1 flex flex-col">
@@ -136,13 +136,12 @@ const Index = () => {
                 <div className="max-w-7xl mx-auto">
                   <ErrorBoundary FallbackComponent={ErrorFallback}>
                     <Suspense fallback={<LoadingState text="Chargement des outils..." />}>
-                      <ToolsGrid 
+                      <ToolsGridSimplified 
                         selectedCategory={selectedCategory}
-                        searchTerm=""
+                        searchTerm={searchTerm}
                         favorites={favorites}
                         onToolSelect={handleToolSelect}
                         onToggleFavorite={handleToggleFavorite}
-                        recentTools={recentTools}
                       />
                     </Suspense>
                   </ErrorBoundary>
@@ -166,7 +165,7 @@ const Index = () => {
         )}
       </div>
       
-      <Footer />
+      <GlobalFooter />
     </div>
   );
 };

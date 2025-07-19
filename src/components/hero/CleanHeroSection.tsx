@@ -73,7 +73,7 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
           <p className={`${isMobile ? 'text-lg' : 'text-xl md:text-2xl'} text-slate-600 max-w-4xl mx-auto leading-relaxed font-medium`}>
             <span className="text-blue-600 font-bold">50+ outils</span> professionnels de growth marketing, 
             <span className="text-green-600 font-bold"> 100% gratuits</span> et 
-            <span className="text-orange-600 font-bold"> privacy-first</span>
+            <span className="text-orange-600 font-bold"> ultra-responsifs</span>
           </p>
         </div>
 
@@ -125,22 +125,22 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
           )}
         </div>
 
-        {/* CTA épuré avec bordure et fond dégradé */}
+        {/* CTA épuré avec bordure et fond dégradé ultra-visible */}
         <div className="space-y-12 pt-8">
           <button
             onClick={handleScrollClick}
-            className="inline-flex items-center space-x-3 px-12 py-6 text-lg font-bold text-white bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600 border-3 border-blue-700 rounded-lg shadow-lg hover:shadow-xl hover:from-blue-700 hover:via-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200"
+            className="inline-flex items-center space-x-4 px-16 py-8 text-xl font-black text-white bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 border-4 border-blue-800 rounded-xl shadow-2xl hover:shadow-3xl hover:from-blue-700 hover:via-purple-700 hover:to-blue-700 transform hover:scale-110 transition-all duration-300 animate-pulse"
           >
-            <Zap className="w-6 h-6" />
+            <Zap className="w-8 h-8" />
             <span>Découvrir les outils</span>
-            <ArrowDown className="w-5 h-5" />
+            <ArrowDown className="w-6 h-6" />
           </button>
           
-          {/* Indicateur de scroll plus visible avec plus de marges */}
-          <div className="flex justify-center pt-8">
-            <div className="w-12 h-16 rounded-full bg-white border-3 border-blue-300 shadow-lg flex items-center justify-center cursor-pointer hover:border-blue-400 hover:shadow-xl transition-all duration-200"
+          {/* Indicateur de scroll ultra-visible avec marges optimisées */}
+          <div className="flex justify-center pt-12">
+            <div className="w-16 h-20 rounded-full bg-gradient-to-b from-white to-blue-50 border-4 border-blue-400 shadow-xl flex items-center justify-center cursor-pointer hover:border-blue-500 hover:shadow-2xl hover:scale-110 transition-all duration-300"
                  onClick={handleScrollClick}>
-              <div className="w-2 h-6 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full animate-pulse" />
+              <div className="w-3 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full animate-bounce" />
             </div>
           </div>
         </div>
