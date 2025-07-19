@@ -12,9 +12,9 @@ import { useResponsive } from '../hooks/useResponsive';
 import { useSearch } from '../hooks/useSearch';
 
 // Lazy loading des nouveaux composants épurés
-const CleanPremiumToolCategories = lazy(() => 
-  import('../components/layout/CleanPremiumToolCategories').then(module => ({
-    default: module.CleanPremiumToolCategories
+const HorizontalCategoryBar = lazy(() => 
+  import('../components/categories/HorizontalCategoryBar').then(module => ({
+    default: module.HorizontalCategoryBar
   }))
 );
 
@@ -124,7 +124,7 @@ const Index = () => {
             <section ref={toolsRef}>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
                 <Suspense fallback={<LoadingState text="Chargement des catégories..." />}>
-                  <CleanPremiumToolCategories 
+                  <HorizontalCategoryBar 
                     selectedCategory={selectedCategory}
                     onCategoryChange={handleCategoryChange}
                     onCategoryClick={handleCategoryClick}

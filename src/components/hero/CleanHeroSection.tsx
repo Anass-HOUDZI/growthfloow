@@ -125,22 +125,41 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
           )}
         </div>
 
-        {/* CTA épuré avec bordure et fond dégradé ultra-visible */}
-        <div className="space-y-12 pt-8">
+        {/* CTA épuré responsive sans animation */}
+        <div className="space-y-16 pt-8">
           <button
             onClick={handleScrollClick}
-            className="inline-flex items-center space-x-4 px-16 py-8 text-xl font-black text-white bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 border-4 border-blue-800 rounded-xl shadow-2xl hover:shadow-3xl hover:from-blue-700 hover:via-purple-700 hover:to-blue-700 transform hover:scale-110 transition-all duration-300 animate-pulse"
+            className={`
+              inline-flex items-center space-x-3 
+              ${isMobile ? 'px-8 py-4 text-lg' : 'px-12 py-6 text-xl'} 
+              font-black text-white 
+              bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 
+              border-3 border-blue-800 rounded-xl shadow-xl
+              hover:shadow-2xl hover:from-blue-700 hover:via-purple-700 hover:to-blue-700 
+              transition-all duration-200
+            `}
           >
-            <Zap className="w-8 h-8" />
+            <Zap className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'}`} />
             <span>Découvrir les outils</span>
-            <ArrowDown className="w-6 h-6" />
+            <ArrowDown className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} />
           </button>
           
-          {/* Indicateur de scroll ultra-visible avec marges optimisées */}
-          <div className="flex justify-center pt-12">
-            <div className="w-16 h-20 rounded-full bg-gradient-to-b from-white to-blue-50 border-4 border-blue-400 shadow-xl flex items-center justify-center cursor-pointer hover:border-blue-500 hover:shadow-2xl hover:scale-110 transition-all duration-300"
+          {/* Indicateur de scroll plus visible avec plus de marge */}
+          <div className="flex justify-center pt-16">
+            <div className={`
+              ${isMobile ? 'w-20 h-24' : 'w-24 h-28'} 
+              rounded-full bg-gradient-to-b from-white to-blue-50 
+              border-4 border-blue-500 shadow-2xl 
+              flex items-center justify-center cursor-pointer 
+              hover:border-blue-600 hover:shadow-3xl hover:scale-105 
+              transition-all duration-200
+            `}
                  onClick={handleScrollClick}>
-              <div className="w-3 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full animate-bounce" />
+              <div className={`
+                ${isMobile ? 'w-4 h-10' : 'w-5 h-12'} 
+                bg-gradient-to-b from-blue-600 to-purple-600 
+                rounded-full animate-bounce
+              `} />
             </div>
           </div>
         </div>
