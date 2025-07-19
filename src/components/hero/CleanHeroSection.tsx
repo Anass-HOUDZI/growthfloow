@@ -70,33 +70,8 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
             </span>
           </h1>
           
-          <p className={`${isMobile ? 'text-lg' : 'text-xl md:text-2xl'} text-slate-600 max-w-4xl mx-auto leading-relaxed font-medium`}>
-            <span className="text-blue-600 font-bold">50+ outils</span> professionnels de growth marketing, 
-            <span className="text-green-600 font-bold"> 100% gratuits</span> et 
-            <span className="text-orange-600 font-bold"> ultra-responsifs</span>
-          </p>
         </div>
 
-        {/* Barre de recherche épurée */}
-        <div className="max-w-2xl mx-auto">
-          <CardClean className="p-2 bg-white border-2 border-slate-200 shadow-lg">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
-              <input
-                type="text"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                placeholder={searchPlaceholders[currentPlaceholder]}
-                className="w-full pl-12 pr-16 py-4 bg-transparent text-slate-800 placeholder-slate-400 border-0 outline-none text-lg font-medium"
-              />
-              <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                <kbd className="px-3 py-1 text-xs font-semibold text-slate-500 bg-slate-100 border-2 border-slate-200 rounded-md">
-                  ⌘K
-                </kbd>
-              </div>
-            </div>
-          </CardClean>
-        </div>
         
         {/* Statistiques épurées */}
         <div className={`flex ${isMobile ? 'flex-col space-y-4' : 'items-center justify-center space-x-6'}`}>
@@ -126,7 +101,7 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
         </div>
 
         {/* CTA épuré responsive sans animation */}
-        <div className="space-y-16 pt-8">
+        <div className="pt-8">
           <button
             onClick={handleScrollClick}
             className={`
@@ -143,25 +118,6 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
             <span>Découvrir les outils</span>
             <ArrowDown className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} />
           </button>
-          
-          {/* Indicateur de scroll plus visible avec plus de marge */}
-          <div className="flex justify-center pt-16">
-            <div className={`
-              ${isMobile ? 'w-20 h-24' : 'w-24 h-28'} 
-              rounded-full bg-gradient-to-b from-white to-blue-50 
-              border-4 border-blue-500 shadow-2xl 
-              flex items-center justify-center cursor-pointer 
-              hover:border-blue-600 hover:shadow-3xl hover:scale-105 
-              transition-all duration-200
-            `}
-                 onClick={handleScrollClick}>
-              <div className={`
-                ${isMobile ? 'w-4 h-10' : 'w-5 h-12'} 
-                bg-gradient-to-b from-blue-600 to-purple-600 
-                rounded-full animate-bounce
-              `} />
-            </div>
-          </div>
         </div>
       </div>
     </section>
