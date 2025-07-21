@@ -7,6 +7,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { useToast } from '../hooks/use-toast';
+import emailjs from '@emailjs/browser';
 
 const Contact: React.FC = () => {
   const navigate = useNavigate();
@@ -17,27 +18,50 @@ const Contact: React.FC = () => {
     subject: '',
     message: ''
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogoClick = () => {
     navigate('/');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     
-    // Création du lien mailto avec les données du formulaire
-    const subject = encodeURIComponent(formData.subject);
-    const body = encodeURIComponent(`Nom: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
-    const mailtoLink = `mailto:anass.houdzi@gmail.com?subject=${subject}&body=${body}`;
-    
-    // Ouverture du client email
-    window.location.href = mailtoLink;
-    
-    toast({
-      title: "Client email ouvert !",
-      description: "Votre client email s'est ouvert avec le message pré-rempli.",
-    });
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    try {
+      // Configuration EmailJS (vous devrez configurer votre service EmailJS)
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        to_email: 'anass.houdzi@gmail.com',
+        subject: formData.subject,
+        message: formData.message,
+      };
+
+      // Remplacez par vos vraies clés EmailJS
+      await emailjs.send(
+        'YOUR_SERVICE_ID', // Remplacer par votre Service ID
+        'YOUR_TEMPLATE_ID', // Remplacer par votre Template ID  
+        templateParams,
+        'YOUR_PUBLIC_KEY' // Remplacer par votre Public Key
+      );
+
+      toast({
+        title: "Message envoyé avec succès !",
+        description: "Nous vous répondrons dans les plus brefs délais.",
+      });
+      
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi:', error);
+      toast({
+        title: "Erreur d'envoi",
+        description: "Une erreur s'est produite. Veuillez réessayer plus tard.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -130,9 +154,13 @@ const Contact: React.FC = () => {
                   />
                 </div>
                 
-                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+                <Button 
+                  type="submit" 
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  disabled={isLoading}
+                >
                   <Send className="w-4 h-4 mr-2" />
-                  Envoyer le message
+                  {isLoading ? 'Envoi en cours...' : 'Envoyer le message'}
                 </Button>
               </form>
             </CardClean>
