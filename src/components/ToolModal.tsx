@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { ToolRenderer } from './ToolModal/ToolRenderer';
 import { ModernHeader } from './layout/ModernHeader';
 import { ToolActions } from './tools/ToolActions';
+import { GlobalFooter } from './layout/GlobalFooter';
 
 interface Tool {
   id: string;
@@ -87,9 +88,12 @@ export const ToolModal: React.FC<ToolModalProps> = ({
 
         {/* Tool Content */}
         <div className="flex-1 overflow-y-auto bg-slate-50">
-          <div className="container mx-auto px-6 py-8 pb-16">
+          <div className="container mx-auto px-6 py-8">
             <ToolRenderer toolId={tool.id} />
           </div>
+          
+          {/* Footer intégré dans le modal */}
+          <GlobalFooter />
         </div>
       </div>
     </div>
