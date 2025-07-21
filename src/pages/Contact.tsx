@@ -40,10 +40,10 @@ const Contact: React.FC = () => {
 
       // Remplacez par vos vraies clés EmailJS
       await emailjs.send(
-        'YOUR_SERVICE_ID', // Remplacer par votre Service ID
-        'YOUR_TEMPLATE_ID', // Remplacer par votre Template ID  
+        'service_5irs12m', // Remplacer par votre Service ID
+        'template_pp9p24c', // Remplacer par votre Template ID  
         templateParams,
-        'YOUR_PUBLIC_KEY' // Remplacer par votre Public Key
+        'hcbTJ7QhJPMkiMhPe' // Remplacer par votre Public Key
       );
 
       toast({
