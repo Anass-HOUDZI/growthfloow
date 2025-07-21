@@ -24,10 +24,18 @@ const Contact: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulation d'envoi de message
+    
+    // Création du lien mailto avec les données du formulaire
+    const subject = encodeURIComponent(formData.subject);
+    const body = encodeURIComponent(`Nom: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+    const mailtoLink = `mailto:anass.houdzi@gmail.com?subject=${subject}&body=${body}`;
+    
+    // Ouverture du client email
+    window.location.href = mailtoLink;
+    
     toast({
-      title: "Message envoyé !",
-      description: "Nous vous répondrons dans les plus brefs délais.",
+      title: "Client email ouvert !",
+      description: "Votre client email s'est ouvert avec le message pré-rempli.",
     });
     setFormData({ name: '', email: '', subject: '', message: '' });
   };
@@ -151,13 +159,13 @@ const Contact: React.FC = () => {
                 </a>
                 
                 <a
-                  href="mailto:anass@opentoolsai.com"
+                  href="mailto:anass.houdzi@gmail.com"
                   className="flex items-center space-x-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors"
                 >
                   <Mail className="w-5 h-5 text-green-600" />
                   <div>
                     <div className="font-medium text-slate-900 dark:text-white">Email</div>
-                    <div className="text-sm text-slate-600 dark:text-gray-400">anass@opentoolsai.com</div>
+                    <div className="text-sm text-slate-600 dark:text-gray-400">anass.houdzi@gmail.com</div>
                   </div>
                 </a>
               </div>
