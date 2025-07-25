@@ -57,7 +57,7 @@ export const RevolutionaryHeroSection: React.FC<RevolutionaryHeroSectionProps> =
           shine
         >
           <Sparkles className="w-5 h-5 text-blue-600 animate-pulse" />
-          <span className="text-primary font-semibold text-sm sm:text-base">
+          <span className="font-semibold text-sm sm:text-base" style={{ background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>
             GrowthFlow Growth Suite Premium
           </span>
           <Sparkles className="w-5 h-5 text-purple-600 animate-pulse animation-delay-2000" />
