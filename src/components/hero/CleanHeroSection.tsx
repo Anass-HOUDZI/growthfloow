@@ -65,7 +65,7 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
               Growth Marketing
             </span>
             <br />
-            <span className="text-blue-600">
+            <span className="text-primary font-bold" style={{ background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>
               Nouvelle Génération
             </span>
           </h1>

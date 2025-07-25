@@ -14,7 +14,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ children }) =>
           <Zap className="w-5 h-5 text-primary" />
           <span className="text-blue-700 font-semibold">Catégories d'outils</span>
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-6">
+        <h2 className="text-3xl md:text-4xl font-bold mb-6" style={{ background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>
           Choisissez votre domaine d'expertise
         </h2>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto">

@@ -42,7 +42,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToTools }) => 
             Growth Marketing
           </span>
           <br />
-          <span className="text-slate-800">
+          <span className="text-slate-800" style={{ background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>
             Nouvelle Génération
           </span>
         </h1>

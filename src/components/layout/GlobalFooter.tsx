@@ -108,7 +108,7 @@ export const GlobalFooter: React.FC = () => {
           <div className="lg:col-span-2">
             <h3 className="font-bold text-slate-900 dark:text-white mb-6 flex items-center space-x-2">
               <Zap className="w-5 h-5 text-blue-600" />
-              <span>Nos outils</span>
+              <span style={{ background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent', fontWeight: 'bold' }}>Nos outils</span>
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {toolCategories.map((category) => (
@@ -140,7 +140,7 @@ export const GlobalFooter: React.FC = () => {
           {/* Liens et contact */}
           <div className="lg:col-span-1">
             <h3 className="font-bold text-slate-900 dark:text-white mb-6">
-              Support & Contact
+              <span style={{ background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent', fontWeight: 'bold' }}>Support & Contact</span>
             </h3>
             <div className="space-y-4">
               <Link 
