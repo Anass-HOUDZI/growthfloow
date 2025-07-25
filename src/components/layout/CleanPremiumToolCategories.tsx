@@ -77,7 +77,7 @@ export const CleanPremiumToolCategories: React.FC<CleanPremiumToolCategoriesProp
           <CardClean className="inline-flex items-center space-x-3 px-8 py-4 bg-white border-2 border-blue-200">
             <Zap className="w-5 h-5 text-primary" />
             <span className="font-bold text-lg" style={{ background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>
-              GrowthFlow Growth Suite Premium
+              Fluidifiez votre croissance
             </span>
           </CardClean>
           

@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'opentoolsai-v1.0.0';
+const CACHE_NAME = 'GrowthFlow-v1.0.0';
 const STATIC_CACHE = 'static-cache-v1';
 const DYNAMIC_CACHE = 'dynamic-cache-v1';
 const API_CACHE = 'api-cache-v1';
@@ -168,7 +168,7 @@ self.addEventListener('push', (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification('OpenToolsAI', options)
+    self.registration.showNotification('GrowthFlow', options)
   );
 });
 

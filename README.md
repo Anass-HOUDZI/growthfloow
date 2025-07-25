@@ -1,8 +1,8 @@
-# OpenToolsAI
+# GrowthFlow
 
-OpenToolsAI Suite est une collection complète de 50 outils gratuits conçus pour optimiser et automatiser les processus de marketing de croissance. Ces outils couvrent une large gamme de fonctionnalités pour l'analyse des entonnoirs de conversion, la conception d'expériences de croissance, l'optimisation des performances des canaux, et bien plus encore.
+GrowthFlow Suite est une collection complète de 50 outils gratuits conçus pour optimiser et automatiser les processus de marketing de croissance. Ces outils couvrent une large gamme de fonctionnalités pour l'analyse des entonnoirs de conversion, la conception d'expériences de croissance, l'optimisation des performances des canaux, et bien plus encore.
 
-**Lien du Projet** : [OpenToolsAI](https://growth-alchemy-suite.lovable.app/)
+**Lien du Projet** : [GrowthFlow](https://growth-alchemy-suite.lovable.app/)
 
 ## Fonctionnalités Principales
 
@@ -322,7 +322,7 @@ Les dirigeants marketing manquent de vues consolidées de leurs performances et 
   - Optimisation du bundle < 1MB initial.
 ## Contribution
 
-Les contributions sont les bienvenues ! Pour contribuer à OpenToolsAI Suite, suivez ces étapes :
+Les contributions sont les bienvenues ! Pour contribuer à GrowthFlow Suite, suivez ces étapes :
 
 1. **Fork le Projet** :
    - Fork le projet sur GitHub pour créer votre propre copie du dépôt.

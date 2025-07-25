@@ -39,11 +39,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToTools }) => 
         
         <h1 className={`${isMobile ? 'text-3xl' : 'text-5xl md:text-6xl'} font-black mb-6 tracking-tight leading-tight`}>
           <span className="text-primary font-bold">
-            Growth Marketing
+            Growth fluide,
           </span>
           <br />
           <span className="text-slate-800" style={{ background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>
-            Nouvelle Génération
+            Résultats solides
           </span>
         </h1>
         

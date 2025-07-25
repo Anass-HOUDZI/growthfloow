@@ -52,7 +52,7 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
           <CardClean className="inline-flex items-center space-x-4 px-8 py-4 bg-white border-2 border-blue-200 shadow-md">
             <Zap className="w-6 h-6 text-blue-600" />
             <span className="font-bold text-lg" style={{ background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>
-              GrowthFlow Growth Suite Premium
+              GrowthFlow Suite Premium
             </span>
             <Zap className="w-6 h-6 text-orange-500" />
           </CardClean>
