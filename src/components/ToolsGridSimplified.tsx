@@ -56,7 +56,7 @@ export const ToolsGridSimplified: React.FC<ToolsGridSimplifiedProps> = ({
       {/* En-tête avec compteur d'outils */}
       <section className="w-full">
         <div className="mb-8 text-center">
-          <div className="flex items-center justify-center space-x-3 mb-4">
+          <div className="flex items-center justify-center space-x-3 mb-4 mt-4">
             <div className={`p-3 rounded-xl ${isSearchActive ? 'bg-green-100' : 'bg-blue-100'}`}>
               {isSearchActive ? (
                 <Search className="w-6 h-6 text-green-600" />
