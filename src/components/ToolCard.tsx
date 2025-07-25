@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Star, Zap, Clock, ArrowRight, Eye } from 'lucide-react';
+import { Star, Clock, ArrowRight, Eye } from 'lucide-react';
 import { TouchOptimized } from './ui/TouchOptimized';
 import { useResponsive } from '../hooks/useResponsive';
 
@@ -86,7 +86,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
         {/* Métriques et badges */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-1 text-xs text-slate-500">
-            <Zap className="w-3 h-3" />
+            <span className="text-purple-600 font-bold text-sm">F</span>
             <span>Instant</span>
           </div>
           {tool.isPremium && (

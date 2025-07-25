@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Zap, Shield, Globe, TrendingUp, ArrowDown, Search, CheckCircle } from 'lucide-react';
+import { Shield, Globe, TrendingUp, ArrowDown, Search, CheckCircle } from 'lucide-react';
 import { ButtonClean } from '../ui/button-clean';
 import { CardClean } from '../ui/card-clean';
 import { useResponsive } from '../../hooks/useResponsive';
@@ -50,11 +50,11 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
         {/* Badge Premium avec plus de marges */}
         <div className="flex justify-center mb-12">
           <CardClean className="inline-flex items-center space-x-4 px-8 py-4 bg-white border-2 border-blue-200 shadow-md">
-            <Zap className="w-6 h-6 text-blue-600" />
+            <span className="text-purple-600 font-bold text-2xl">F</span>
             <span className="text-blue-700 font-bold text-lg">
-              OpenToolsAI Growth Suite Premium
+              GrowthFlow Suite Premium
             </span>
-            <Zap className="w-6 h-6 text-orange-500" />
+            <span className="text-purple-600 font-bold text-2xl">F</span>
           </CardClean>
         </div>
         
@@ -114,7 +114,7 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
               transition-all duration-200
             `}
           >
-            <Zap className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'}`} />
+            <span className={`text-purple-600 font-bold ${isMobile ? 'text-lg' : 'text-2xl'}`}>F</span>
             <span>Découvrir les outils</span>
             <ArrowDown className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} />
           </button>

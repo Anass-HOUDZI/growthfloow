@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Menu, X, Home, Settings, Heart, History, Sparkles, Zap } from 'lucide-react';
+import { Menu, X, Home, Settings, Heart, History, Sparkles } from 'lucide-react';
 import { TouchOptimized } from '../ui/TouchOptimized';
 import { useResponsive } from '../../hooks/useResponsive';
 
@@ -26,12 +26,12 @@ export const ModernMobileNav: React.FC<ModernMobileNavProps> = ({ favoritesCount
           <div className="flex items-center space-x-2">
             <div className="relative">
               <div className="w-8 h-8 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white" />
+                <span className="text-white font-bold text-sm">F</span>
               </div>
               <Sparkles className="absolute -top-0.5 -right-0.5 w-3 h-3 text-yellow-400" />
             </div>
             <h1 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              OpenToolsAI
+              GrowthFlow
             </h1>
           </div>
         </div>
@@ -49,10 +49,10 @@ export const ModernMobileNav: React.FC<ModernMobileNavProps> = ({ favoritesCount
             <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-purple-50">
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                  <Zap className="w-6 h-6 text-white" />
+                  <span className="text-white font-bold text-lg">F</span>
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-slate-800">OpenToolsAI</h2>
+                  <h2 className="text-lg font-bold text-slate-800">GrowthFlow</h2>
                   <p className="text-sm text-slate-600">Growth Suite</p>
                 </div>
               </div>
