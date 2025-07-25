@@ -1,18 +1,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
-
-const STORAGE_KEY = 'opentools-favorites';
+import { useSecureStorage } from './useSecureStorage';
 
 export const useFavorites = () => {
-  const [favorites, setFavorites] = useState<string[]>(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? JSON.parse(stored) : [];
-    } catch (error) {
-      console.error('Error loading favorites:', error);
-      return [];
-    }
-  });
+  const [favorites, setFavorites, removeFavorites] = useSecureStorage<string[]>('opentools-favorites', []);
 
   const toggleFavorite = useCallback((toolId: string) => {
     setFavorites(prev => {
@@ -20,15 +11,9 @@ export const useFavorites = () => {
         ? prev.filter(id => id !== toolId)
         : [...prev, toolId];
       
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(newFavorites));
-      } catch (error) {
-        console.error('Error saving favorites:', error);
-      }
-      
       return newFavorites;
     });
-  }, []);
+  }, [setFavorites]);
 
   const addFavorite = useCallback((toolId: string) => {
     if (!favorites.includes(toolId)) {

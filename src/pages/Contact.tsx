@@ -7,6 +7,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { useToast } from '../hooks/use-toast';
+import { sanitizeInput, validateEmailConfig } from '../utils/security';
 import emailjs from '@emailjs/browser';
 
 const Contact: React.FC = () => {
@@ -29,21 +30,45 @@ const Contact: React.FC = () => {
     setIsLoading(true);
     
     try {
-      // Configuration EmailJS (vous devrez configurer votre service EmailJS)
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        to_email: 'anass.houdzi@gmail.com',
-        subject: formData.subject,
-        message: formData.message,
+      // Sanitize form data before processing
+      const sanitizedData = {
+        name: sanitizeInput(formData.name, 100),
+        email: sanitizeInput(formData.email, 255),
+        subject: sanitizeInput(formData.subject, 200),
+        message: sanitizeInput(formData.message, 2000),
       };
 
-      // Remplacez par vos vraies clés EmailJS
+      // Validate email configuration
+      const emailConfig = {
+        serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+      };
+
+      try {
+        validateEmailConfig(emailConfig);
+      } catch (configError) {
+        toast({
+          title: "Configuration Error",
+          description: "Email service is not properly configured. Please contact the administrator.",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      const templateParams = {
+        from_name: sanitizedData.name,
+        from_email: sanitizedData.email,
+        to_email: 'anass.houdzi@gmail.com',
+        subject: sanitizedData.subject,
+        message: sanitizedData.message,
+      };
+
       await emailjs.send(
-        'YOUR_SERVICE_ID', // Remplacer par votre Service ID
-        'YOUR_TEMPLATE_ID', // Remplacer par votre Template ID  
+        emailConfig.serviceId!,
+        emailConfig.templateId!,
         templateParams,
-        'YOUR_PUBLIC_KEY' // Remplacer par votre Public Key
+        emailConfig.publicKey!
       );
 
       toast({

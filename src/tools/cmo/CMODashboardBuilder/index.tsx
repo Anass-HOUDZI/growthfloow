@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Layout, Plus, Trash, Loader2 } from "lucide-react";
 import { KPI_LIBRARY, KPIItem } from "./kpis";
@@ -21,6 +21,7 @@ export const CMODashboardBuilder: React.FC = () => {
     { id: "cac", chartType: "line" },
   ]);
   const [adding, setAdding] = useState(false);
+  const selectRef = useRef<HTMLSelectElement>(null);
 
   const availableKPIs = KPI_LIBRARY.filter(
     (kpi) => !dashboardKPIs.some((item) => item.id === kpi.id)
@@ -78,6 +79,7 @@ export const CMODashboardBuilder: React.FC = () => {
               <label className="font-semibold text-slate-700 text-sm mb-2 block">Ajouter un KPI</label>
               <div className="flex gap-2">
                 <select
+                  ref={selectRef}
                   className="rounded-md border px-3 py-2 text-sm"
                   disabled={adding || availableKPIs.length === 0}
                   defaultValue=""
@@ -92,10 +94,9 @@ export const CMODashboardBuilder: React.FC = () => {
                 </select>
                 <Button
                   onClick={() => {
-                    const select = document.querySelector<HTMLSelectElement>(
-                      'select'
-                    );
-                    if (select && select.value) handleAddKPI(select.value);
+                    if (selectRef.current && selectRef.current.value) {
+                      handleAddKPI(selectRef.current.value);
+                    }
                   }}
                   disabled={adding || availableKPIs.length === 0}
                   size="sm"
