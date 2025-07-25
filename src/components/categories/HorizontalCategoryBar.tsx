@@ -104,14 +104,14 @@ export const HorizontalCategoryBar: React.FC<HorizontalCategoryBarProps> = ({
   onCategoryClick
 }) => {
   return (
-    <section className="py-12 px-4 bg-gradient-to-br from-slate-50 to-blue-50/30">
+    <section className="py-12 px-4 bg-gradient-to-br from-slate-50 to-primary/5">
       <div className="max-w-7xl mx-auto">
         {/* En-tête */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-4">
             Choisissez votre domaine
             <br />
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-primary font-bold">
               d'expertise
             </span>
           </h2>

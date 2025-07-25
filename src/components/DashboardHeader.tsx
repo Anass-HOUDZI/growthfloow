@@ -14,7 +14,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'var(--gradient-primary)' }}>
               <Zap className="w-6 h-6 text-white" />
             </div>
             <div>

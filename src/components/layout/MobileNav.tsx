@@ -23,7 +23,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ favoritesCount, recentCoun
           <TouchOptimized onTap={() => setIsOpen(true)} className="p-2 rounded-lg">
             <Menu className="w-6 h-6 text-slate-700" />
           </TouchOptimized>
-          <h1 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-lg font-bold text-primary">
             OpenToolsAI
           </h1>
         </div>

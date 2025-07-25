@@ -66,7 +66,7 @@ export const ToolCategories: React.FC<ToolCategoriesProps> = ({
                   rounded-2xl outline-none
                   transition-all duration-200 
                   ${isSelected
-                    ? 'shadow-lg shadow-blue-500/15 bg-gradient-to-br from-blue-500/80 to-purple-500/85 text-white scale-105 ring-2 ring-blue-400'
+                    ? 'shadow-lg shadow-primary/15 text-white scale-105 ring-2 ring-primary/40'
                     : 'bg-white/95 hover:bg-slate-50 border border-slate-200 hover:border-blue-200 text-slate-700 hover:text-blue-700 shadow-md'
                   }
                   ${!isMobile ? 'hover:scale-105 hover:-translate-y-0.5' : 'active:scale-95'}
@@ -102,7 +102,7 @@ export const ToolCategories: React.FC<ToolCategoriesProps> = ({
                   {category.count}
                 </span>
                 {isSelected && (
-                  <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-gradient-to-r from-blue-400 via-blue-600 to-purple-500 rounded-full" />
+                  <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-primary rounded-full" />
                 )}
               </TouchOptimized>
             </div>

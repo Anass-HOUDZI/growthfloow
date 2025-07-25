@@ -23,13 +23,13 @@ export const HeaderLogo: React.FC<HeaderLogoProps> = ({ onClick }) => {
       aria-label="Retour à l'accueil"
     >
       <div className="relative">
-        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
+        <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow" style={{ background: 'var(--gradient-primary)' }}>
           <Zap className="w-6 h-6 text-white" />
         </div>
         <Sparkles className="absolute -top-1 -right-1 w-4 h-4 text-yellow-400 animate-pulse" />
       </div>
       <div className="hidden sm:block">
-        <h1 className="text-xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent group-hover:scale-105 transition-transform">
+        <h1 className="text-xl font-bold text-primary group-hover:scale-105 transition-transform">
           OpenToolsAI
         </h1>
         <p className="text-xs text-slate-500 font-medium">Growth Suite</p>

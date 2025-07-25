@@ -118,12 +118,12 @@ export const PremiumCategoryCard: React.FC<PremiumCategoryCardProps> = ({
           <div className={`h-1 rounded-full transition-all duration-500 ${
             isSelected 
               ? 'bg-white/30' 
-              : 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 group-hover:from-blue-500/40 group-hover:to-purple-500/40'
+              : 'bg-primary/20 group-hover:bg-primary/40'
           }`}>
             <div className={`h-full rounded-full transition-all duration-700 ${
               isSelected 
                 ? 'bg-white w-full' 
-                : 'bg-gradient-to-r from-blue-500 to-purple-500 w-0 group-hover:w-full'
+                : 'bg-primary w-0 group-hover:w-full'
             }`} />
           </div>
         </div>

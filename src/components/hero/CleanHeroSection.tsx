@@ -38,7 +38,7 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-blue-50/30 to-green-50/20 px-6">
+    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-primary/5 to-primary/10 px-6">
       {/* Background subtil */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl" />
@@ -108,11 +108,11 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
               inline-flex items-center space-x-3 
               ${isMobile ? 'px-8 py-4 text-lg' : 'px-12 py-6 text-xl'} 
               font-black text-white 
-              bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 
-              border-3 border-blue-800 rounded-xl shadow-xl
-              hover:shadow-2xl hover:from-blue-700 hover:via-purple-700 hover:to-blue-700 
+              border-3 border-primary-dark rounded-xl shadow-xl
+              hover:shadow-2xl hover:opacity-90
               transition-all duration-200
             `}
+            style={{ background: 'var(--gradient-primary)' }}
           >
             <Zap className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'}`} />
             <span>Découvrir les outils</span>

@@ -103,7 +103,7 @@ export const ToolRenderer: React.FC<ToolRendererProps> = ({ toolId }) => {
       default:
         return (
           <div className="text-center py-12">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4" style={{ background: 'var(--gradient-primary)' }}>
               <Play className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-xl font-semibold text-slate-800 mb-2">Outil en développement</h3>

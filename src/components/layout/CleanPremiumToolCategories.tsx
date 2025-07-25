@@ -70,12 +70,12 @@ export const CleanPremiumToolCategories: React.FC<CleanPremiumToolCategoriesProp
   onCategoryClick
 }) => {
   return (
-    <section className="py-16 px-6 bg-gradient-to-br from-slate-50 to-blue-50/20">
+    <section className="py-16 px-6 bg-gradient-to-br from-slate-50 to-primary/5">
       <div className="max-w-7xl mx-auto">
         {/* En-tête épuré avec plus de marges */}
         <div className="text-center mb-16 space-y-8">
           <CardClean className="inline-flex items-center space-x-3 px-8 py-4 bg-white border-2 border-blue-200">
-            <Zap className="w-5 h-5 text-blue-600" />
+            <Zap className="w-5 h-5 text-primary" />
             <span className="text-blue-700 font-bold text-lg">
               OpenToolsAI Growth Suite Premium
             </span>
@@ -85,7 +85,7 @@ export const CleanPremiumToolCategories: React.FC<CleanPremiumToolCategoriesProp
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-tight">
               Choisissez votre domaine
               <br />
-              <span className="text-blue-600">
+              <span className="text-primary">
                 d'expertise
               </span>
             </h2>

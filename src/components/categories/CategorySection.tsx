@@ -10,8 +10,8 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ children }) =>
   return (
     <div className="py-12">
       <div className="text-center mb-16">
-        <div className="inline-flex items-center space-x-2 mb-6 px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200/50 rounded-full shadow-sm">
-          <Zap className="w-5 h-5 text-blue-600" />
+        <div className="inline-flex items-center space-x-2 mb-6 px-4 py-2 bg-primary/5 border border-primary/20 rounded-full shadow-sm">
+          <Zap className="w-5 h-5 text-primary" />
           <span className="text-blue-700 font-semibold">Catégories d'outils</span>
         </div>
         <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-6">

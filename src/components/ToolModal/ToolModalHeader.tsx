@@ -18,7 +18,7 @@ export const ToolModalHeader: React.FC<ToolModalHeaderProps> = ({
   return (
     <div className="flex items-center justify-between p-6 border-b border-slate-200">
       <div className="flex items-center space-x-4">
-        <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+        <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: 'var(--gradient-primary)' }}>
           <tool.icon className="w-6 h-6 text-white" />
         </div>
         <div>

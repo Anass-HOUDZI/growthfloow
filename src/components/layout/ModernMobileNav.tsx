@@ -25,12 +25,12 @@ export const ModernMobileNav: React.FC<ModernMobileNavProps> = ({ favoritesCount
           </TouchOptimized>
           <div className="flex items-center space-x-2">
             <div className="relative">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'var(--gradient-primary)' }}>
                 <Zap className="w-4 h-4 text-white" />
               </div>
               <Sparkles className="absolute -top-0.5 -right-0.5 w-3 h-3 text-yellow-400" />
             </div>
-            <h1 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-lg font-bold text-primary">
               OpenToolsAI
             </h1>
           </div>
@@ -46,9 +46,9 @@ export const ModernMobileNav: React.FC<ModernMobileNavProps> = ({ favoritesCount
           />
           
           <div className="fixed left-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-2xl overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-purple-50">
+            <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-primary/5">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'var(--gradient-primary)' }}>
                   <Zap className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -64,7 +64,7 @@ export const ModernMobileNav: React.FC<ModernMobileNavProps> = ({ favoritesCount
             <nav className="p-6 space-y-3">
               <TouchOptimized 
                 onTap={() => setIsOpen(false)}
-                className="flex items-center space-x-4 p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 transition-all duration-200 transform hover:scale-[1.02]"
+                className="flex items-center space-x-4 p-4 rounded-2xl bg-primary/10 hover:bg-primary/20 transition-all duration-200 transform hover:scale-[1.02]"
               >
                 <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg">
                   <Home className="w-6 h-6 text-white" />
@@ -113,9 +113,9 @@ export const ModernMobileNav: React.FC<ModernMobileNavProps> = ({ favoritesCount
 
               <TouchOptimized 
                 onTap={() => setIsOpen(false)}
-                className="flex items-center space-x-4 p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-indigo-100 hover:from-purple-100 hover:to-indigo-200 transition-all duration-200 transform hover:scale-[1.02]"
+                className="flex items-center space-x-4 p-4 rounded-2xl bg-primary/10 hover:bg-primary/20 transition-all duration-200 transform hover:scale-[1.02]"
               >
-                <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg" style={{ background: 'var(--gradient-primary)' }}>
                   <Settings className="w-6 h-6 text-white" />
                 </div>
                 <div>

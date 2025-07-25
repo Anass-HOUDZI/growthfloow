@@ -38,15 +38,15 @@ export const RevolutionaryHeroSection: React.FC<RevolutionaryHeroSectionProps> =
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-primary/5 to-primary/10">
       {/* Background Pattern Animé */}
       <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse" />
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000" />
-        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-gradient-to-br from-indigo-400/20 to-blue-400/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full mix-blend-multiply filter blur-xl animate-pulse" />
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/15 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000" />
+        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-primary/10 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000" />
         
         {/* Mesh Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-indigo-500/5 animate-gradient" />
+        <div className="absolute inset-0 bg-primary/5 animate-gradient" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -57,7 +57,7 @@ export const RevolutionaryHeroSection: React.FC<RevolutionaryHeroSectionProps> =
           shine
         >
           <Sparkles className="w-5 h-5 text-blue-600 animate-pulse" />
-          <span className="text-blue-700 font-semibold text-sm sm:text-base bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <span className="text-primary font-semibold text-sm sm:text-base">
             OpenToolsAI Growth Suite Premium
           </span>
           <Sparkles className="w-5 h-5 text-purple-600 animate-pulse animation-delay-2000" />
@@ -65,7 +65,7 @@ export const RevolutionaryHeroSection: React.FC<RevolutionaryHeroSectionProps> =
         
         {/* Titre Animé */}
         <h1 className={`${isMobile ? 'text-4xl' : 'text-6xl md:text-7xl'} font-black mb-8 tracking-tight leading-tight`}>
-          <span className="inline-block bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent animate-gradient bg-size-400">
+          <span className="inline-block text-primary animate-gradient bg-size-400">
             Growth Marketing
           </span>
           <br />
@@ -139,7 +139,8 @@ export const RevolutionaryHeroSection: React.FC<RevolutionaryHeroSectionProps> =
         <div className="flex flex-col items-center space-y-6">
           <button 
             onClick={handleScrollClick}
-            className="group relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white px-12 py-5 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-blue-500/25 transition-all duration-500 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 animate-gradient bg-size-400"
+            className="group relative overflow-hidden text-white px-12 py-5 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-primary/25 transition-all duration-500 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 animate-gradient bg-size-400 hover:opacity-90"
+            style={{ background: 'var(--gradient-primary)' }}
             aria-label="Découvrir les outils disponibles"
           >
             <span className="relative z-10 flex items-center space-x-3">
@@ -155,7 +156,7 @@ export const RevolutionaryHeroSection: React.FC<RevolutionaryHeroSectionProps> =
           {/* Indicateur de scroll premium */}
           <div className="animate-bounce">
             <ModernCard variant="glassmorphism" className="w-8 h-12 rounded-full flex items-center justify-center">
-              <div className="w-1 h-4 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full animate-pulse" />
+              <div className="w-1 h-4 bg-primary rounded-full animate-pulse" />
             </ModernCard>
           </div>
         </div>

@@ -99,17 +99,22 @@ export const ToolCard: React.FC<ToolCardProps> = ({
         {/* Bouton CTA - Toujours cliquable */}
         <TouchOptimized
           onTap={onSelect}
-          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-semibold py-3 px-4 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg group-hover:scale-105 mt-auto active:scale-95"
+          className="w-full transition-all duration-200 shadow-md hover:shadow-lg group-hover:scale-105 mt-auto active:scale-95 hover:opacity-90"
           aria-label={`Découvrir l'outil ${tool.name}`}
         >
-          <Eye className="w-4 h-4" />
-          <span>Découvrir</span>
-          <ArrowRight className="w-4 h-4" />
+          <div 
+            className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl text-white text-sm font-semibold"
+            style={{ background: 'var(--gradient-primary)' }}
+          >
+            <Eye className="w-4 h-4" />
+            <span>Découvrir</span>
+            <ArrowRight className="w-4 h-4" />
+          </div>
         </TouchOptimized>
       </div>
 
       {/* Indicateur de progression */}
-      <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-blue-200 to-transparent group-hover:via-blue-400 transition-colors" />
+      <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent group-hover:via-primary/60 transition-colors" />
     </div>
   );
 };
