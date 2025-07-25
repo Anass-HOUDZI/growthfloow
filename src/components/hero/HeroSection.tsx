@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Sparkles, Shield, Globe, TrendingUp, ArrowDown } from 'lucide-react';
+import { Sparkles, Zap, Shield, Globe, TrendingUp, ArrowDown } from 'lucide-react';
 import { useResponsive } from '../../hooks/useResponsive';
 
 interface HeroSectionProps {
@@ -33,7 +33,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToTools }) => 
         {/* Badge animé amélioré */}
         <div className="inline-flex items-center space-x-2 mb-6 px-5 py-3 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200/50 rounded-full shadow-sm">
           <Sparkles className="w-5 h-5 text-blue-600 animate-pulse" />
-          <span className="text-blue-700 font-semibold text-sm sm:text-base">GrowthFlow Suite</span>
+          <span className="text-blue-700 font-semibold text-sm sm:text-base">OpenToolsAI Growth Suite</span>
           <Sparkles className="w-5 h-5 text-purple-600 animate-pulse" />
         </div>
         
@@ -85,7 +85,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToTools }) => 
             className="group bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center space-x-3 text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             aria-label="Découvrir les outils disponibles"
           >
-            <span className="text-purple-600 font-bold text-xl group-hover:animate-pulse">F</span>
+            <Zap className="w-5 h-5 group-hover:animate-pulse" />
             <span>Découvrir les outils</span>
             <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
           </button>

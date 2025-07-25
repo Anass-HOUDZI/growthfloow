@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Shield, Globe, TrendingUp, ArrowDown, Search, CheckCircle } from 'lucide-react';
+import { Sparkles, Zap, Shield, Globe, TrendingUp, ArrowDown, Search, CheckCircle } from 'lucide-react';
 import { StatsCounter } from '../ui/stats-counter';
 import { ModernCard } from '../ui/modern-card';
 import { useResponsive } from '../../hooks/useResponsive';
@@ -58,7 +58,7 @@ export const RevolutionaryHeroSection: React.FC<RevolutionaryHeroSectionProps> =
         >
           <Sparkles className="w-5 h-5 text-blue-600 animate-pulse" />
           <span className="text-blue-700 font-semibold text-sm sm:text-base bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            GrowthFlow Suite Premium
+            OpenToolsAI Growth Suite Premium
           </span>
           <Sparkles className="w-5 h-5 text-purple-600 animate-pulse animation-delay-2000" />
         </ModernCard>
@@ -143,7 +143,7 @@ export const RevolutionaryHeroSection: React.FC<RevolutionaryHeroSectionProps> =
             aria-label="Découvrir les outils disponibles"
           >
             <span className="relative z-10 flex items-center space-x-3">
-              <span className="text-purple-600 font-bold text-2xl group-hover:animate-pulse">F</span>
+              <Zap className="w-6 h-6 group-hover:animate-pulse" />
               <span>Découvrir les outils</span>
               <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
             </span>
