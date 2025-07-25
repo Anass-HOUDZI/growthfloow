@@ -28,7 +28,7 @@ export const ToolActions: React.FC<ToolActionsProps> = ({
   const handleShare = async () => {
     setIsSharing(true);
     const shareData = {
-      title: `${tool.name} - OpenToolsAI`,
+      title: `${tool.name} - GrowthFlow`,
       text: tool.description,
       url: window.location.href
     };
@@ -67,7 +67,7 @@ export const ToolActions: React.FC<ToolActionsProps> = ({
         timestamp: Date.now(),
         metadata: {
           version: '1.0',
-          format: 'OpenToolsAI Export'
+          format: 'GrowthFlow Export'
         }
       };
       

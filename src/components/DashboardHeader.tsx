@@ -18,7 +18,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               <Zap className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-800">OpenToolsAI</h2>
+              <h2 className="text-xl font-bold text-slate-800">GrowthFlow</h2>
               <p className="text-sm text-slate-500">Growth Suite</p>
             </div>
           </div>

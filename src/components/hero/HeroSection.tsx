@@ -33,7 +33,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToTools }) => 
         {/* Badge animé amélioré */}
         <div className="inline-flex items-center space-x-2 mb-6 px-5 py-3 bg-primary/5 border border-primary/20 rounded-full shadow-sm">
           <Sparkles className="w-5 h-5 text-blue-600 animate-pulse" />
-          <span className="text-blue-700 font-semibold text-sm sm:text-base">OpenToolsAI Growth Suite</span>
+          <span className="text-blue-700 font-semibold text-sm sm:text-base">GrowthFlow Growth Suite</span>
           <Sparkles className="w-5 h-5 text-purple-600 animate-pulse" />
         </div>
         

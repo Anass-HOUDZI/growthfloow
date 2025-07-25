@@ -77,7 +77,7 @@ export const CleanPremiumToolCategories: React.FC<CleanPremiumToolCategoriesProp
           <CardClean className="inline-flex items-center space-x-3 px-8 py-4 bg-white border-2 border-blue-200">
             <Zap className="w-5 h-5 text-primary" />
             <span className="text-blue-700 font-bold text-lg">
-              OpenToolsAI Growth Suite Premium
+              GrowthFlow Growth Suite Premium
             </span>
           </CardClean>
           

@@ -31,7 +31,7 @@ export const ModernMobileNav: React.FC<ModernMobileNavProps> = ({ favoritesCount
               <Sparkles className="absolute -top-0.5 -right-0.5 w-3 h-3 text-yellow-400" />
             </div>
             <h1 className="text-lg font-bold text-primary">
-              OpenToolsAI
+              GrowthFlow
             </h1>
           </div>
         </div>
@@ -52,7 +52,7 @@ export const ModernMobileNav: React.FC<ModernMobileNavProps> = ({ favoritesCount
                   <Zap className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-slate-800">OpenToolsAI</h2>
+                  <h2 className="text-lg font-bold text-slate-800">GrowthFlow</h2>
                   <p className="text-sm text-slate-600">Growth Suite</p>
                 </div>
               </div>

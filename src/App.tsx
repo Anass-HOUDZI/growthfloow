@@ -56,7 +56,7 @@ const App = () => {
 
     const appleMobileWebAppTitle = document.createElement('meta');
     appleMobileWebAppTitle.setAttribute('name', 'apple-mobile-web-app-title');
-    appleMobileWebAppTitle.setAttribute('content', 'OpenToolsAI');
+    appleMobileWebAppTitle.setAttribute('content', 'GrowthFlow');
     document.head.appendChild(appleMobileWebAppTitle);
 
   }, []);

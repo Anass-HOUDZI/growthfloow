@@ -24,7 +24,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ favoritesCount, recentCoun
             <Menu className="w-6 h-6 text-slate-700" />
           </TouchOptimized>
           <h1 className="text-lg font-bold text-primary">
-            OpenToolsAI
+            GrowthFlow
           </h1>
         </div>
       </div>

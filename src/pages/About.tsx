@@ -18,7 +18,7 @@ const About: React.FC = () => {
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
             À propos de 
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-              {" "}OpenToolsAI
+              {" "}GrowthFlow
             </span>
           </h1>
           <p className="text-xl text-slate-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
