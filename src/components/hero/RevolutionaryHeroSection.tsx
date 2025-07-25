@@ -66,11 +66,11 @@ export const RevolutionaryHeroSection: React.FC<RevolutionaryHeroSectionProps> =
         {/* Titre Animé */}
         <h1 className={`${isMobile ? 'text-4xl' : 'text-6xl md:text-7xl'} font-black mb-8 tracking-tight leading-tight`}>
           <span className="inline-block text-primary animate-gradient bg-size-400">
-            Growth Marketing
+            Growth fluide 🚀
           </span>
           <br />
           <span className="inline-block text-slate-800 mt-2">
-            Nouvelle <span className="bg-gradient-to-r from-rose-500 to-orange-500 bg-clip-text text-transparent">Génération</span>
+            <span className="bg-gradient-to-r from-rose-500 to-orange-500 bg-clip-text text-transparent">Résultats solides ✨</span>
           </span>
         </h1>
         

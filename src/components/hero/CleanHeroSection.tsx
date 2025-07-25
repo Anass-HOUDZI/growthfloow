@@ -62,11 +62,11 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
         <div className="space-y-6">
           <h1 className={`${isMobile ? 'text-4xl' : 'text-6xl md:text-7xl'} font-black leading-tight tracking-tight`}>
             <span className="text-slate-900">
-              Growth Marketing
+              Growth fluide 🚀
             </span>
             <br />
             <span className="text-primary font-bold" style={{ background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>
-              Nouvelle Génération
+              Résultats solides ✨
             </span>
           </h1>
           
