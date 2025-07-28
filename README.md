@@ -6,8 +6,6 @@ GrowthFlow Suite est une collection complète de 50 outils gratuits conçus pour
 
 ## Fonctionnalités Principales
 
-## Fonctionnalités Principales
-
 ### Growth Funnel Analyzer
 
 #### Vision Produit
