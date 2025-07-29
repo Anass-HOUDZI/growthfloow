@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { validateAndSanitize, rateLimiter } from '@/utils/inputValidation';
+import { logger } from '@/utils/logger';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -75,7 +77,32 @@ export const ProspectIntentDetector = () => {
   ];
 
   const analyzeProspect = async () => {
+    // Validate and sanitize inputs
+    const urlValidation = validateAndSanitize(prospectUrl, 'linkedin', 200);
+    const companyValidation = validateAndSanitize(companyName, 'alphanumeric', 100);
+    
+    if (!urlValidation.isValid) {
+      logger.warn('Invalid LinkedIn URL provided:', urlValidation.error);
+      return;
+    }
+    
+    if (!companyValidation.isValid) {
+      logger.warn('Invalid company name provided:', companyValidation.error);
+      return;
+    }
+    
+    // Check rate limiting
+    if (!rateLimiter.isAllowed('prospect-analysis')) {
+      const remainingTime = rateLimiter.getRemainingTime('prospect-analysis');
+      logger.warn('Rate limit exceeded, remaining time:', remainingTime);
+      return;
+    }
+    
     setIsAnalyzing(true);
+    logger.info('Starting prospect analysis', { 
+      url: urlValidation.sanitized, 
+      company: companyValidation.sanitized 
+    });
     
     // Simulation d'analyse
     await new Promise(resolve => setTimeout(resolve, 2000));

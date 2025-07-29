@@ -42,20 +42,78 @@ export const sanitizeInput = (input: string, maxLength = 1000): string => {
 };
 
 /**
- * Encrypts data for localStorage storage
+ * Generates a key for encryption based on browser fingerprint
  */
-export const encryptData = (data: string): string => {
-  // Simple base64 encoding (for basic obfuscation)
-  // In production, use proper encryption library
-  return btoa(data);
+const generateEncryptionKey = (): string => {
+  const browserData = [
+    navigator.userAgent,
+    navigator.language,
+    screen.width,
+    screen.height,
+    new Date().getTimezoneOffset()
+  ].join('|');
+  
+  // Simple hash function for key generation
+  let hash = 0;
+  for (let i = 0; i < browserData.length; i++) {
+    const char = browserData.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  return Math.abs(hash).toString(36);
 };
 
 /**
- * Decrypts data from localStorage
+ * Simple XOR encryption for localStorage
+ */
+const xorEncrypt = (text: string, key: string): string => {
+  let result = '';
+  for (let i = 0; i < text.length; i++) {
+    result += String.fromCharCode(text.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+  }
+  return result;
+};
+
+/**
+ * Encrypts data for localStorage storage with improved security
+ */
+export const encryptData = (data: string): string => {
+  try {
+    const key = generateEncryptionKey();
+    const encrypted = xorEncrypt(data, key);
+    const encoded = btoa(encrypted);
+    
+    // Add integrity check
+    const checksum = btoa(data.length.toString());
+    return `${encoded}.${checksum}`;
+  } catch (error) {
+    console.error('Failed to encrypt data:', error);
+    return btoa(data); // Fallback to base64
+  }
+};
+
+/**
+ * Decrypts data from localStorage with integrity validation
  */
 export const decryptData = (encryptedData: string): string => {
   try {
-    return atob(encryptedData);
+    const [encoded, checksum] = encryptedData.split('.');
+    if (!encoded || !checksum) {
+      // Legacy format - try simple base64
+      return atob(encryptedData);
+    }
+    
+    const key = generateEncryptionKey();
+    const encrypted = atob(encoded);
+    const decrypted = xorEncrypt(encrypted, key);
+    
+    // Verify integrity
+    const expectedLength = parseInt(atob(checksum), 10);
+    if (decrypted.length !== expectedLength) {
+      throw new Error('Data integrity check failed');
+    }
+    
+    return decrypted;
   } catch (error) {
     console.error('Failed to decrypt data:', error);
     return '';

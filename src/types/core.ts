@@ -33,7 +33,7 @@ export interface APIIntegration {
 export interface AuthMethod {
   type: 'none' | 'api_key' | 'oauth' | 'bearer';
   key?: string;
-  storage: 'memory' | 'localStorage' | 'sessionStorage';
+  storage: 'memory' | 'secure'; // Removed localStorage/sessionStorage for security
 }
 
 export interface RateLimiter {

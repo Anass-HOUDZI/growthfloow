@@ -63,10 +63,30 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Intercepter les requêtes
+// Security-focused request interceptor
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
+
+  // Skip caching for sensitive URLs
+  const sensitivePatterns = [
+    /\/api\//,
+    /\/auth\//,
+    /\/login/,
+    /\/admin/,
+    /token/,
+    /key/,
+    /password/,
+    /secret/
+  ];
+  
+  const isSensitive = sensitivePatterns.some(pattern => pattern.test(url.pathname));
+  
+  if (isSensitive) {
+    // Don't cache sensitive requests
+    event.respondWith(fetch(request));
+    return;
+  }
 
   // Stratégie cache-first pour les assets statiques
   if (STATIC_ASSETS.some(asset => request.url.includes(asset))) {
@@ -76,7 +96,7 @@ self.addEventListener('fetch', (event) => {
 
   // Stratégie network-first pour les APIs externes
   if (API_ENDPOINTS.some(endpoint => request.url.includes(endpoint))) {
-    event.respondWith(networkFirst(request));
+    event.respondWith(networkFirstSecure(request));
     return;
   }
 
@@ -102,12 +122,30 @@ async function cacheFirst(request) {
   }
 }
 
-// Stratégie network-first
-async function networkFirst(request) {
+// Secure network-first strategy with validation
+async function networkFirstSecure(request) {
   try {
     const networkResponse = await fetch(request);
-    const cache = await caches.open(API_CACHE);
-    cache.put(request, networkResponse.clone());
+    
+    // Validate response before caching
+    if (networkResponse.status === 200 && 
+        networkResponse.headers.get('content-type')) {
+      
+      const contentType = networkResponse.headers.get('content-type');
+      const allowedTypes = [
+        'application/json',
+        'text/plain',
+        'text/html',
+        'application/javascript',
+        'text/css'
+      ];
+      
+      if (allowedTypes.some(type => contentType.includes(type))) {
+        const cache = await caches.open(API_CACHE);
+        cache.put(request, networkResponse.clone());
+      }
+    }
+    
     return networkResponse;
   } catch (error) {
     console.log('Network first failed, trying cache:', error);
@@ -117,6 +155,11 @@ async function networkFirst(request) {
     }
     return new Response('Content not available offline', { status: 503 });
   }
+}
+
+// Legacy function kept for compatibility
+async function networkFirst(request) {
+  return networkFirstSecure(request);
 }
 
 // Stratégie stale-while-revalidate
