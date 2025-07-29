@@ -12,9 +12,10 @@ const toolCategories = [
     name: 'Growth & Strategy', 
     icon: TrendingUp,
     tools: [
-      { name: 'Funnel Analyzer', id: 'growth-funnel-analyzer' },
-      { name: 'Metrics Calculator', id: 'growth-metrics-calculator' },
-      { name: 'Experiment Designer', id: 'growth-experiment-designer' }
+      { name: 'Growth Metrics', id: 'growth-metrics' },
+      { name: 'Growth Funnel', id: 'growth-funnel' },
+      { name: 'Experiment Designer', id: 'experiment-designer' },
+      { name: 'Channel Optimizer', id: 'channel-optimizer' }
     ]
   },
   { 
@@ -22,9 +23,10 @@ const toolCategories = [
     name: 'SEO & Content', 
     icon: Search,
     tools: [
-      { name: 'Content Optimizer', id: 'seo-content-optimizer' },
-      { name: 'Keyword Finder', id: 'keyword-opportunity-finder' },
-      { name: 'SERP Tracker', id: 'serp-feature-tracker' }
+      { name: 'SEO Optimizer', id: 'seo-optimizer' },
+      { name: 'Keyword Finder', id: 'keyword-finder' },
+      { name: 'Content Gap', id: 'content-gap' },
+      { name: 'SERP Tracker', id: 'serp-tracker' }
     ]
   },
   { 
@@ -32,9 +34,10 @@ const toolCategories = [
     name: 'Landing Pages', 
     icon: MousePointer,
     tools: [
-      { name: 'Page Converter', id: 'landing-page-converter' },
-      { name: 'CTA Optimizer', id: 'cta-optimizer' },
-      { name: 'Form Optimizer', id: 'form-optimizer' }
+      { name: 'Landing Converter', id: 'landing-converter' },
+      { name: 'Heatmap Simulator', id: 'heatmap-simulator' },
+      { name: 'CRO Tester', id: 'cro-tester' },
+      { name: 'Speed Optimizer', id: 'speed-optimizer' }
     ]
   },
   { 
@@ -43,8 +46,9 @@ const toolCategories = [
     icon: Target,
     tools: [
       { name: 'Intent Detector', id: 'prospect-intent-detector' },
-      { name: 'Email Optimizer', id: 'cold-email-optimizer' },
-      { name: 'ABM Scorer', id: 'abm-account-scorer' }
+      { name: 'Sequence Generator', id: 'outbound-sequence-generator' },
+      { name: 'ABM Scorer', id: 'abm-account-scorer' },
+      { name: 'Email Optimizer', id: 'cold-email-optimizer' }
     ]
   },
   { 
@@ -54,7 +58,8 @@ const toolCategories = [
     tools: [
       { name: 'Ad Optimizer', id: 'ad-performance-optimizer' },
       { name: 'Bid Calculator', id: 'bid-strategy-calculator' },
-      { name: 'Creative Analyzer', id: 'ad-creative-analyzer' }
+      { name: 'Creative Analyzer', id: 'ad-creative-analyzer' },
+      { name: 'Audience Overlap', id: 'audience-overlap-detector' }
     ]
   },
   { 
@@ -64,7 +69,8 @@ const toolCategories = [
     tools: [
       { name: 'Dashboard Builder', id: 'cmo-dashboard-builder' },
       { name: 'ROI Tracker', id: 'marketing-roi-tracker' },
-      { name: 'Budget Assistant', id: 'budget-planning-assistant' }
+      { name: 'Budget Planner', id: 'budget-planner' },
+      { name: 'Maturity Assessor', id: 'maturity-assessor' }
     ]
   }
 ];
