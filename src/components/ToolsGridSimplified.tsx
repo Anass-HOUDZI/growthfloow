@@ -33,7 +33,7 @@ export const ToolsGridSimplified: React.FC<ToolsGridSimplifiedProps> = ({
   const getGridColumns = () => {
     if (isMobile) return 'grid-cols-1 sm:grid-cols-2';
     if (isTablet) return 'grid-cols-2 md:grid-cols-3';
-    return 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5';
+    return 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3';
   };
 
   const getCategoryTitle = (category: string) => {
