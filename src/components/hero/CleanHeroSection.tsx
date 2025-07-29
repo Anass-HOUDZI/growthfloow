@@ -66,7 +66,7 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
             </span>
             <br />
             <span className="text-primary font-bold" style={{ background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>
-              Résultats solides 📈
+              Résultats solides ✨
             </span>
           </h1>
           
