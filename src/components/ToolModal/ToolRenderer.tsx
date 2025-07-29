@@ -11,27 +11,37 @@ export const ToolRenderer: React.FC<ToolRendererProps> = ({ toolId }) => {
   const renderToolComponent = () => {
     switch (toolId) {
       // Growth Marketing Tools
+      case 'growth-metrics':
+      case 'growth-metrics-calculator':
+        return <Tools.GrowthMetricsCalculator />;
       case 'growth-funnel':
+      case 'growth-funnel-analyzer':
         return <Tools.GrowthFunnelAnalyzer />;
       case 'experiment-designer':
+      case 'growth-experiment-designer':
         return <Tools.GrowthExperimentDesigner />;
       case 'channel-optimizer':
+      case 'channel-performance-optimizer':
         return <Tools.ChannelPerformanceOptimizer />;
       case 'gtm-builder':
+      case 'gtm-strategy-builder':
         return <Tools.GTMStrategyBuilder />;
       case 'conversion-predictor':
+      case 'conversion-rate-predictor':
         return <Tools.ConversionRatePredictor />;
-      case 'growth-metrics':
-        return <Tools.GrowthMetricsCalculator />;
       
       // SEO & Content Tools
       case 'seo-optimizer':
+      case 'seo-content-optimizer':
         return <Tools.SEOContentOptimizer />;
       case 'keyword-finder':
+      case 'keyword-opportunity-finder':
         return <Tools.KeywordOpportunityFinder />;
       case 'content-gap':
+      case 'content-gap-analyzer':
         return <Tools.ContentGapAnalyzer />;
       case 'serp-tracker':
+      case 'serp-feature-tracker':
         return <Tools.SERPFeatureTracker />;
       
       // Landing Pages Tools  
@@ -89,9 +99,9 @@ export const ToolRenderer: React.FC<ToolRendererProps> = ({ toolId }) => {
         return <Tools.CMODashboardBuilder />;
       case 'marketing-roi-tracker':
         return <Tools.MarketingROITracker />;
-      case 'budget-planner':
+      case 'budget-planning-assistant':
         return <Tools.BudgetPlanningAssistant />;
-      case 'maturity-assessor':
+      case 'marketing-maturity-assessor':
         return <Tools.MarketingMaturityAssessor />;
       
       // Legacy tools (fallback)
