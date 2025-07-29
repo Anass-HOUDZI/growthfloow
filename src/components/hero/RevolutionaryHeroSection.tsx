@@ -70,7 +70,7 @@ export const RevolutionaryHeroSection: React.FC<RevolutionaryHeroSectionProps> =
           </span>
           <br />
           <span className="inline-block text-slate-800 mt-2">
-            <span className="bg-gradient-to-r from-rose-500 to-orange-500 bg-clip-text text-transparent">Résultats solides ✨</span>
+            <span className="bg-gradient-to-r from-rose-500 to-orange-500 bg-clip-text text-transparent">Résultats solides 📈</span>
           </span>
         </h1>
         
