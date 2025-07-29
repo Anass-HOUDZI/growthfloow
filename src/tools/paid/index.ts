@@ -145,3 +145,11 @@ export const paidMarketingTools: ToolModule[] = [
     dependencies: []
   }
 ];
+
+// Export individual components for direct import
+export { AdPerformanceOptimizer } from './AdPerformanceOptimizer';
+export { BidStrategyCalculator } from './BidStrategyCalculator';
+export { AdCreativeAnalyzer } from './AdCreativeAnalyzer';
+export { AudienceOverlapDetector } from './AudienceOverlapDetector';
+export { FacebookAdsOptimizer } from './FacebookAdsOptimizer';
+export { GoogleAdsPerformanceHub } from './GoogleAdsPerformanceHub';

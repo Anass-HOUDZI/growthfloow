@@ -188,3 +188,13 @@ export const landingTools: ToolModule[] = [
     dependencies: []
   }
 ];
+
+// Export individual components for direct import
+export { LandingPageConverter } from './LandingPageConverter';
+export { HeatmapSimulator } from './HeatmapSimulator';
+export { CROElementTester } from './CROElementTester';
+export { PageSpeedOptimizer } from './PageSpeedOptimizer';
+export { MobileUXAnalyzer } from './MobileUXAnalyzer';
+export { FormOptimizer } from './FormOptimizer';
+export { TrustSignalAnalyzer } from './TrustSignalAnalyzer';
+export { CTAOptimizer } from './CTAOptimizer';
