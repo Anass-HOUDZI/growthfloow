@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { 
   TrendingUp, 
   Search, 
@@ -8,6 +8,7 @@ import {
   BarChart3,
   Sparkles
 } from 'lucide-react';
+import { toolsData } from '../../data/toolsData';
 
 interface HorizontalCategoryBarProps {
   selectedCategory: string;
@@ -15,13 +16,12 @@ interface HorizontalCategoryBarProps {
   onCategoryClick?: (categoryId: string) => void;
 }
 
-const categories = [
+const baseCategoriesConfig = [
   { 
     id: 'all', 
     name: 'Tous les outils', 
     icon: Sparkles,
     description: 'Explorez tous nos outils growth marketing',
-    toolCount: 50,
     color: 'blue'
   },
   { 
@@ -29,7 +29,6 @@ const categories = [
     name: 'Growth & Strategy', 
     icon: TrendingUp,
     description: 'Optimisez votre croissance avec des stratégies data-driven',
-    toolCount: 12,
     color: 'green'
   },
   { 
@@ -37,7 +36,6 @@ const categories = [
     name: 'SEO & Content', 
     icon: Search,
     description: 'Boostez votre visibilité organique et créez du contenu optimisé',
-    toolCount: 10,
     color: 'blue'
   },
   { 
@@ -45,7 +43,6 @@ const categories = [
     name: 'Landing Pages', 
     icon: MousePointer,
     description: 'Créez des pages de conversion haute performance',
-    toolCount: 8,
     color: 'orange'
   },
   { 
@@ -53,7 +50,6 @@ const categories = [
     name: 'Outbound & ABM', 
     icon: Target,
     description: 'Développez vos ventes avec des stratégies outbound ciblées',
-    toolCount: 8,
     color: 'red'
   },
   { 
@@ -61,7 +57,6 @@ const categories = [
     name: 'Paid Marketing', 
     icon: BarChart3,
     description: 'Optimisez vos campagnes publicitaires pour un ROI maximal',
-    toolCount: 6,
     color: 'purple'
   },
   { 
@@ -69,7 +64,6 @@ const categories = [
     name: 'CMO & Leadership', 
     icon: Users,
     description: 'Outils stratégiques pour dirigeants marketing',
-    toolCount: 6,
     color: 'indigo'
   }
 ];
@@ -103,6 +97,20 @@ export const HorizontalCategoryBar: React.FC<HorizontalCategoryBarProps> = ({
   onCategoryChange,
   onCategoryClick
 }) => {
+  // Calcul dynamique du nombre d'outils par catégorie
+  const categories = useMemo(() => {
+    const toolCounts = toolsData.reduce((acc, tool) => {
+      acc[tool.category] = (acc[tool.category] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    return baseCategoriesConfig.map(category => ({
+      ...category,
+      toolCount: category.id === 'all' 
+        ? toolsData.length 
+        : toolCounts[category.id] || 0
+    }));
+  }, []);
   return (
     <section className="py-12 px-4 bg-gradient-to-br from-slate-50 to-primary/5">
       <div className="max-w-7xl mx-auto">
