@@ -2,7 +2,7 @@
 
 GrowthFlow Suite est une collection complète de 29 outils gratuits conçus pour optimiser et automatiser les processus de marketing de croissance. Ces outils couvrent une large gamme de fonctionnalités pour l'analyse des entonnoirs de conversion, la conception d'expériences de croissance, l'optimisation des performances des canaux, et bien plus encore.
 
-**Lien du Projet** : [GrowthFlow](https://growth-alchemy-suite.lovable.app/)
+**Lien du Projet** : [GrowthFlow](https://opentoolsai.netlify.app/)
 
 ## Fonctionnalités Principales
 
