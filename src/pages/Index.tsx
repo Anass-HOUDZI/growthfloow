@@ -56,11 +56,13 @@ const Index = () => {
   const handleToolSelect = useCallback((tool: Tool) => {
     console.log('Outil sélectionné:', tool.name);
     setSelectedTool(tool);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleCategoryChange = useCallback((category: string) => {
     console.log('Catégorie changée:', category);
     setSelectedCategory(category);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const handleToggleFavorite = useCallback((toolId: string) => {

@@ -32,6 +32,7 @@ const CategoryPage = () => {
     try {
       console.log('Outil sélectionné:', tool.name);
       setSelectedTool(tool);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       
       // Mise à jour des outils récents
       const updatedRecent = [tool.id, ...recentTools.filter((id: string) => id !== tool.id)].slice(0, 5);
