@@ -45,12 +45,15 @@ export const ToolRenderer: React.FC<ToolRendererProps> = ({ toolId }) => {
         return <Tools.SERPFeatureTracker />;
       
       // Landing Pages Tools  
+      case 'landing-converter':
       case 'landing-page-converter':
         return <Tools.LandingPageConverter />;
       case 'heatmap-simulator':
         return <Tools.HeatmapSimulator />;
+      case 'cro-tester':
       case 'cro-element-tester':
         return <Tools.CROElementTester />;
+      case 'speed-optimizer':
       case 'page-speed-optimizer':
         return <Tools.PageSpeedOptimizer />;
       case 'mobile-ux-analyzer':
@@ -99,8 +102,10 @@ export const ToolRenderer: React.FC<ToolRendererProps> = ({ toolId }) => {
         return <Tools.CMODashboardBuilder />;
       case 'marketing-roi-tracker':
         return <Tools.MarketingROITracker />;
+      case 'budget-planner':
       case 'budget-planning-assistant':
         return <Tools.BudgetPlanningAssistant />;
+      case 'maturity-assessor':
       case 'marketing-maturity-assessor':
         return <Tools.MarketingMaturityAssessor />;
       

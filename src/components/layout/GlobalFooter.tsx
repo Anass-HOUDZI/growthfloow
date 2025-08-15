@@ -34,10 +34,14 @@ const toolCategories = [
     name: 'Landing Pages', 
     icon: MousePointer,
     tools: [
-      { name: 'Landing Converter', id: 'landing-converter' },
+      { name: 'Landing Converter', id: 'landing-page-converter' },
       { name: 'Heatmap Simulator', id: 'heatmap-simulator' },
-      { name: 'CRO Tester', id: 'cro-tester' },
-      { name: 'Speed Optimizer', id: 'speed-optimizer' }
+      { name: 'CRO Tester', id: 'cro-element-tester' },
+      { name: 'Speed Optimizer', id: 'page-speed-optimizer' },
+      { name: 'Mobile UX', id: 'mobile-ux-analyzer' },
+      { name: 'Form Optimizer', id: 'form-optimizer' },
+      { name: 'Trust Signals', id: 'trust-signal-analyzer' },
+      { name: 'CTA Optimizer', id: 'cta-optimizer' }
     ]
   },
   { 
@@ -48,7 +52,11 @@ const toolCategories = [
       { name: 'Intent Detector', id: 'prospect-intent-detector' },
       { name: 'Sequence Generator', id: 'outbound-sequence-generator' },
       { name: 'ABM Scorer', id: 'abm-account-scorer' },
-      { name: 'Email Optimizer', id: 'cold-email-optimizer' }
+      { name: 'Email Optimizer', id: 'cold-email-optimizer' },
+      { name: 'Sales Intelligence', id: 'sales-intelligence-hub' },
+      { name: 'LinkedIn Automator', id: 'linkedin-automator' },
+      { name: 'Call Analyzer', id: 'sales-call-analyzer' },
+      { name: 'CRM Integration', id: 'crm-integration-hub' }
     ]
   },
   { 
@@ -69,8 +77,8 @@ const toolCategories = [
     tools: [
       { name: 'Dashboard Builder', id: 'cmo-dashboard-builder' },
       { name: 'ROI Tracker', id: 'marketing-roi-tracker' },
-      { name: 'Budget Planner', id: 'budget-planner' },
-      { name: 'Maturity Assessor', id: 'maturity-assessor' }
+      { name: 'Budget Planner', id: 'budget-planning-assistant' },
+      { name: 'Maturity Assessor', id: 'marketing-maturity-assessor' }
     ]
   }
 ];

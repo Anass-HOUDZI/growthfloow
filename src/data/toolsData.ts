@@ -95,7 +95,7 @@ export const toolsData = [
 
   // Landing Pages & CRO (8 outils)
   {
-    id: 'landing-converter',
+    id: 'landing-page-converter',
     name: 'Landing Page Converter',
     description: 'Audit UX/UI avec recommandations de conversion',
     category: 'landing',
@@ -111,7 +111,7 @@ export const toolsData = [
     isPremium: true
   },
   {
-    id: 'cro-tester',
+    id: 'cro-element-tester',
     name: 'CRO Element Tester',
     description: 'Framework de test d\'éléments de conversion',
     category: 'landing',
@@ -119,11 +119,43 @@ export const toolsData = [
     isPremium: false
   },
   {
-    id: 'speed-optimizer',
+    id: 'page-speed-optimizer',
     name: 'Page Speed Optimizer',
     description: 'Audit technique avec recommandations d\'optimisation',
     category: 'landing',
     icon: Gauge,
+    isPremium: false
+  },
+  {
+    id: 'mobile-ux-analyzer',
+    name: 'Mobile UX Analyzer',
+    description: 'Optimisation expérience mobile spécialisée',
+    category: 'landing',
+    icon: Smartphone,
+    isPremium: false
+  },
+  {
+    id: 'form-optimizer',
+    name: 'Form Optimizer',
+    description: 'Réduction friction formulaires avec analytics',
+    category: 'landing',
+    icon: Layout,
+    isPremium: false
+  },
+  {
+    id: 'trust-signal-analyzer',
+    name: 'Trust Signal Analyzer',
+    description: 'Optimisation signaux de confiance et crédibilité',
+    category: 'landing',
+    icon: Eye,
+    isPremium: false
+  },
+  {
+    id: 'cta-optimizer',
+    name: 'CTA Optimizer',
+    description: 'Optimisation boutons call-to-action avec A/B testing',
+    category: 'landing',
+    icon: MousePointer,
     isPremium: false
   },
 
@@ -166,6 +198,30 @@ export const toolsData = [
     description: 'Collecte et analyse des signaux d\'achat, données d\'entreprise et contacts clés',
     category: 'outbound',
     icon: BarChart3,
+    isPremium: false
+  },
+  {
+    id: 'linkedin-automator',
+    name: 'LinkedIn Automator',
+    description: 'Automatisation outreach LinkedIn avec séquences personnalisées',
+    category: 'outbound',
+    icon: Link,
+    isPremium: true
+  },
+  {
+    id: 'sales-call-analyzer',
+    name: 'Sales Call Analyzer',
+    description: 'Analyse et amélioration des appels commerciaux',
+    category: 'outbound',
+    icon: Phone,
+    isPremium: false
+  },
+  {
+    id: 'crm-integration-hub',
+    name: 'CRM Integration Hub',
+    description: 'Hub d\'intégration avec les principaux CRM',
+    category: 'outbound',
+    icon: Code,
     isPremium: false
   },
 
@@ -237,7 +293,7 @@ export const toolsData = [
     isPremium: true
   },
   {
-    id: 'budget-planner',
+    id: 'budget-planning-assistant',
     name: 'Budget Planning Assistant',
     description: 'Planification avec scenarios et simulations',
     category: 'cmo',
@@ -245,7 +301,7 @@ export const toolsData = [
     isPremium: false
   },
   {
-    id: 'maturity-assessor',
+    id: 'marketing-maturity-assessor',
     name: 'Marketing Maturity Assessor',
     description: 'Framework d\'évaluation avec roadmap',
     category: 'cmo',
