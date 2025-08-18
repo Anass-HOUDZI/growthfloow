@@ -63,7 +63,7 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
           <div className={`${isMobile ? 'text-lg' : 'text-xl'} text-slate-600 max-w-4xl mx-auto leading-relaxed font-medium`}>
             La boîte à outils growth marketing complète pour entrepreneurs, marketeurs et agences digitales.{' '}
             <br /><br />
-            <strong>Optimisation SEO, création de landing pages, analyse de performance, email automation et bien plus !</strong>
+            <strong>Optimisation SEO | Création de landing pages | Analyse de performance | Email marketing | Analytics et bien plus !</strong>
           </div>
         </div>
 
