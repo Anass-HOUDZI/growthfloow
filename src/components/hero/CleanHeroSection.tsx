@@ -47,17 +47,6 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto text-center space-y-12">
-        {/* Badge Premium avec plus de marges */}
-        <div className="flex justify-center mb-12">
-          <CardClean className="inline-flex items-center space-x-4 px-8 py-4 bg-white border-2 border-blue-200 shadow-md">
-            <Zap className="w-6 h-6 text-blue-600" />
-            <span className="font-bold text-lg" style={{ background: 'var(--gradient-primary)', backgroundClip: 'text', WebkitBackgroundClip: 'text', color: 'transparent' }}>
-              GrowthFlow Suite Premium
-            </span>
-            <Zap className="w-6 h-6 text-orange-500" />
-          </CardClean>
-        </div>
-        
         {/* Titre épuré */}
         <div className="space-y-6">
           <h1 className={`${isMobile ? 'text-4xl' : 'text-6xl md:text-7xl'} font-black leading-tight tracking-tight`}>
@@ -70,6 +59,10 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
             </span>
           </h1>
           
+          {/* Description */}
+          <p className={`${isMobile ? 'text-lg' : 'text-xl'} text-slate-600 max-w-4xl mx-auto leading-relaxed font-medium`}>
+            Optimisez vos campagnes, analysez vos performances, automatisez vos processus sans débourser un centime. Le growth marketing démocratisé : professionnel, accessible et respectueux.
+          </p>
         </div>
 
         
