@@ -13,43 +13,29 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: {
-				DEFAULT: '1rem',
-				sm: '1.5rem',
-				lg: '2rem',
-				xl: '3rem',
-				'2xl': '4rem',
-			},
+			padding: '2rem',
 			screens: {
 				'2xl': '1400px'
 			}
 		},
 		screens: {
-			// Mobile-first breakpoints
-			'xs': '360px',
-			'sm': '480px',
+			'xs': '320px',
+			'sm': '640px',
 			'md': '768px',
 			'lg': '1024px',
 			'xl': '1280px',
-			'2xl': '1440px',
+			'2xl': '1536px',
 			'3xl': '1920px',
-			'4xl': '2560px',
-			
 			// Device-specific breakpoints
 			'mobile': {'max': '767px'},
 			'tablet': {'min': '768px', 'max': '1023px'},
 			'desktop': {'min': '1024px'},
-			
 			// Orientation breakpoints
 			'portrait': {'raw': '(orientation: portrait)'},
 			'landscape': {'raw': '(orientation: landscape)'},
-			
-			// Touch-specific breakpoints  
+			// Touch-specific breakpoints
 			'touch': {'raw': '(hover: none) and (pointer: coarse)'},
 			'no-touch': {'raw': '(hover: hover) and (pointer: fine)'},
-			
-			// High DPI breakpoints
-			'retina': {'raw': '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)'},
 		},
 		extend: {
 			colors: {
@@ -104,15 +90,9 @@ export default {
 				'safe-bottom': 'env(safe-area-inset-bottom)',
 				'safe-left': 'env(safe-area-inset-left)',
 				'safe-right': 'env(safe-area-inset-right)',
-				'touch-target': '44px',
-				'touch-target-large': '48px',
 			},
 			minHeight: {
 				'screen-safe': 'calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
-				'touch-target': '44px',
-			},
-			minWidth: {
-				'touch-target': '44px',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

@@ -52,45 +52,45 @@ export const ToolsGridSimplified: React.FC<ToolsGridSimplifiedProps> = ({
   const isSearchActive = searchTerm.length > 0;
 
   return (
-    <div className="space-responsive flex flex-col items-center w-full container-responsive">
+    <div className="space-y-8 flex flex-col items-center w-full max-w-7xl mx-auto">
       {/* En-tête avec compteur d'outils */}
       <section className="w-full">
-        <div className="mb-6 sm:mb-8 text-center">
-          <div className="flex items-center justify-center space-x-2 sm:space-x-3 mb-4 mt-4">
-            <div className={`p-2 sm:p-3 rounded-xl ${isSearchActive ? 'bg-green-100' : 'bg-blue-100'}`}>
+        <div className="mb-8 text-center">
+          <div className="flex items-center justify-center space-x-3 mb-4 mt-4">
+            <div className={`p-3 rounded-xl ${isSearchActive ? 'bg-green-100' : 'bg-blue-100'}`}>
               {isSearchActive ? (
-                <Search className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
+                <Search className="w-6 h-6 text-green-600" />
               ) : (
-                <Grid3X3 className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                <Grid3X3 className="w-6 h-6 text-blue-600" />
               )}
             </div>
-            <h2 className="text-responsive-lg font-black text-slate-900 dark:text-white">
+            <h2 className={`${isMobile ? 'text-2xl' : 'text-3xl'} font-black text-slate-900 dark:text-white`}>
               {isSearchActive ? `Résultats pour "${searchTerm}"` : getCategoryTitle(selectedCategory)}
             </h2>
           </div>
           
-          <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-3">
-            <div className={`px-3 py-1 sm:px-4 sm:py-2 rounded-full ${
+          <div className="flex items-center justify-center space-x-3">
+            <div className={`px-4 py-2 rounded-full ${
               filteredTools.length > 0 
                 ? 'bg-green-100 text-green-700 border-2 border-green-200' 
                 : 'bg-red-100 text-red-700 border-2 border-red-200'
             }`}>
-              <span className="font-bold text-xs sm:text-sm">
+              <span className="font-bold text-sm">
                 {filteredTools.length} outil{filteredTools.length !== 1 ? 's' : ''} 
                 {filteredTools.length > 0 ? ' disponible' : ' trouvé'}{filteredTools.length !== 1 ? 's' : ''}
               </span>
             </div>
             
             {filteredTools.length > 0 && (
-              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse" />
+              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" />
             )}
           </div>
         </div>
         
-        {/* Grille d'outils responsive mobile-first */}
-        <div className="grid-responsive-auto gap-responsive w-full padding-responsive">
+        {/* Grille d'outils ultra-responsive */}
+        <div className={`grid ${getGridColumns()} gap-6 justify-center w-full px-4`}>
           {filteredTools.map(tool => (
-            <div key={tool.id} className="flex justify-center w-full">
+            <div key={tool.id} className="flex justify-center">
               <ToolCard
                 tool={tool}
                 isFavorite={favorites.includes(tool.id)}
