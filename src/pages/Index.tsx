@@ -108,8 +108,6 @@ const Index = () => {
             handleLogoClick();
           }
         }}
-        searchValue={searchTerm}
-        onSearchChange={setSearchTerm}
       />
 
       <div className="flex-1 flex flex-col">

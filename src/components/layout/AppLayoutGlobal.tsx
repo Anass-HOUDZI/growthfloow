@@ -17,8 +17,6 @@ interface AppLayoutGlobalProps {
   };
   onLogoClick?: () => void;
   onBreadcrumbNavigate?: (path: string) => void;
-  searchValue?: string;
-  onSearchChange?: (value: string) => void;
 }
 
 export const AppLayoutGlobal: React.FC<AppLayoutGlobalProps> = ({ 
@@ -26,9 +24,7 @@ export const AppLayoutGlobal: React.FC<AppLayoutGlobalProps> = ({
   currentTool,
   currentCategory,
   onLogoClick,
-  onBreadcrumbNavigate,
-  searchValue,
-  onSearchChange
+  onBreadcrumbNavigate
 }) => {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
@@ -37,8 +33,6 @@ export const AppLayoutGlobal: React.FC<AppLayoutGlobalProps> = ({
         currentCategory={currentCategory}
         onLogoClick={onLogoClick}
         onBreadcrumbNavigate={onBreadcrumbNavigate}
-        searchValue={searchValue}
-        onSearchChange={onSearchChange}
       />
       
       <main className="flex-1">
