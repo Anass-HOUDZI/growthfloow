@@ -112,24 +112,24 @@ export const HorizontalCategoryBar: React.FC<HorizontalCategoryBarProps> = ({
     }));
   }, []);
   return (
-    <section className="py-12 px-4 bg-gradient-to-br from-slate-50 to-primary/5">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-8 sm:py-12 padding-responsive bg-gradient-to-br from-slate-50 to-primary/5">
+      <div className="container-responsive">
         {/* En-tête */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-4">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-responsive-xl font-black text-slate-800 mb-4">
             Choisissez votre domaine
             <br />
             <span className="text-primary font-bold">
               d'expertise
             </span>
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="text-responsive-base text-slate-600 max-w-2xl mx-auto">
             Explorez nos outils spécialisés conçus pour chaque aspect du marketing digital moderne
           </p>
         </div>
         
-        {/* Barres horizontales */}
-        <div className="space-y-3">
+        {/* Barres horizontales responsives */}
+        <div className="space-y-3 sm:space-y-4">
           {categories.map((category) => {
             const isSelected = selectedCategory === category.id;
             const Icon = category.icon;
@@ -144,35 +144,39 @@ export const HorizontalCategoryBar: React.FC<HorizontalCategoryBarProps> = ({
                   }
                 }}
                 className={`
-                  w-full p-6 rounded-xl border-3 shadow-sm transition-all duration-300
-                  flex items-center justify-between group
+                  w-full p-4 sm:p-6 rounded-xl border-3 shadow-sm 
+                  transition-all duration-300
+                  flex flex-col sm:flex-row items-start sm:items-center 
+                  justify-between group min-h-touch-target
+                  interactive-press no-touch:hover:scale-102
                   ${getColorClasses(category.color, isSelected)}
-                  ${isSelected ? 'shadow-lg scale-105' : 'hover:shadow-md hover:scale-102'}
+                  ${isSelected ? 'shadow-lg scale-105' : 'hover:shadow-md'}
                 `}
               >
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-3 sm:space-x-4 w-full sm:w-auto mb-3 sm:mb-0">
                   <div className={`
-                    p-3 rounded-lg border-2
+                    p-2 sm:p-3 rounded-lg border-2 flex-shrink-0
                     ${isSelected 
                       ? `bg-${category.color}-100 border-${category.color}-300` 
                       : `bg-${category.color}-50 border-${category.color}-200`
                     }
                   `}>
-                    <Icon className="w-6 h-6" />
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   
-                  <div className="text-left">
-                    <h3 className="text-lg font-bold mb-1">
+                  <div className="text-left flex-1">
+                    <h3 className="text-base sm:text-lg font-bold mb-1">
                       {category.name}
                     </h3>
-                    <p className="text-sm opacity-75">
+                    <p className="text-xs sm:text-sm opacity-75 hidden sm:block">
                       {category.description}
                     </p>
                   </div>
                 </div>
                 
                 <div className={`
-                  px-4 py-2 rounded-full border-2 font-bold text-sm
+                  px-3 py-1 sm:px-4 sm:py-2 rounded-full border-2 
+                  font-bold text-xs sm:text-sm self-end sm:self-center
                   ${isSelected 
                     ? `bg-${category.color}-100 border-${category.color}-300` 
                     : `bg-${category.color}-50 border-${category.color}-200`
