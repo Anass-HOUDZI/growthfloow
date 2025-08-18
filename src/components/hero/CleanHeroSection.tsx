@@ -67,30 +67,26 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
 
         
         {/* Statistiques épurées */}
-        <div className={`flex ${isMobile ? 'flex-col space-y-4' : 'items-center justify-center space-x-6'}`}>
-          <CardClean className="flex items-center space-x-3 px-6 py-3 bg-green-50 border-2 border-green-200">
-            <CheckCircle className="w-5 h-5 text-green-600" />
-            <span className="font-bold text-green-700">100% gratuit</span>
+        <div className={`grid ${isMobile ? 'grid-cols-2 gap-3' : 'grid-cols-4 gap-4'} max-w-4xl mx-auto`}>
+          <CardClean className="flex items-center justify-center space-x-2 px-4 py-3 bg-green-50 border-2 border-green-200">
+            <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
+            <span className="font-bold text-green-700 text-sm">100% gratuit</span>
           </CardClean>
           
-          <CardClean className="flex items-center space-x-3 px-6 py-3 bg-blue-50 border-2 border-blue-200">
-            <Shield className="w-5 h-5 text-blue-600" />
-            <span className="font-bold text-blue-700">Privacy by design</span>
+          <CardClean className="flex items-center justify-center space-x-2 px-4 py-3 bg-blue-50 border-2 border-blue-200">
+            <Shield className="w-4 h-4 text-blue-600 flex-shrink-0" />
+            <span className="font-bold text-blue-700 text-sm">Privacy by design</span>
           </CardClean>
           
-          {!isMobile && (
-            <>
-              <CardClean className="flex items-center space-x-3 px-6 py-3 bg-orange-50 border-2 border-orange-200">
-                <TrendingUp className="w-5 h-5 text-orange-600" />
-                <span className="font-bold text-orange-700">50+ outils</span>
-              </CardClean>
-              
-              <CardClean className="flex items-center space-x-3 px-6 py-3 bg-slate-50 border-2 border-slate-200">
-                <Globe className="w-5 h-5 text-slate-600" />
-                <span className="font-bold text-slate-700">Client-side</span>
-              </CardClean>
-            </>
-          )}
+          <CardClean className="flex items-center justify-center space-x-2 px-4 py-3 bg-orange-50 border-2 border-orange-200">
+            <TrendingUp className="w-4 h-4 text-orange-600 flex-shrink-0" />
+            <span className="font-bold text-orange-700 text-sm">50+ outils</span>
+          </CardClean>
+          
+          <CardClean className="flex items-center justify-center space-x-2 px-4 py-3 bg-slate-50 border-2 border-slate-200">
+            <Globe className="w-4 h-4 text-slate-600 flex-shrink-0" />
+            <span className="font-bold text-slate-700 text-sm">Client-side</span>
+          </CardClean>
         </div>
 
         {/* CTA épuré responsive sans animation */}
