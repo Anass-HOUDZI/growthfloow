@@ -3,14 +3,17 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import CategoryPage from "./pages/CategoryPage";
-import ToolPage from "./pages/ToolPage";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import NotFound from "./pages/NotFound";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { ScrollToTop } from "./components/utils/ScrollToTop";
+import { LoadingState } from "./components/ui/loading-state";
+
+// Lazy load all pages for better performance
+const Index = lazy(() => import("./pages/Index"));
+const CategoryPage = lazy(() => import("./pages/CategoryPage"));
+const ToolPage = lazy(() => import("./pages/ToolPage"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -20,11 +23,11 @@ const App = () => {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
-          .then((registration) => {
-            console.log('SW registered: ', registration);
+          .then(() => {
+            // Service worker registered successfully
           })
-          .catch((registrationError) => {
-            console.log('SW registration failed: ', registrationError);
+          .catch(() => {
+            // Service worker registration failed
           });
       });
     }
@@ -69,14 +72,16 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/category/:categoryId" element={<CategoryPage />} />
-            <Route path="/tool/:toolId" element={<ToolPage />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <Suspense fallback={<LoadingState fullScreen text="Chargement de la page..." />}>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/category/:categoryId" element={<CategoryPage />} />
+              <Route path="/tool/:toolId" element={<ToolPage />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
