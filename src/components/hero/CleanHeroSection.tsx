@@ -31,9 +31,10 @@ export const CleanHeroSection: React.FC<CleanHeroSectionProps> = ({ onScrollToTo
   const handleScrollClick = () => {
     try {
       onScrollToTools();
-      console.log('Scroll vers les outils déclenché');
     } catch (error) {
-      console.error('Erreur lors du scroll:', error);
+      if (import.meta.env.MODE === 'development') {
+        console.error('[CleanHeroSection] Erreur lors du scroll:', error);
+      }
     }
   };
 

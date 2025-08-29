@@ -9,7 +9,10 @@ interface ErrorFallbackProps {
 }
 
 export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary }) => {
-  console.error('Application Error:', error);
+  // Utiliser le logger sécurisé au lieu de console.error
+  if (import.meta.env.MODE === 'development') {
+    console.error('[ErrorFallback]', error);
+  }
 
   const handleGoHome = () => {
     window.location.href = '/';

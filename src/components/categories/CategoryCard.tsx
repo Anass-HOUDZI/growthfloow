@@ -42,10 +42,10 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
         // Sinon, utiliser le comportement de filtre normal
         onSelect(id);
       }
-      
-      console.log('Catégorie sélectionnée:', name);
     } catch (error) {
-      console.error('Erreur lors de la sélection de catégorie:', error);
+      if (import.meta.env.MODE === 'development') {
+        console.error('[CategoryCard] Erreur lors de la sélection:', error);
+      }
     }
   };
 

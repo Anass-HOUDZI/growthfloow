@@ -42,12 +42,16 @@ export const ToolActions: React.FC<ToolActionsProps> = ({
         setShareMessage('Lien copié dans le presse-papiers !');
       }
     } catch (error) {
-      console.error('Erreur lors du partage:', error);
+      if (import.meta.env.MODE === 'development') {
+        console.error('[ToolActions] Erreur lors du partage:', error);
+      }
       try {
         await navigator.clipboard.writeText(window.location.href);
         setShareMessage('Lien copié dans le presse-papiers !');
       } catch (clipboardError) {
-        console.error('Erreur lors de la copie:', clipboardError);
+        if (import.meta.env.MODE === 'development') {
+          console.error('[ToolActions] Erreur lors de la copie:', clipboardError);
+        }
         setShareMessage('Erreur lors du partage');
       }
     } finally {
@@ -82,19 +86,20 @@ export const ToolActions: React.FC<ToolActionsProps> = ({
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      
-      console.log('Export réussi:', tool.name);
     } catch (error) {
-      console.error('Erreur lors de l\'export:', error);
+      if (import.meta.env.MODE === 'development') {
+        console.error('[ToolActions] Erreur lors de l\'export:', error);
+      }
     }
   };
 
   const handleFavoriteToggle = () => {
     try {
       onToggleFavorite();
-      console.log(`${isFavorite ? 'Retiré des' : 'Ajouté aux'} favoris:`, tool.name);
     } catch (error) {
-      console.error('Erreur lors de la gestion des favoris:', error);
+      if (import.meta.env.MODE === 'development') {
+        console.error('[ToolActions] Erreur lors de la gestion des favoris:', error);
+      }
     }
   };
 

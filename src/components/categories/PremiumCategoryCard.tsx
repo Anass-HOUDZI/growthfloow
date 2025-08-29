@@ -38,10 +38,10 @@ export const PremiumCategoryCard: React.FC<PremiumCategoryCardProps> = ({
       } else {
         onSelect(id);
       }
-      
-      console.log('Catégorie sélectionnée:', name);
     } catch (error) {
-      console.error('Erreur lors de la sélection de catégorie:', error);
+      if (import.meta.env.MODE === 'development') {
+        console.error('[PremiumCategoryCard] Erreur lors de la sélection:', error);
+      }
     }
   };
 
