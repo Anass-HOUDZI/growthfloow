@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { encryptData, decryptData } from '../utils/security';
+import { logger } from '../utils/logger';
 
 export const useSecureStorage = <T>(key: string, initialValue: T) => {
   const [storedValue, setStoredValue] = useState<T>(() => {
@@ -15,7 +16,7 @@ export const useSecureStorage = <T>(key: string, initialValue: T) => {
       const decrypted = decryptData(item);
       return decrypted ? JSON.parse(decrypted) : initialValue;
     } catch (error) {
-      console.error(`Error reading secure localStorage key "${key}":`, error);
+      logger.reportError(error as Error, { context: 'useSecureStorage_read', key });
       return initialValue;
     }
   });
@@ -31,7 +32,7 @@ export const useSecureStorage = <T>(key: string, initialValue: T) => {
         window.localStorage.setItem(key, encrypted);
       }
     } catch (error) {
-      console.error(`Error setting secure localStorage key "${key}":`, error);
+      logger.reportError(error as Error, { context: 'useSecureStorage_write', key });
     }
   }, [key, storedValue]);
 
@@ -42,7 +43,7 @@ export const useSecureStorage = <T>(key: string, initialValue: T) => {
         window.localStorage.removeItem(key);
       }
     } catch (error) {
-      console.error(`Error removing secure localStorage key "${key}":`, error);
+      logger.reportError(error as Error, { context: 'useSecureStorage_remove', key });
     }
   }, [key, initialValue]);
 

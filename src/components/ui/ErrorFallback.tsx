@@ -2,6 +2,7 @@
 import React from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { ModernCard } from './modern-card';
+import { logger } from '../../utils/logger';
 
 interface ErrorFallbackProps {
   error: Error;
@@ -9,10 +10,8 @@ interface ErrorFallbackProps {
 }
 
 export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary }) => {
-  // Utiliser le logger sécurisé au lieu de console.error
-  if (import.meta.env.MODE === 'development') {
-    console.error('[ErrorFallback]', error);
-  }
+  // Use secure logger instead of direct console.error
+  logger.reportError(error, { context: 'ErrorFallback', userAgent: navigator.userAgent });
 
   const handleGoHome = () => {
     window.location.href = '/';
